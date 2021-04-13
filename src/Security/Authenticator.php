@@ -66,12 +66,14 @@ class Authenticator extends AbstractFormLoginAuthenticator implements PasswordAu
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
-
+        /** @var User $user */
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $credentials['username']]);
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Username could not be found.');
+            throw new CustomUserMessageAuthenticationException('Username could not be found');
+        } elseif (!$user->getActive()) {
+            throw new CustomUserMessageAuthenticationException('this user is not activated');
         }
 
         return $user;

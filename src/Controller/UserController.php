@@ -6,15 +6,17 @@ use App\Entity\User;
 use App\Events\UserRegistrationEvent;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Tools\StaticFunctions;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * @Route("/admin")
+ * @Route("/orion")
  */
 class UserController extends AbstractController
 {
@@ -39,12 +41,32 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/check/mail/{token}", name="user_check_mail", methods={"GET"})
+     */
+    public function checkUserEmail(UserRepository $userRepository, string $token): Response
+    {
+        $user = $userRepository->findOneBy(['token'=>$token]);
+        if (!$user) {
+            throw new NotFoundHttpException('the user dont exist or the token is invalid!');
+        }
+        $entityManager = $this->getDoctrine()->getManager();
+        $user->setToken(null);
+        $user->setActive(true);
+        $entityManager->persist($user);
+        $entityManager->flush();
+        // TODO
+        // dispatcher confirm email
+
+        return new Response('user activated');
+    }
+
+    /**
      * @Route("/nuevo", name="admin_user_new", methods={"GET","POST"})
      * @param Request $request
      * @param EventDispatcherInterface $dispatcher
      * @return Response
      */
-    public function new(Request $request,EventDispatcherInterface $dispatcher): Response
+    public function new(Request $request, EventDispatcherInterface $dispatcher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -54,6 +76,7 @@ class UserController extends AbstractController
             $encoded = $this->passwordEncoder->encodePassword($user, $user->getPassword());
             $user->setPassword($encoded);
             $entityManager = $this->getDoctrine()->getManager();
+            $user->setToken(StaticFunctions::generateToken());
             $entityManager->persist($user);
             $entityManager->flush();
 
