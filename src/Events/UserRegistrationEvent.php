@@ -6,8 +6,9 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class UserRegistrationEvent extends Event
 {
-    const USER_NEW    = 'user.new';
-    const CHANGE_PASSWORD = 'user.change.password';
+    const USER_NEW_SIGNUP          = 'user.new';
+    const CHANGE_PASSWORD   = 'user.change.password';
+    const CONFIRMED_EMAIL   = 'user.confirmed.email';
 
     protected $user;
 

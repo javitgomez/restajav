@@ -32,6 +32,8 @@ class UserController extends AbstractController
 
     /**
      * @Route("/", name="admin_user_index", methods={"GET"})
+     * @param UserRepository $userRepository
+     * @return Response
      */
     public function index(UserRepository $userRepository): Response
     {
@@ -42,8 +44,13 @@ class UserController extends AbstractController
 
     /**
      * @Route("/check/mail/{token}", name="user_check_mail", methods={"GET"})
+     * @param UserRepository $userRepository
+     * @param EventDispatcherInterface $dispatcher
+     * @param string $token
+     * @return Response
      */
-    public function checkUserEmail(UserRepository $userRepository, string $token): Response
+
+    public function checkUserEmail(UserRepository $userRepository, EventDispatcherInterface $dispatcher,string $token): Response
     {
         $user = $userRepository->findOneBy(['token'=>$token]);
         if (!$user) {
@@ -54,10 +61,11 @@ class UserController extends AbstractController
         $user->setActive(true);
         $entityManager->persist($user);
         $entityManager->flush();
-        // TODO
-        // dispatcher confirm email
 
-        return new Response('user activated');
+        $userRegistrationEvent = new UserRegistrationEvent($user);
+        $dispatcher->dispatch($userRegistrationEvent, $userRegistrationEvent::CONFIRMED_EMAIL);
+
+        return $this->redirectToRoute('user_index');
     }
 
     /**
@@ -81,7 +89,7 @@ class UserController extends AbstractController
             $entityManager->flush();
 
             $userRegistrationEvent = new UserRegistrationEvent($user);
-            $dispatcher->dispatch($userRegistrationEvent, $userRegistrationEvent::USER_NEW);
+            $dispatcher->dispatch($userRegistrationEvent, $userRegistrationEvent::USER_NEW_SIGNUP);
 
             return $this->redirectToRoute('admin_user_index');
         }
@@ -94,6 +102,8 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}", name="admin_user_show", methods={"GET"})
+     * @param User $user
+     * @return Response
      */
     public function show(User $user): Response
     {
@@ -104,6 +114,9 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="admin_user_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param User $user
+     * @return Response
      */
     public function edit(Request $request, User $user): Response
     {
@@ -127,6 +140,9 @@ class UserController extends AbstractController
 
     /**
      * @Route("/{id}", name="admin_user_delete", methods={"POST"})
+     * @param Request $request
+     * @param User $user
+     * @return Response
      */
     public function delete(Request $request, User $user): Response
     {
