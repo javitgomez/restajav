@@ -70,12 +70,33 @@ class RegistrationSubscriber implements EventSubscriberInterface
         }
     }
 
+    public function onUserResetPassword(UserRegistrationEvent $event)
+    {
+        $this->logger->info('onUserResetPassword entered');
+        $email = (new TemplatedEmail())
+            ->from('admin@restajav.com')
+            ->to($event->getUser()->getEmail())
+            ->subject('Reset Password confirmed!')
+            ->htmlTemplate('emails/user/reset/linkAccess.html.twig')
+            // pass variables (name => value) to the template
+            ->context([
+                'user' => $event->getUser(),
+            ]);
+
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            $this->logger->error($e->getMessage());
+        }
+    }
+
     public static function getSubscribedEvents(): array
     {
         return [
             UserRegistrationEvent::USER_NEW_SIGNUP => 'onUserRegistration',
             UserRegistrationEvent::CHANGE_PASSWORD => 'onUserChangePassword',
-            UserRegistrationEvent::CONFIRMED_EMAIL => 'onUserConfirmedEmail'
+            UserRegistrationEvent::CONFIRMED_EMAIL => 'onUserConfirmedEmail',
+            UserRegistrationEvent::RESET_PASS_MAIL => 'onUserResetPassword'
         ];
     }
 }

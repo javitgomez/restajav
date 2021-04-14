@@ -3,8 +3,12 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
+
+    {% if app.user.username is defined  %}
+        <h1>User {{ dump(app.user.username) }}</h1>
+    {% endif %}
     {{ dump(app.request.get('_route')) }}
+    <a href="{{ path('user_reset_password') }}">i dont remember my password</a>
     <table class="table">
         <thead>
             <tr>

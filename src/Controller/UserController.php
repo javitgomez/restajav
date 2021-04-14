@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Events\UserRegistrationEvent;
+use App\Form\UserResetPasswordType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Tools\StaticFunctions;
+use Doctrine\Instantiator\Exception\UnexpectedValueException;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,7 +53,7 @@ class UserController extends AbstractController
      * @return Response
      */
 
-    public function checkUserEmail(UserRepository $userRepository, EventDispatcherInterface $dispatcher,string $token): Response
+    public function checkUserEmail(UserRepository $userRepository, EventDispatcherInterface $dispatcher, string $token): Response
     {
         $user = $userRepository->findOneBy(['token'=>$token]);
         if (!$user) {
@@ -68,6 +71,76 @@ class UserController extends AbstractController
         return $this->redirectToRoute('user_index');
     }
 
+    /**
+     * @Route("/reset/password/{idUser}", name="user_reset_password", methods={"GET","POST"})
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @param EventDispatcherInterface $dispatcher
+     * @param $idUser
+     * @return Response
+     */
+    public function resetUserPassword(Request $request, UserRepository $userRepository, EventDispatcherInterface $dispatcher, $idUser = null)
+    {
+        $form = $this->createForm(UserResetPasswordType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $user = $userRepository->findOneBy(['email'=>$form->getData()['email']]);
+            if (!$user) {
+                throw new NotFoundHttpException('this user dont exist');
+            }
+
+            $userRegistrationEvent = new UserRegistrationEvent($user);
+            $dispatcher->dispatch($userRegistrationEvent, $userRegistrationEvent::RESET_PASS_MAIL);
+
+            return $this->render('user/reset_sended_email.html.twig', [
+                    'form' => $form->createView(),
+                ]);
+        }
+
+        return $this->render('user/reset.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/change/password/{idUser}", name="user_change_password", methods={"GET","POST"})
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @param EventDispatcherInterface $dispatcher
+     * @param $idUser
+     * @return Response
+     * @throws Exception
+     */
+    public function changeUserPassword(Request $request, UserRepository $userRepository, EventDispatcherInterface $dispatcher, $idUser = null)
+    {
+        if (!is_null($idUser)) {
+            $form = $this->createForm(UserResetPasswordType::class, [$idUser]);
+            $form->handleRequest($request);
+            if ($form->isSubmitted()) {
+                $newPass = $form->get('password-change')->getViewData();
+
+                $user = $userRepository->findOneBy(['id' => $idUser]);
+                if (!$user) {
+                    throw new NotFoundHttpException('this user dont exist');
+                }
+                $encoded = $this->passwordEncoder->encodePassword($user, $newPass);
+                $user->setPassword($encoded);
+                $this->getDoctrine()->getManager()->persist($user);
+                $this->getDoctrine()->getManager()->flush();
+
+                // TODO SEND_CONFIRMED_CHANGE_PASSWORD_EMAIL
+
+                return $this->render('user/reset_ok.html.twig');
+            }
+            return $this->render('user/reset.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        }
+
+        throw new NotFoundHttpException('this user dont exist');
+    }
     /**
      * @Route("/nuevo", name="admin_user_new", methods={"GET","POST"})
      * @param Request $request
