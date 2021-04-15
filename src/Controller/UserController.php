@@ -72,14 +72,13 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/reset/password/{idUser}", name="user_reset_password", methods={"GET","POST"})
+     * @Route("/reset/password", name="user_reset_password", methods={"GET","POST"})
      * @param Request $request
      * @param UserRepository $userRepository
      * @param EventDispatcherInterface $dispatcher
-     * @param $idUser
      * @return Response
      */
-    public function resetUserPassword(Request $request, UserRepository $userRepository, EventDispatcherInterface $dispatcher, $idUser = null)
+    public function resetUserPassword(Request $request, UserRepository $userRepository, EventDispatcherInterface $dispatcher)
     {
         $form = $this->createForm(UserResetPasswordType::class);
 
