@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html>
+<!-- Template Name: Rapido - Responsive Admin Template build with Twitter Bootstrap 3.x Version: 1.2 Author: ClipTheme -->
+<!--[if IE 8]><html class="ie8" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9" lang="en"><![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+	<!--<![endif]-->
+	<!-- start: HEAD -->
+	<head>
+		<title>RESTAURANTLY - ADMIN BACKEND </title>
+		<!-- start: META -->
+		<meta charset="utf-8" />
+		<!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,chrome=1" /><![endif]-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta content="" name="description" />
+		<meta content="" name="author" />
+		<!-- end: META -->
+		<!-- start: MAIN CSS -->
+		<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,500,600,700,200,100,800' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="assets/plugins/iCheck/skins/all.css">
+		<link rel="stylesheet" href="assets/plugins/perfect-scrollbar/src/perfect-scrollbar.css">
+		<link rel="stylesheet" href="assets/plugins/animate.css/animate.min.css">
+		<!-- end: MAIN CSS -->
+		<!-- start: CSS REQUIRED FOR THIS PAGE ONLY -->
+		<link rel="stylesheet" href="assets/plugins/weather-icons/css/weather-icons.min.css">
+		<link rel="stylesheet" href="assets/plugins/nvd3/nv.d3.min.css">
+		<!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
+		<!-- start: CORE CSS -->
+		<link rel="stylesheet" href="assets/css/styles.css">
+		<link rel="stylesheet" href="assets/css/styles-responsive.css">
+		<link rel="stylesheet" href="assets/css/plugins.css">
+		<link rel="stylesheet" href="assets/css/themes/theme.css" type="text/css" id="skin_color">
+		<link rel="stylesheet" href="assets/css/print.css" type="text/css" media="print"/>
+		<!-- end: CORE CSS -->
+		<link rel="shortcut icon" href="favicon.ico" />
+	</head>
+	<!-- end: HEAD -->
+	<!-- start: BODY -->
+	<body>
+
+		<div class="main-wrapper">
+			<!-- start: TOPBAR -->
+			<header class="topbar navbar navbar-inverse navbar-fixed-top inner">
+				<!-- start: TOPBAR CONTAINER -->
+				<div class="container">
+					<div class="navbar-header">
+						<a class="sb-toggle-left hidden-md hidden-lg" href="#main-navbar">
+							<i class="fa fa-bars"></i>
+						</a>
+						<!-- start: LOGO -->
+						<a class="navbar-brand" href="index.html">
+							<img src="assets/images/logo.png" alt="restaurantly-logo"/>
+						</a>
+						<!-- end: LOGO -->
+					</div>
+					<div class="topbar-tools">
+						<!-- start: TOP NAVIGATION MENU -->
+						<ul class="nav navbar-right">
+							<!-- start: USER DROPDOWN -->
+							<li class="dropdown current-user">
+								<a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
+									<img src="https://png.pngtree.com/png-vector/20190501/ourmid/pngtree-users-icon-design-png-image_1014936.jpg" width="32" class="img-circle" alt=""> <span class="username hidden-xs">Peter Clark</span> <i class="fa fa-caret-down "></i>
+								</a>
+								<ul class="dropdown-menu dropdown-dark">
+									<li>
+										<a href="pages_user_profile.html">
+											My Profile
+										</a>
+									</li>
+									<li>
+										<a href="pages_calendar.html">
+											My Calendar
+										</a>
+									</li>
+									<li>
+										<a href="pages_messages.html">
+											My Messages (3)
+										</a>
+									</li>
+									<li>
+										<a href="login_lock_screen.html">
+											Lock Screen
+										</a>
+									</li>
+									<li>
+										<a href="login_login.html">
+											Log Out
+										</a>
+									</li>
+								</ul>
+							</li>
+							<!-- end: USER DROPDOWN -->
+						</ul>
+						<!-- end: TOP NAVIGATION MENU -->
+					</div>
+				</div>
+				<!-- end: TOPBAR CONTAINER -->
+			</header>
+			<!-- end: TOPBAR -->
+			<!-- start: PAGESLIDE LEFT -->
+			<a class="closedbar inner hidden-sm hidden-xs" href="#">
+			</a>
+			<nav id="pageslide-left" class="pageslide inner">
+				<div class="navbar-content">
+					<!-- start: SIDEBAR -->
+					<div class="main-navigation left-wrapper transition-left">
+						<div class="navigation-toggler hidden-sm hidden-xs">
+							<a href="#main-navbar" class="sb-toggle-left">
+							</a>
+						</div>
+						<div class="user-profile border-top padding-horizontal-10 block">
+							<div class="inline-block">
+								<img src="https://png.pngtree.com/png-vector/20190501/ourmid/pngtree-users-icon-design-png-image_1014936.jpg" alt="avatar-user" width="64">
+							</div>
+							<div class="inline-block">
+								<h5 class="no-margin"> Bienvenido! </h5>
+								<h4 class="no-margin"> Peter Clark </h4>
+							</div>
+						</div>
+						<!-- start: MAIN NAVIGATION MENU -->
+						<ul class="main-navigation-menu">
+							<li class="active open">
+								<a href="index.html"><i class="fa fa-home"></i> <span class="title"> Dashboard </span><span class="label label-default pull-right ">LABEL</span> </a>
+							</li>
+							<li>
+								<a href="javascript:void(0)"><i class="fa fa-desktop"></i> <span class="title"> Layouts </span><i class="icon-arrow"></i> </a>
+								<ul class="sub-menu">
+									<li>
+										<a href="javascript:;">
+											Horizontal Menu <i class="icon-arrow"></i>
+										</a>
+										<ul class="sub-menu">
+											<li>
+												<a href="layouts_horizontal_menu.html">
+													Horizontal Menu
+												</a>
+											</li>
+											<li>
+												<a href="layouts_horizontal_menu_fixed.html">
+													Horizontal Menu Fixed
+												</a>
+											</li>
+											<li>
+												<a href="layouts_horizontal_sidebar_menu.html">
+													Horizontal &amp; Sidebar Menu
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a href="layouts_sidebar_closed.html">
+											<span class="title"> Sidebar Closed </span>
+										</a>
+									</li>
+									<li>
+										<a href="layouts_sidebar_not_fixed.html">
+											<span class="title"> Sidebar Not Fixed </span>
+										</a>
+									</li>
+									<li>
+										<a href="layouts_boxed_layout.html">
+											<span class="title"> Boxed Layout </span>
+										</a>
+									</li>
+									<li>
+										<a href="layouts_footer_fixed.html">
+											<span class="title"> Footer Fixed </span>
+										</a>
+									</li>
+									<li>
+										<a href="layouts_single_page.html">
+											<span class="title"> Single-Page Interface </span>
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+						<!-- end: MAIN NAVIGATION MENU -->
+					</div>
+					<!-- end: SIDEBAR -->
+				</div>
+				<div class="slide-tools">
+					<div class="col-xs-6 text-right no-padding">
+						<a class="btn btn-sm log-out text-right" href="login_login.html">
+							<i class="fa fa-power-off"></i> Log Out
+						</a>
+					</div>
+				</div>
+			</nav>
+			<!-- end: PAGESLIDE LEFT -->
+
+			<!-- start: MAIN CONTAINER -->
+			<div class="main-container inner">
+				<!-- start: PAGE -->
+				<div class="main-content">
+					<!-- start: PANEL CONFIGURATION MODAL FORM -->
+					<div class="modal fade" id="panel-config" tabindex="-1" role="dialog" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+										&times;
+									</button>
+									<h4 class="modal-title">Panel Configuration</h4>
+								</div>
+								<div class="modal-body">
+									Here will be a configuration form
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">
+										Close
+									</button>
+									<button type="button" class="btn btn-primary">
+										Save changes
+									</button>
+								</div>
+							</div>
+							<!-- /.modal-content -->
+						</div>
+						<!-- /.modal-dialog -->
+					</div>
+					<!-- /.modal -->
+					<!-- end: SPANEL CONFIGURATION MODAL FORM -->
+					<div class="container">
+						<!-- start: PAGE HEADER -->
+						<!-- start: TOOLBAR -->
+						<div class="toolbar row">
+							<div class="col-sm-6 hidden-xs">
+								<div class="page-header">
+									<h1>Dashboard <small>overview &amp; stats </small></h1>
+								</div>
+							</div>
+							<div class="col-sm-6 col-xs-12">
+
+
+							</div>
+						</div>
+						<!-- end: TOOLBAR -->
+						<!-- end: PAGE HEADER -->
+						<!-- start: BREADCRUMB -->
+						<div class="row">
+							<div class="col-md-12">
+								<ol class="breadcrumb">
+									<li>
+										<a href="#">
+											Dashboard
+										</a>
+									</li>
+									<li class="active">
+										Dashboard
+									</li>
+								</ol>
+							</div>
+						</div>
+						<!-- end: BREADCRUMB -->
+						<!-- start: PAGE CONTENT -->
+						<div class="row">
+							<h1>here put the content</h1>
+						</div>
+
+						<!-- end: PAGE CONTENT-->
+					</div>
+
+				</div>
+				<!-- end: PAGE -->
+			</div>
+			<!-- end: MAIN CONTAINER -->
+			<!-- start: FOOTER -->
+			<footer class="inner">
+				<div class="footer-inner">
+					<div class="pull-left">
+						2021 - &copy; restaurantly.com
+					</div>
+					<div class="pull-right">
+						<span class="go-top"><i class="fa fa-chevron-up"></i></span>
+					</div>
+				</div>
+			</footer>
+			<!-- end: FOOTER -->
+
+		</div>
+		<!-- start: MAIN JAVASCRIPTS -->
+		<!--[if lt IE 9]>
+		<script src="assets/plugins/respond.min.js"></script>
+		<script src="assets/plugins/excanvas.min.js"></script>
+		<script type="text/javascript" src="assets/plugins/jQuery/jquery-1.11.1.min.js"></script>
+		<![endif]-->
+		<!--[if gte IE 9]><!-->
+		<script src="assets/plugins/jQuery/jquery-2.1.1.min.js"></script>
+		<!--<![endif]-->
+		<script src="assets/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js"></script>
+		<script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+		<script src="assets/plugins/blockUI/jquery.blockUI.js"></script>
+		<script src="assets/plugins/iCheck/jquery.icheck.min.js"></script>
+		<script src="assets/plugins/moment/min/moment.min.js"></script>
+		<script src="assets/plugins/perfect-scrollbar/src/jquery.mousewheel.js"></script>
+		<script src="assets/plugins/perfect-scrollbar/src/perfect-scrollbar.js"></script>
+		<script src="assets/plugins/bootbox/bootbox.min.js"></script>
+		<script src="assets/plugins/jquery.scrollTo/jquery.scrollTo.min.js"></script>
+		<script src="assets/plugins/ScrollToFixed/jquery-scrolltofixed-min.js"></script>
+		<script src="assets/plugins/jquery.appear/jquery.appear.js"></script>
+		<script src="assets/plugins/jquery-cookie/jquery.cookie.js"></script>
+		<script src="assets/plugins/velocity/jquery.velocity.min.js"></script>
+		<script src="assets/plugins/TouchSwipe/jquery.touchSwipe.min.js"></script>
+		<!-- end: MAIN JAVASCRIPTS -->
+		<!-- start: JAVASCRIPTS REQUIRED FOR SUBVIEW CONTENTS -->
+		<script src="assets/plugins/owl-carousel/owl-carousel/owl.carousel.js"></script>
+		<script src="assets/plugins/jquery-mockjax/jquery.mockjax.js"></script>
+		<script src="assets/plugins/toastr/toastr.js"></script>
+		<script src="assets/plugins/bootstrap-modal/js/bootstrap-modal.js"></script>
+		<script src="assets/plugins/bootstrap-modal/js/bootstrap-modalmanager.js"></script>
+		<script src="assets/plugins/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
+		<script src="assets/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+		<script src="assets/plugins/bootstrap-select/bootstrap-select.min.js"></script>
+		<script src="assets/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
+		<script src="assets/plugins/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+		<script src="assets/plugins/DataTables/media/js/jquery.dataTables.min.js"></script>
+		
+		<script src="assets/plugins/truncate/jquery.truncate.js"></script>
+		<script src="assets/plugins/summernote/dist/summernote.min.js"></script>
+		<script src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!--		<script src="assets/js/subview.js"></script>-->
+<!--		<script src="assets/js/subview-examples.js"></script>-->
+		<!-- end: JAVASCRIPTS REQUIRED FOR SUBVIEW CONTENTS -->
+		<!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
+		<script src="assets/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+		<script src="assets/plugins/nvd3/lib/d3.v3.js"></script>
+		<script src="assets/plugins/nvd3/nv.d3.min.js"></script>
+		<script src="assets/plugins/nvd3/src/models/historicalBar.js"></script>
+		<script src="assets/plugins/nvd3/src/models/historicalBarChart.js"></script>
+		<script src="assets/plugins/nvd3/src/models/stackedArea.js"></script>
+		<script src="assets/plugins/nvd3/src/models/stackedAreaChart.js"></script>
+		<script src="assets/plugins/jquery.sparkline/jquery.sparkline.js"></script>
+		<script src="assets/plugins/easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+		<script src="assets/js/index.js"></script>
+		<!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
+		<!-- start: CORE JAVASCRIPTS  -->
+		<script src="assets/js/main.js"></script>
+		<!-- end: CORE JAVASCRIPTS  -->
+		<script>
+			jQuery(document).ready(function() {
+				Main.init();
+				Index.init();
+			});
+		</script>
+	</body>
+	<!-- end: BODY -->
+</html>
