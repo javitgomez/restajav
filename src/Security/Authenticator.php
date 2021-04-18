@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
@@ -97,8 +98,15 @@ class Authenticator extends AbstractFormLoginAuthenticator implements PasswordAu
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($this->urlGenerator->generate('user_index'));
         }
+        /** @var User $user */
+        $user = $token->getUser();
+        if($user->$this->isGranted('ROLE_ADMIN')) {
+            return new RedirectResponse($this->urlGenerator->generate('admin_user_index'));
+        } else if($user->$this->isGranted('ROLE_ADMIN')){
+            return new RedirectResponse($this->urlGenerator->generate('user_index'));
+        }
 
-        return new RedirectResponse($this->urlGenerator->generate('user_index'));
+        throw new AuthenticationCredentialsNotFoundException('not allowed');
     }
 
     protected function getLoginUrl()
