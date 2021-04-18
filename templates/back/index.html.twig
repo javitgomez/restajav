@@ -1,0 +1,234 @@
+{% extends 'back/layout.html.twig' %}
+
+{% block header %}
+    <!-- start: TOPBAR -->
+    <header class="topbar navbar navbar-inverse navbar-fixed-top inner">
+        <!-- start: TOPBAR CONTAINER -->
+        <div class="container">
+            <div class="navbar-header">
+                <a class="sb-toggle-left hidden-md hidden-lg" href="#main-navbar">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <!-- start: LOGO -->
+                <a class="navbar-brand" href="index.html">
+                    <img src="assets/images/logo.png" alt="restaurantly-logo"/>
+                </a>
+                <!-- end: LOGO -->
+            </div>
+            <div class="topbar-tools">
+                <!-- start: TOP NAVIGATION MENU -->
+                <ul class="nav navbar-right">
+                    <!-- start: USER DROPDOWN -->
+                    <li class="dropdown current-user">
+                        <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
+                            <img src="https://png.pngtree.com/png-vector/20190501/ourmid/pngtree-users-icon-design-png-image_1014936.jpg" width="32" class="img-circle" alt=""> <span class="username hidden-xs">Peter Clark</span> <i class="fa fa-caret-down "></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-dark">
+                            <li>
+                                <a href="pages_user_profile.html">
+                                    My Profile
+                                </a>
+                            </li>
+                            <li>
+                                <a href="pages_calendar.html">
+                                    My Calendar
+                                </a>
+                            </li>
+                            <li>
+                                <a href="pages_messages.html">
+                                    My Messages (3)
+                                </a>
+                            </li>
+                            <li>
+                                <a href="login_lock_screen.html">
+                                    Lock Screen
+                                </a>
+                            </li>
+                            <li>
+                                <a href="login_login.html">
+                                    Log Out
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- end: USER DROPDOWN -->
+                </ul>
+                <!-- end: TOP NAVIGATION MENU -->
+            </div>
+        </div>
+        <!-- end: TOPBAR CONTAINER -->
+    </header>
+    <!-- end: TOPBAR -->
+{% endblock %}
+
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#">
+    </a>
+    <nav id="pageslide-left" class="pageslide inner">
+        <div class="navbar-content">
+            <!-- start: SIDEBAR -->
+            <div class="main-navigation left-wrapper transition-left">
+                <div class="navigation-toggler hidden-sm hidden-xs">
+                    <a href="#main-navbar" class="sb-toggle-left">
+                    </a>
+                </div>
+                <div class="user-profile border-top padding-horizontal-10 block">
+                    <div class="inline-block">
+                        <img src="https://png.pngtree.com/png-vector/20190501/ourmid/pngtree-users-icon-design-png-image_1014936.jpg" alt="avatar-user" width="64">
+                    </div>
+                    <div class="inline-block">
+                        <h5 class="no-margin"> Bienvenido! </h5>
+                        <h4 class="no-margin"> Peter Clark </h4>
+                    </div>
+                </div>
+                <!-- start: MAIN NAVIGATION MENU -->
+                <ul class="main-navigation-menu">
+                    <li class="active open">
+                        <a href="index.html"><i class="fa fa-home"></i> <span class="title"> Dashboard </span><span class="label label-default pull-right ">LABEL</span> </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)"><i class="fa fa-desktop"></i> <span class="title"> Layouts </span><i class="icon-arrow"></i> </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="javascript:;">
+                                    Horizontal Menu <i class="icon-arrow"></i>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a href="layouts_horizontal_menu.html">
+                                            Horizontal Menu
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="layouts_horizontal_menu_fixed.html">
+                                            Horizontal Menu Fixed
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="layouts_horizontal_sidebar_menu.html">
+                                            Horizontal &amp; Sidebar Menu
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="layouts_sidebar_closed.html">
+                                    <span class="title"> Sidebar Closed </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="layouts_sidebar_not_fixed.html">
+                                    <span class="title"> Sidebar Not Fixed </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="layouts_boxed_layout.html">
+                                    <span class="title"> Boxed Layout </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="layouts_footer_fixed.html">
+                                    <span class="title"> Footer Fixed </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="layouts_single_page.html">
+                                    <span class="title"> Single-Page Interface </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- end: MAIN NAVIGATION MENU -->
+            </div>
+            <!-- end: SIDEBAR -->
+        </div>
+        <div class="slide-tools">
+            <div class="col-xs-6 text-right no-padding">
+                <a class="btn btn-sm log-out text-right" href="login_login.html">
+                    <i class="fa fa-power-off"></i> Log Out
+                </a>
+            </div>
+        </div>
+    </nav>
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
+
+{% block main %}
+    <!-- start: MAIN CONTAINER -->
+    <div class="main-container inner">
+        <!-- start: PAGE -->
+        <div class="main-content">
+            <!-- start: PANEL CONFIGURATION MODAL FORM -->
+            <div class="modal fade" id="panel-config" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title">Panel Configuration</h4>
+                        </div>
+                        <div class="modal-body">
+                            Here will be a configuration form
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                Close
+                            </button>
+                            <button type="button" class="btn btn-primary">
+                                Save changes
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+            <!-- end: SPANEL CONFIGURATION MODAL FORM -->
+            <div class="container">
+                <!-- start: PAGE HEADER -->
+                <!-- start: TOOLBAR -->
+                <div class="toolbar row">
+                    <div class="col-sm-6 hidden-xs">
+                        <div class="page-header">
+                            <h1>Dashboard <small>overview &amp; stats </small></h1>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xs-12">
+
+
+                    </div>
+                </div>
+                <!-- end: TOOLBAR -->
+                <!-- end: PAGE HEADER -->
+                <!-- start: BREADCRUMB -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <ol class="breadcrumb">
+                            <li>
+                                <a href="#">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li class="active">
+                                Dashboard
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- end: BREADCRUMB -->
+                <!-- start: PAGE CONTENT -->
+                <div class="row">
+                    <h1>here put the content</h1>
+                </div>
+
+                <!-- end: PAGE CONTENT-->
+            </div>
+
+        </div>
+        <!-- end: PAGE -->
+    </div>
+{% endblock %}

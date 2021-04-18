@@ -100,9 +100,9 @@ class Authenticator extends AbstractFormLoginAuthenticator implements PasswordAu
         }
         /** @var User $user */
         $user = $token->getUser();
-        if($user->$this->isGranted('ROLE_ADMIN')) {
+        if(in_array('ROLE_ADMIN',$user->getRoles())) {
             return new RedirectResponse($this->urlGenerator->generate('admin_user_index'));
-        } else if($user->$this->isGranted('ROLE_ADMIN')){
+        } else if(in_array('ROLE_USER',$user->getRoles())){
             return new RedirectResponse($this->urlGenerator->generate('user_index'));
         }
 
