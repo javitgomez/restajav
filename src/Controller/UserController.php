@@ -8,7 +8,6 @@ use App\Form\UserResetPasswordType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Tools\StaticFunctions;
-use Doctrine\Instantiator\Exception\UnexpectedValueException;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -40,7 +39,7 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
-        return $this->render('user/index.html.twig', [
+        return $this->render('back/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
     }
@@ -173,7 +172,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_user_show", methods={"GET"})
+     * @Route("/show/{id}", name="admin_user_show", methods={"GET"})
      * @param User $user
      * @return Response
      */
@@ -185,7 +184,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="admin_user_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="admin_user_edit", methods={"GET","POST"})
      * @param Request $request
      * @param User $user
      * @return Response
@@ -211,7 +210,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="admin_user_delete", methods={"POST"})
+     * @Route("/delete/{id}", name="admin_user_delete", methods={"POST"})
      * @param Request $request
      * @param User $user
      * @return Response
@@ -223,6 +222,22 @@ class UserController extends AbstractController
             $entityManager->remove($user);
             $entityManager->flush();
         }
+
+        return $this->redirectToRoute('admin_user_index');
+    }
+
+    /**
+     * @Route("/delete/list/{id}", name="admin_user_delete_by_list", methods={"GET"})
+     * @param Request $request
+     * @param User $user
+     * @return Response
+     */
+    public function deleteByList(Request $request, User $user): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($user);
+        $entityManager->flush();
+
 
         return $this->redirectToRoute('admin_user_index');
     }
