@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Event
 {
@@ -40,7 +41,7 @@ class Event
     /**
      * @ORM\Column(type="datetime")
      */
-    private $updateAt;
+    private $updatedAt;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -93,23 +94,26 @@ class Event
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
     {
-        $this->createdAt = $createdAt;
-
-        return $this;
+        $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function getUpdateAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updateAt;
+        return $this->updatedAt;
     }
 
-    public function setUpdateAt(\DateTimeInterface $updateAt): self
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAt(): void
     {
-        $this->updateAt = $updateAt;
-
-        return $this;
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getImage(): ?string
