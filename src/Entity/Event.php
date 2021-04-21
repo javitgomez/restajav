@@ -48,6 +48,11 @@ class Event
      */
     private $image;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $visible;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -124,6 +129,18 @@ class Event
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getVisible(): ?bool
+    {
+        return $this->visible;
+    }
+
+    public function setVisible(bool $visible): self
+    {
+        $this->visible = $visible;
 
         return $this;
     }

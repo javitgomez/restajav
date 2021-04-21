@@ -14,12 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
- * @Route("/event")
+ * @Route("orion/event")
  */
 class EventController extends AbstractController
 {
     /**
-     * @Route("/", name="event_index", methods={"GET"})
+     * @Route("/", name="admin_event_index", methods={"GET"})
      */
     public function index(EventRepository $eventRepository): Response
     {
@@ -29,7 +29,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="event_new", methods={"GET","POST"})
+     * @Route("/new", name="admin_event_new", methods={"GET","POST"})
      */
     public function new(Request $request, SluggerInterface $slugger): Response
     {
@@ -79,7 +79,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="event_show", methods={"GET"})
+     * @Route("/{id}", name="admin_event_show", methods={"GET"})
      */
     public function show(Event $event): Response
     {
@@ -89,7 +89,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="event_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="admin_event_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Event $event): Response
     {
@@ -99,7 +99,7 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('event_index');
+            return $this->redirectToRoute('admin_event_index');
         }
 
         return $this->render('event/edit.html.twig', [
@@ -109,7 +109,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="event_delete", methods={"POST"})
+     * @Route("/{id}", name="admin_event_delete", methods={"POST"})
      */
     public function delete(Request $request, Event $event): Response
     {
@@ -120,5 +120,21 @@ class EventController extends AbstractController
         }
 
         return $this->redirectToRoute('event_index');
+    }
+
+    /**
+     * @Route("/delete/list/{id}", name="admin_event_delete_by_list", methods={"GET"})
+     * @param Request $request
+     * @param Event $event
+     * @return Response
+     */
+    public function deleteByList(Request $request, Event $event): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($event);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('admin_event_index');
     }
 }
