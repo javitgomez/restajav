@@ -43,10 +43,22 @@
 	<body>
 
 		<div class="main-wrapper">
-			{% block header %}{% endblock %}
-			{% block page_slide_left %}{% endblock %}
+			{% block header %}
+				{% include 'back/header.html.twig' %}
+			{% endblock %}
+			{% block page_slide_left %}
+				{% include 'back/main-menu.html.twig' %}
+			{% endblock %}
 
-			{% block main %}{% endblock %}
+			{% block main %}
+				{% block tool_bar %}
+					{% include 'back/toolbar.html.twig' %}
+				{% endblock %}
+				{% block bread_crumb %}
+					{% include 'back/breadcrumb.html.twig' %}
+				{% endblock %}
+				{% block content %}{% endblock %}
+			{% endblock %}
 			<!-- end: MAIN CONTAINER -->
 			<!-- start: FOOTER -->
 			<footer class="inner">
