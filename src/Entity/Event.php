@@ -52,6 +52,10 @@ class Event
      * @ORM\Column(type="boolean")
      */
     private $visible;
+    public function __construct()
+    {
+        $this->setVisible(false);
+    }
 
     public function getId(): ?int
     {
@@ -144,4 +148,5 @@ class Event
 
         return $this;
     }
+
 }

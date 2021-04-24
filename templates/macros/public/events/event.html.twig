@@ -1,0 +1,18 @@
+{% macro print(event) %}
+    <div class="swiper-slide">
+        <div class="row event-item">
+            <div class="col-lg-6">
+                <img src="{{ asset('uploads/events_photo/' ~ event.image ) }}" class="img-fluid" alt="">
+            </div>
+            <div class="col-lg-6 pt-4 pt-lg-0 content">
+                <h3>{{ event.title }}</h3>
+                <div class="price">
+                    <p><span>{{ event.prize }}</span></p>
+                </div>
+                <div   class ="content">
+                    {{ event.description }}
+                </div>
+
+        </div>
+    </div>
+{% endmacro %}

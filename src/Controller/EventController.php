@@ -69,7 +69,7 @@ class EventController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
 
-            return $this->redirectToRoute('event_index');
+            return $this->redirectToRoute('admin_event_index');
         }
 
         return $this->render('event/new.html.twig', [
@@ -119,7 +119,7 @@ class EventController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('event_index');
+        return $this->redirectToRoute('admin_event_index');
     }
 
     /**
