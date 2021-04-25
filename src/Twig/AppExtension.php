@@ -29,27 +29,24 @@ class AppExtension extends AbstractExtension
      * @param $status
      * @return string
      */
-    public function formatActive($status ) : string
+    public function formatActive($status) : string
     {
         $onButton = $this->assets->getUrl('back/assets/images/button-on-green.png');
         $offButton = $this->assets->getUrl('back/assets/images/button-off-red.png');
         $tagImg = '<img src="//"  alt="//" width="32"/>';
 
         if ($status) {
-            $tagImg = str_replace('//' , $onButton, $tagImg) ;
+            $tagImg = str_replace('//', $onButton, $tagImg) ;
         } else {
-            $tagImg = str_replace('//' , $offButton, $tagImg) ;
+            $tagImg = str_replace('//', $offButton, $tagImg) ;
         }
 
         return $tagImg;
-
     }
 
-    public function formatRole( $role )
+    public function formatRole($role)
     {
-
-        if(!empty($role)) {
-
+        if (!empty($role)) {
             $firstRole = array_shift($role);
 
             switch ($firstRole) {
@@ -62,10 +59,8 @@ class AppExtension extends AbstractExtension
                 case 'ROLE_PARTNER':
                     return 'Comandante';
             }
-
         } else {
             throw new Exception("Simon says:this array not can be empty!");
         }
-
     }
 }
