@@ -1,11 +1,37 @@
-{% extends 'base.html.twig' %}
+{% extends 'back/index.html.twig' %}
 
-{% block title %}New User{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
 
-{% block body %}
-    <h1>Create new User</h1>
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
 
-    {{ include('user/_form.html.twig') }}
+{% block main %}
+    {{ parent() }}
+{% endblock %}
 
-    <a href="{{ path('user_index') }}">back to list</a>
+{% block title %}Nuevo Usuario{% endblock %}
+
+{% block content %}
+
+<!-- start: PAGE CONTENT -->
+<div class="row">
+    <div class="col-sm-12">
+        <!-- start: TEXT FIELDS PANEL -->
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">Añadir nuevo <span class="text-bold">Usuario</span></h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    {{ include('user/_form.html.twig') }}
+                </div>
+            </div>
+    </div>
+</div>
 {% endblock %}
