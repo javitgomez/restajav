@@ -1,0 +1,45 @@
+{% extends 'back/layout.html.twig' %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
+
+{% block main %}
+    <!-- start: MAIN CONTAINER -->
+    <div class="main-container inner">
+        <!-- start: PAGE -->
+        <div class="main-content">
+
+            <div class="container">
+                <!-- start: PAGE HEADER -->
+                {% block tool_bar %}
+                    {{ parent() }}
+                {% endblock %}
+                <!-- end: PAGE HEADER -->
+                {% block bread_crumb %}
+                    {{ parent() }}
+                {% endblock %}
+                <!-- start: PAGE CONTENT -->
+                <div class="row">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% block content %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- end: PAGE CONTENT-->
+            </div>
+
+        </div>
+        <!-- end: PAGE -->
+    </div>
+{% endblock %}
