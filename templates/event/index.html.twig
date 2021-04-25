@@ -32,7 +32,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% import 'macros/events/event.html.twig' as e %}
+                {% import 'macros/private/events/event.html.twig' as e %}
                 {% for event in events %}
                     {{ e.print_row(event) }}
                 {% endfor %}
