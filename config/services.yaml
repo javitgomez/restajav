@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     events_photo_directory: '%kernel.project_dir%/public/uploads/events_photo'
+    chefs_photo_directory: '%kernel.project_dir%/public/uploads/chef_photo'
 services:
     # default configuration for services in *this* file
     _defaults:
