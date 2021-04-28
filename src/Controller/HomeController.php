@@ -19,7 +19,7 @@ class HomeController extends AbstractController
      */
     public function index(EventRepository $eventRepository): Response
     {
-        return $this->render('front/index.html.twig',[
+        return $this->render('front/index.html.twig', [
             'events' => $eventRepository->findAll()
         ]);
     }

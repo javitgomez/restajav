@@ -18,8 +18,8 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('password',TextType::class, ['attr' => ['class' => 'form-control']])
-            ->add('email',EmailType::class, ['attr' => ['class' => 'form-control']])
+            ->add('password', TextType::class, ['attr' => ['class' => 'form-control']])
+            ->add('email', EmailType::class, ['attr' => ['class' => 'form-control']])
             ->add('roles', ChoiceType::class, [
                 'required' => true,
                 'multiple' => false,
