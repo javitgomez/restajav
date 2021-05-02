@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GalleryController extends AbstractController
 {
     /**
-     * @Route("/", name="gallery")
+     * @Route("/", name="admin_gallery")
      */
     public function index(ImageRepository $imageRepository): Response
     {
@@ -103,6 +103,6 @@ class GalleryController extends AbstractController
             throw new NotFoundHttpException('simon says: this image dont exist');
         }
 
-        return $this->redirectToRoute('gallery');
+        return $this->redirectToRoute('admin_gallery');
     }
 }
