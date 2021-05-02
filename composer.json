@@ -26,7 +26,7 @@
         "symfony/mailer": "5.2.*",
         "symfony/monolog-bundle": "^3.7",
         "symfony/asset": "5.2.*",
-        "ext-mysql_xdevapi": "*"
+        "ext-mysql_xdevapi": "*",
         "symfony/asset": "5.2.*",
         "friendsofsymfony/ckeditor-bundle": "^2.3"
     },
