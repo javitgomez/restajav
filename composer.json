@@ -25,7 +25,8 @@
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/mailer": "5.2.*",
         "symfony/monolog-bundle": "^3.7",
-        "symfony/asset": "5.2.*"
+        "symfony/asset": "5.2.*",
+        "friendsofsymfony/ckeditor-bundle": "^2.3"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.30",

@@ -13,3 +13,4 @@
 composer.json
 composer.lock
 ###migrations
+/.php_cs.cache

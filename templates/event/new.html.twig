@@ -1,15 +1,37 @@
-{% extends 'base.html.twig' %}
+{% extends 'back/index.html.twig' %}
 
-{% block title %}New Event{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
 
-{% block body %}
-    <h1>Create new Event</h1>
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
 
-{{ form_start(form) }}
+{% block main %}
+    {{ parent() }}
+{% endblock %}
 
-    {{ form_row(form.photo) }}
+{% block title %}Nuevo Evento{% endblock %}
 
-{{ form_end(form) }}
+{% block content %}
 
-    <a href="{{ path('admin_event_index') }}">back to list</a>
+    <!-- start: PAGE CONTENT -->
+    <div class="row">
+    <div class="col-sm-12">
+        <!-- start: TEXT FIELDS PANEL -->
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">Añadir nuevo <span class="text-bold">Evento</span></h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    {{ include('event/_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
