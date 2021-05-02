@@ -30,31 +30,29 @@ class HomeController extends AbstractController
     /**
      * @Route("/book", name="user_book", methods={"POST"})
      */
-    public function book(Request $request,EntityManagerInterface $entityManager) : Response
+    public function book(Request $request, EntityManagerInterface $entityManager) : Response
     {
-            $dataUser = $request->request->all();
+        $dataUser = $request->request->all();
 
-            if($dataUser['email'] == '') {
-                return new Response( 'El email no puede estar vacio.');
-            }
-            try
-            {
-                $book = new Book();
-                $book->setName($dataUser['name']);
-                $book->setDate(new \DateTime());
-                $book->setEmail($dataUser['email']);
-                $book->setPhone($dataUser['phone']);
-                $book->setMessage($dataUser['message']);
-                $book->setPeople($dataUser['people']);
-                $book->setTime(new \DateTime());
+        if ($dataUser['email'] == '') {
+            return new Response('El email no puede estar vacio.');
+        }
+        try {
+            $book = new Book();
+            $book->setName($dataUser['name']);
+            $book->setDate(new \DateTime());
+            $book->setEmail($dataUser['email']);
+            $book->setPhone($dataUser['phone']);
+            $book->setMessage($dataUser['message']);
+            $book->setPeople($dataUser['people']);
+            $book->setTime(new \DateTime());
 
-                $entityManager->persist($book);
-                $entityManager->flush();
+            $entityManager->persist($book);
+            $entityManager->flush();
+        } catch (\Exception $e) {
+            return new Response('KO');
+        }
 
-            } catch (\Exception $e) {
-                return new Response( 'KO');
-            }
-
-           return new Response( 'OK');
+        return new Response('OK');
     }
 }

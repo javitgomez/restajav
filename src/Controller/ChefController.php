@@ -31,7 +31,7 @@ class ChefController extends AbstractController
     /**
      * @Route("/new", name="admin_chef_new", methods={"GET","POST"})
      */
-    public function new(Request $request,  SluggerInterface $slugger): Response
+    public function new(Request $request, SluggerInterface $slugger): Response
     {
         $chef = new Chef();
         $form = $this->createForm(ChefType::class, $chef);
@@ -39,7 +39,7 @@ class ChefController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('photo')->getData();
-            if ($imageFile){
+            if ($imageFile) {
                 $originalImageFile = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeImageFile = $slugger->slug($originalImageFile);
                 $newImageFile = $safeImageFile.'-'.uniqid().'.'.$imageFile->guessExtension();

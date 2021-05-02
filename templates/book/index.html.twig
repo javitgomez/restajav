@@ -1,20 +1,41 @@
-{% extends 'base.html.twig' %}
+{% extends 'back/index.html.twig' %}
 
-{% block title %}Hello BookController!{% endblock %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/restaurantly.com/src/Controller/BookController.php'|file_link(0) }}">src/Controller/BookController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/restaurantly.com/templates/book/index.html.twig'|file_link(0) }}">templates/book/index.html.twig</a></code></li>
-    </ul>
-</div>
+{% block content %}
+    <!-- start: TABLE WITH IMAGES PANEL -->
+    <div class="panel panel-white">
+        <table class="table table-striped table-hover" id="sample-table-2">
+            <thead>
+            <tr>
+                <th class="left">Cliente</th>
+                <th class="center">Nº Personas</th>
+                <th>Día y Hora</th>
+                <th class="hidden-xs">Estado</th>
+                <th class="hidden-xs">Acciones</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>{{ book.email }}</td>
+                    <td>{{ book.people }}</td>
+                    <td>{{ book.date|date }} - {{ book.time|date }}</td>
+                    <td>{{ book.state }}</td>
+                    <td> <a href="{{ path('workflow_canceled', { 'id' : book.id }) }}">cancelar</a> - <a href="{{ path('workflow_answered', { 'id' : book.id }) }}">aprobar</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
