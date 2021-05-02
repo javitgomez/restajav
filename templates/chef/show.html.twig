@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Chef{% endblock %}
+
+{% block body %}
+    <h1>Chef</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ chef.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ chef.name }}</td>
+            </tr>
+            <tr>
+                <th>Job</th>
+                <td>{{ chef.job }}</td>
+            </tr>
+            <tr>
+                <th>Twitter</th>
+                <td>{{ chef.twitter }}</td>
+            </tr>
+            <tr>
+                <th>Facebook</th>
+                <td>{{ chef.facebook }}</td>
+            </tr>
+            <tr>
+                <th>Instagram</th>
+                <td>{{ chef.instagram }}</td>
+            </tr>
+            <tr>
+                <th>Linkedin</th>
+                <td>{{ chef.linkedin }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ chef.createdAt ? chef.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ chef.updatedAt ? chef.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('chef_index') }}">back to list</a>
+
+    <a href="{{ path('chef_edit', {'id': chef.id}) }}">edit</a>
+
+    {{ include('chef/_delete_form.html.twig') }}
+{% endblock %}
