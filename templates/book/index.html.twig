@@ -32,7 +32,14 @@
                     <td>{{ book.people }}</td>
                     <td>{{ book.date|date }} - {{ book.time|date }}</td>
                     <td>{{ book.state }}</td>
-                    <td> <a href="{{ path('workflow_canceled', { 'id' : book.id }) }}">cancelar</a> - <a href="{{ path('workflow_answered', { 'id' : book.id }) }}">aprobar</a></td>
+                    <td>
+                        {% if book.state == 'received' %}
+                            <a href="{{ path('workflow_canceled', { 'id' : book.id }) }}">cancelar</a> - <a href="{{ path('workflow_answered', { 'id' : book.id }) }}">aprobar</a>
+                        {% else %}
+                        {% set state = (book.state == 'answered') %}
+                            {{ state|active|raw }}
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
