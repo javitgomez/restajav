@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Repository\EventRepository;
+use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,10 +21,13 @@ class HomeController extends AbstractController
      * @param EventRepository $eventRepository
      * @return Response
      */
-    public function index(EventRepository $eventRepository): Response
+    public function index(EventRepository $eventRepository, ImageRepository $imageRepository): Response
     {
+        $images = $imageRepository->findAll();
+
         return $this->render('front/index.html.twig', [
-            'events' => $eventRepository->findAll()
+            'events' => $eventRepository->findAll(),
+             'images' => $images
         ]);
     }
 

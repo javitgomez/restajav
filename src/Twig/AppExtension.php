@@ -2,18 +2,24 @@
 
 namespace App\Twig;
 
+use App\Repository\ConfigRepository;
 use mysql_xdevapi\Exception;
 use Symfony\Component\Asset\Packages;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
     private $assets;
+    private $config;
 
-    public function __construct(Packages $assetPackage)
+
+
+    public function __construct(Packages $assetPackage,ConfigRepository $configRepository)
     {
         $this->assets = $assetPackage;
+        $this->config = $configRepository;
     }
 
     public function getFilters()
@@ -62,5 +68,20 @@ class AppExtension extends AbstractExtension
         } else {
             throw new Exception("Simon says:this array not can be empty!");
         }
+
+
     }
+       public function getFunctions()
+        {
+        return [
+            new TwigFunction('show_photo_gallery', [$this, 'showPhotoGallery'])];
+        }
+        public function showPhotoGallery($images){
+            $config = $this->config->find(1);
+            if ($config -> getNumberPhotoGallery()!= null){
+            return array_slice($images,0, $config->getNumberPhotoGallery());
+            }
+            return array_slice($images,0, 8);
+        }
+
 }
