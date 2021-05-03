@@ -14,7 +14,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 /**
  * @Route("orion/book")
  */
-
 class BookController extends AbstractController
 {
     private $em;

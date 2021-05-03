@@ -1,0 +1,13 @@
+{% macro print(message) %}
+<tr>
+    <td>{{ message.name }}</td>
+    <td class="center">{{ message.email }}</td>
+    <td>{{ message.subject }}</td>
+    <td>{{ message.message }}</td>
+    <td>
+        {% set state = (not message.state == 'received') %}
+        {{ state|active|raw }}
+    </td>
+    <td><a href="{{ path('admin_contact_form_answer',{'id': message.id }) }}">responder</a></td>
+</tr>
+{% endmacro %}

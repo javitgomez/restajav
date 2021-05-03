@@ -18,3 +18,17 @@ framework:
                 mark_as_answered:
                     from: 'received'
                     to: 'answered'
+        message:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'state'
+            initial_marking: 'received'
+            places:
+                received: ~
+                answered: ~
+            supports: App\Entity\ContactForm
+            transitions:
+                mark_as_answered:
+                    from: 'received'
+                    to: 'answered'
