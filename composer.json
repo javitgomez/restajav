@@ -29,6 +29,7 @@
         "symfony/asset": "5.2.*",
         "friendsofsymfony/ckeditor-bundle": "^2.3",
         "symfony/workflow": "5.2.*",
+        "fakerphp/faker": "^1.14"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.30",

@@ -7,6 +7,7 @@ use App\Entity\Book;
 use App\Entity\ContactForm;
 use App\Repository\EventRepository;
 use App\Repository\ImageRepository;
+use App\Repository\TestimonialRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,13 +23,16 @@ class HomeController extends AbstractController
      * @param EventRepository $eventRepository
      * @return Response
      */
-    public function index(EventRepository $eventRepository, ImageRepository $imageRepository): Response
+    public function index(EventRepository $eventRepository, ImageRepository $imageRepository, TestimonialRepository $testimonialRepository): Response
     {
         $images = $imageRepository->findAll();
+        $testimonials = $testimonialRepository->findBy(["published" => true ]);
 
         return $this->render('front/index.html.twig', [
             'events' => $eventRepository->findAll(),
-             'images' => $images
+             'images' => $images,
+             'testimonials' => $testimonials
+             
         ]);
     }
 

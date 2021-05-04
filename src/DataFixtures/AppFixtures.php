@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use Faker;
+use App\Entity\Testimonial;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -31,5 +33,21 @@ class AppFixtures extends Fixture
         $manager->persist($fake);
 
         $manager->flush();
+
+        for($i = 1 ; $i <= 20 ; $i++)
+        {
+            $faker = Faker\Factory::create();
+            $testimonial = new Testimonial();
+            $testimonial = $testimonial->setName($faker->name);
+            $testimonial = $testimonial->setEmail($faker->email);
+            $testimonial = $testimonial->setJob($faker->word());
+            $testimonial = $testimonial->setPublished(false);
+            $testimonial = $testimonial->setValoration($faker->text());
+            $testimonial = $testimonial->setRate($faker->randomNumber(1,100));
+            $manager->persist($testimonial);
+
+        }    
+        $manager->flush();
+        
     }
 }
