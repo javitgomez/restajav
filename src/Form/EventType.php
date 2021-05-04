@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,7 +17,12 @@ class EventType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('description')
+            ->add('description', CKEditorType::class, array(
+                'config' => array(
+                    'uiColor' => '#ffffff',
+                    //...
+                ),
+            ))
             ->add('prize')
             ->add('photo', FileType::class, [
                 'label' => 'Foto',
@@ -42,8 +48,8 @@ class EventType extends AbstractType
                 ],
             ])
             ->add('save', SubmitType::class, [
-                    'attr' => ['class' => 'save'],
-                ]);
+                'attr' => ['class' => 'save'],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

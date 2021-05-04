@@ -40,8 +40,8 @@
                     <a href="javascript:void(0)"><i class="fa fa-user"></i> <span class="title"> Eventos - <b>RESTJAV-004</b> </span><i class="icon-arrow"></i> </a>
                     <ul class="sub-menu">
                         <li>
-                            <a href="layouts_sidebar_closed.html">
-                                <span class="title"> Nuevo usuario</span>
+                            <a href="{{ path('admin_event_new')}}">
+                                <span class="title"> Nuevo Evento</span>
                             </a>
                         </li>
                         <li>
@@ -51,12 +51,13 @@
                         </li>
                     </ul>
                 </li>
-                <li><a href="javascript:void(0)"><i class="fa fa-pencil-square-o"></i> <span class="title"> Reservas Mesa - <b>RESTAJAV-005</b> </span><i class="icon-arrow"></i> </a></li>
+                <li><a href="{{ path('admin_book') }}"><i class="fa fa-pencil-square-o"></i> <span class="title"> Reservas Mesa - <b>RESTAJAV-005</b> </span> </a></li>
                 <li><a href="javascript:void(0)"><i class="fa fa-history"></i> <span class="title"> Historial Pedidos - <b>RESTAJAV-006</b>  </span><i class="icon-arrow"></i> </a></li>
                 <li><a href="javascript:void(0)"><i class="fa fa-mercury"></i> <span class="title"> Ofertas / Promociones - <b>RESTAJAV-007</b>  </span><i class="icon-arrow"></i> </a></li>
                 <li><a href="javascript:void(0)"><i class="fa fa-star"></i> <span class="title"> Valoraciones Usuarios - <b>RESTAJAV-008</b>  </span><i class="icon-arrow"></i> </a></li>
-                <li><a href="javascript:void(0)"><i class="fa fa-picture-o"></i> <span class="title"> Galeria - <b>RESTAJAV-009</b>  </span><i class="icon-arrow"></i> </a></li>
+                <li><a href="{{ path('admin_gallery') }}"><i class="fa fa-picture-o"></i> <span class="title"> Galeria - <b>RESTAJAV-009</b>  </span> </a></li>
                 <li><a href="javascript:void(0)"><i class="fa fa-instagram"></i> <span class="title"> Chefs - <b>RESTAJAV-010</b>  </span><i class="icon-arrow"></i> </a></li>
+                <li><a href="{{ path('admin_contact_form') }}"><i class="fa fa-envelope"></i> <span class="title"> Contacto - <b>RESTAJAV-011</b>  </span> </a></li>
             </ul>
             <!-- end: MAIN NAVIGATION MENU -->
         </div>

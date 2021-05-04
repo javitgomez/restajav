@@ -1,0 +1,9 @@
+{% macro print(photo) %}
+<div class="col-lg-3 col-md-4">
+    <div class="gallery-item">
+        <a href="{{ asset('uploads/gallery/' ~ photo.url ) }}" class="gallery-lightbox" data-gall="gallery-item">
+            <img src="{{ asset('uploads/gallery/' ~ photo.url ) }}" alt="{{ photo.name }}" class="img-fluid">
+        </a>
+    </div>
+</div>
+{% endmacro %}

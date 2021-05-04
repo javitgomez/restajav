@@ -1,0 +1,51 @@
+{% extends 'back/index.html.twig' %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}Responder a Cliente{% endblock %}
+
+{% block content %}
+
+    <!-- start: PAGE CONTENT -->
+    <div class="row">
+    <div class="col-sm-12">
+
+        <!-- start: TEXT FIELDS PANEL -->
+        <div class="panel panel-white">
+            <div class="panel-heading">
+                <h4 class="panel-title">Responder a <span class="text-bold">Cliente</span></h4>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <input class="form-control" type="text" value="{{ contactForm.email }}" readonly disabled>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" value="{{ contactForm.subject }}" readonly disabled>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" value="{{ contactForm.createdAt|date }}" readonly disabled>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" value="{{ contactForm.message }}" readonly disabled>
+                </div>
+                <div class="form-group">
+                    {{ form_start(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

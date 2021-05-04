@@ -1,0 +1,34 @@
+framework:
+    workflows:
+        book:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'state'
+            initial_marking: 'received'
+            places:
+                received: ~
+                canceled: ~
+                answered: ~
+            supports: App\Entity\Book
+            transitions:
+                mark_as_canceled:
+                    from: 'received'
+                    to: 'canceled'
+                mark_as_answered:
+                    from: 'received'
+                    to: 'answered'
+        message:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'state'
+            initial_marking: 'received'
+            places:
+                received: ~
+                answered: ~
+            supports: App\Entity\ContactForm
+            transitions:
+                mark_as_answered:
+                    from: 'received'
+                    to: 'answered'
