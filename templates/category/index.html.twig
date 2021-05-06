@@ -1,0 +1,19 @@
+{% extends 'back/index.html.twig' %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
+
+{% block content %}
+    <!-- start: TABLE WITH IMAGES PANEL -->
+    <div class="panel panel-white">
+      <h1>category this ok</h1>
+    </div>
+{% endblock %}
