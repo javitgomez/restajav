@@ -29,14 +29,19 @@ class Aggregate
     private $type;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="float")
      */
-    private $description;
+    private $prize;
 
     /**
      * @ORM\Column(type="boolean")
      */
     private $required;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
 
     /**
      * @ORM\ManyToOne(targetEntity=Dish::class, inversedBy="aggregate")
@@ -72,14 +77,14 @@ class Aggregate
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getPrize(): ?float
     {
-        return $this->description;
+        return $this->prize;
     }
 
-    public function setDescription(string $description): self
+    public function setPrize(float $prize): self
     {
-        $this->description = $description;
+        $this->prize = $prize;
 
         return $this;
     }
@@ -92,6 +97,18 @@ class Aggregate
     public function setRequired(bool $required): self
     {
         $this->required = $required;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

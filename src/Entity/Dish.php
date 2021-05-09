@@ -26,12 +26,12 @@ class Dish
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $photo;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 
@@ -148,7 +148,7 @@ class Dish
     /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue(): void
+    public function setCreatedAt(): void
     {
         $this->createdAt = new \DateTimeImmutable();
     }
@@ -164,7 +164,7 @@ class Dish
      */
     public function setUpdatedAt(): void
     {
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->updatedAt =  new \DateTimeImmutable();
     }
 
     public function getAllergen(): ?array

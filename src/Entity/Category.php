@@ -87,7 +87,7 @@ class Category
     /**
      * @ORM\PrePersist
      */
-    public function setCreatedAtValue(): void
+    public function setCreatedAt(): void
     {
         $this->createdAt = new \DateTimeImmutable();
     }
@@ -103,7 +103,7 @@ class Category
      */
     public function setUpdatedAt(): void
     {
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->updatedAt =  new \DateTimeImmutable();
     }
 
     /**
