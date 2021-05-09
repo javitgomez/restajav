@@ -34,8 +34,7 @@ class AppFixtures extends Fixture
 
         $manager->flush();
 
-        for($i = 1 ; $i <= 20 ; $i++)
-        {
+        for ($i = 1 ; $i <= 20 ; $i++) {
             $faker = Faker\Factory::create();
             $testimonial = new Testimonial();
             $testimonial = $testimonial->setName($faker->name);
@@ -43,11 +42,9 @@ class AppFixtures extends Fixture
             $testimonial = $testimonial->setJob($faker->word());
             $testimonial = $testimonial->setPublished(false);
             $testimonial = $testimonial->setValoration($faker->text());
-            $testimonial = $testimonial->setRate($faker->randomNumber(1,100));
+            $testimonial = $testimonial->setRate($faker->randomNumber(1, 100));
             $manager->persist($testimonial);
-
-        }    
+        }
         $manager->flush();
-        
     }
 }

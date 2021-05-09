@@ -15,15 +15,21 @@ class CategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',TextType::class, ['attr' => ['class' => '']])
-            ->add('description',TextType::class, ['attr' => ['class' => '']])
-            ->add('dish', CollectionType::class, [
-                'entry_type' => DishType::class,
-                'label' => false ,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,])
+            ->add('name', TextType::class, [
+                'attr' => ['class' => 'form-control'],
+                'label' => 'Nombre de la categoria',
+            ])
+            ->add('description', TextType::class, [
+                'attr' => ['class' => 'form-control'],
+                'label' => 'Descripción de la categoria',
+            ]);
+
+        $builder
             ->add('save', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
+                'attr' => [
+                    'class' => 'btn btn-primary',
+                    'style' => 'display:block;margin-bottom:15px;'
+                ]
             ]);
     }
 
@@ -33,5 +39,4 @@ class CategoryType extends AbstractType
             'data_class' => Category::class,
         ]);
     }
-
 }

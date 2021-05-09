@@ -4,11 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 /**
 * @Route("orion/category")
@@ -18,7 +18,7 @@ class CategoryController extends AbstractController
     /**
      * @Route("/", name="admin_category")
      */
-    public function index(Request $request): Response
+    public function index(CategoryRepository $categoryRepository, Request $request): Response
     {
         $category = new Category();
 
@@ -38,6 +38,7 @@ class CategoryController extends AbstractController
         return $this->render('category/index.html.twig', [
             'controller_name' => 'CategoryController',
             'form' => $form->createView(),
+            'categories' => $categoryRepository->findAll()
         ]);
     }
 }
