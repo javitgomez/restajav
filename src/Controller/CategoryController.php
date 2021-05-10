@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,7 +37,6 @@ class CategoryController extends AbstractController
             return $this->redirectToRoute('admin_category');
         }
 
-
         return $this->render('category/index.html.twig', [
             'controller_name' => 'CategoryController',
             'form' => $form->createView(),
@@ -55,9 +53,37 @@ class CategoryController extends AbstractController
         if ($category) {
             $entityManager->remove($category);
             $entityManager->flush();
-            $this->addFlash('success', 'Categoria eliminada correctamente');
+
+            $this->addFlash('success', 'Registro eliminado correctamente');
+
             return $this->redirectToRoute('admin_category');
         }
+
         throw new NotFoundHttpException('this category not exist');
+    }
+
+    /**
+     * @Route("/edit/{id}", name="admin_category_edit" )
+     * @ParamConverter("category", class="App\Entity\Category")
+     */
+    public function edit(Request $request, Category $category)
+    {
+        $form = $this->createForm(CategoryType::class, $category);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($category);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_category');
+        }
+
+        return $this->render('category/edit.html.twig', [
+            'controller_name' => 'CategoryController',
+            'form' => $form->createView(),
+            'category' => $category
+        ]);
     }
 }

@@ -10,6 +10,10 @@
         <td class="center">{{ category.name }}</td>
         <td>{{ category.description }}</td>
         <td class="hidden-xs">10</td>
-        <td class="hidden-xs"> editar - <a data-id-category="{{ category.id }}" class="add-action" href="javascript:void(0);">añadir platos</a> - <a data-id-category="{{ category.id }}" class="del-action" href="javascript:void(0);">eliminar</a></td>
+        <td class="hidden-xs">
+            <a href="{{ path('admin_category_edit', {'id': category.id }) }}" >editar</a>
+            <a data-id-category="{{ category.id }}" class="add-action" href="javascript:void(0);">añadir platos</a>
+            <a data-id-category="{{ category.id }}" class="del-action" href="javascript:void(0);">eliminar</a>
+        </td>
     </tr>
 {% endmacro %}

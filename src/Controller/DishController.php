@@ -6,14 +6,17 @@ use App\Entity\Dish;
 use App\Form\DishType;
 use App\Hydrators\DishHydrator;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @Route("orion/dish")
@@ -80,5 +83,24 @@ class DishController extends AbstractController
             );
         }
         throw new Exception('this request is not allowed here');
+    }
+
+
+    /**
+     * @Route("/delete/{id}", name="admin_dish_delete" , options={"expose"=true} )
+     * @ParamConverter("dish", class="App\Entity\Dish")
+     */
+    public function delete(EntityManagerInterface $entityManager, Dish $dish) : RedirectResponse
+    {
+        if ($dish) {
+            $entityManager->remove($dish);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Registro eliminado correctamente');
+
+            return $this->redirectToRoute('admin_category_edit', ['id' => $dish->getCategory()->getId()]);
+        }
+
+        throw new NotFoundHttpException('this category not exist');
     }
 }
