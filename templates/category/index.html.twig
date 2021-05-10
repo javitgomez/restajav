@@ -61,13 +61,7 @@
 
     </div>
 
-
-<!-- Modal structure -->
-<div id="modal" style="display: none"
-data-iziModal-fullscreen="false"
-data-iziModal-title="Nuevo registro"
-data-iziModal-subtitle="Añadir un nuevo plato a la categoria"
-data-iziModal-icon="icon-home"></div>
+    {% include 'modal/izi-modal.html.twig' %}
 
 {% endblock %}
 {% block scripts %}
@@ -80,6 +74,7 @@ data-iziModal-icon="icon-home"></div>
 $(document).on('click', '.trigger', function (event) {
 
     event.preventDefault();
+    let idCategory = $(this).data('id-category');
 
     let modal = $('#modal').iziModal({
 
@@ -87,7 +82,7 @@ $(document).on('click', '.trigger', function (event) {
 
             modal.startLoading();
 
-            $.get(Routing.generate('admin_dish_new', true), function(data) {
+            $.get(Routing.generate('admin_dish_new' ,{'idCategory': idCategory }, true), function(data) {
                 $("#modal .iziModal-content").html(data);
                 $("#dish_photo").change(function(event){
                         let image = document.getElementById('output');
@@ -111,21 +106,29 @@ function submit_form(modal)
 
         // you can't pass Jquery form it has to be javascript form object
         let formData = new FormData(form[0]);
-
+        let url = Routing.generate('admin_dish_upload', true) ;
         modal.startLoading();
         $.ajax({
-            url : Routing.generate('admin_dish_upload', true),
+            url : url + '?nocache=' + Math.random(),
             type: "POST",
             data : formData,
             processData: false,
+            cache: false,
             contentType: false,
             success:function(data, textStatus, jqXHR){
-                console.log(data);
-                modal.stopLoading();
+
+               $("#modal .iziModal-content").html(data);
+               $('#ajax-modal-box-info').show();
+               modal.stopLoading();
+               submit_form(modal);
+               // console.log(data);
             },
             error: function(jqXHR, textStatus, errorThrown){
-                 console.log(errorThrown);
-                 modal.stopLoading();
+                console.log(errorThrown);
+                let box =  $('#ajax-modal-box-error');
+                box.show();
+                box.html(textStatus);
+                modal.stopLoading();
             }
         });
 

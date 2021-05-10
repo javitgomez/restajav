@@ -6,6 +6,7 @@ use App\Entity\Dish;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,6 +18,13 @@ class DishType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        if (isset($options['data'])) {
+            $builder
+                ->add('category', HiddenType::class, [
+                    'mapped' => false,
+                    'data' => $options['data'][0]
+                ]);
+        }
         $builder
             ->add('name', TextType::class, [
                 'attr' => ['class' => 'form-control'],
@@ -52,7 +60,10 @@ class DishType extends AbstractType
                     'Sulfitos' => 'sulfitos'
                 ],
                 'attr' => ['class' => 'form-control']
-            ])->add('photo', FileType::class, [
+            ])
+        ;
+
+        $builder->add('photo', FileType::class, [
                 'label' => 'Foto',
 
                 // unmapped means that this field is not associated to any entity property
@@ -90,7 +101,7 @@ class DishType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Dish::class,
+            'data_class' => null,
         ]);
     }
 }

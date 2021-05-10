@@ -1,5 +1,13 @@
 <div class="row" style="padding: 1em;">
     <div class="col-sm-12">
+
+        <div class="alert alert-success" role="alert" id="ajax-modal-box-info" style="display: none">
+           Añadido correctamente
+        </div>
+        <div class="alert alert-danger" role="alert" id="ajax-modal-box-error" style="display: none">
+            Hubo un problema en el servidor. Inténtelo más tarde.
+        </div>
+
         {{  form_start(form) }}
         <img style="border:1px solid darkgray;width:64px;height:64px;" id="output" src="">
         {{ form_widget(form.photo) }}

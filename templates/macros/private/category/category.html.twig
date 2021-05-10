@@ -10,6 +10,6 @@
         <td class="center">{{ category.name }}</td>
         <td>{{ category.description }}</td>
         <td class="hidden-xs">10</td>
-        <td class="hidden-xs"> editar - <a class="trigger" href="javascript:void(0);">añadir platos</a> - eliminar</td>
+        <td class="hidden-xs"> editar - <a data-id-category="{{ category.id }}" class="trigger" href="javascript:void(0);">añadir platos</a> - eliminar</td>
     </tr>
 {% endmacro %}

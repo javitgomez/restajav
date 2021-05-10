@@ -56,9 +56,9 @@ class Dish
     private $updatedAt;
 
     /**
-     * @ORM\Column(type="simple_array", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $allergen = [];
+    private $allergen = '';
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="dish")
@@ -167,12 +167,12 @@ class Dish
         $this->updatedAt =  new \DateTimeImmutable();
     }
 
-    public function getAllergen(): ?array
+    public function getAllergen(): ?string
     {
         return $this->allergen;
     }
 
-    public function setAllergen(?array $allergen): self
+    public function setAllergen(?string $allergen): self
     {
         $this->allergen = $allergen;
 
