@@ -7,7 +7,7 @@
                 </label>
             </div>
         </td>
-        <td class="center"><img style="border:1px solid darkorange" width="64" src="{{ asset('uploads/dish_photo/' ~ dish.photo ) }}" alt="image"/></td>
+        <td class="center"><img style="border:1px solid darkorange" width="64" src="{{ asset('uploads/dish_photo/' ~ dish.photo )|imagine_filter('square') }}" alt="image"/></td>
         <td>{{ dish.photo }}</td>
         <td class="hidden-xs">{{ dish.name }}</td>
         <td class="hidden-xs">

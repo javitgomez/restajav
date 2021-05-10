@@ -6,6 +6,8 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /public/uploads
+###> liip_imagine_bundle path
+/public/assets
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
