@@ -5,10 +5,14 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
 * @Route("orion/category")
@@ -40,5 +44,20 @@ class CategoryController extends AbstractController
             'form' => $form->createView(),
             'categories' => $categoryRepository->findAll()
         ]);
+    }
+
+    /**
+     * @Route("/delete/{id}", name="admin_category_delete" , options={"expose"=true} )
+     * @ParamConverter("category", class="App\Entity\Category")
+     */
+    public function delete(EntityManagerInterface $entityManager, Category $category)
+    {
+        if ($category) {
+            $entityManager->remove($category);
+            $entityManager->flush();
+            $this->addFlash('success', 'Categoria eliminada correctamente');
+            return $this->redirectToRoute('admin_category');
+        }
+        throw new NotFoundHttpException('this category not exist');
     }
 }

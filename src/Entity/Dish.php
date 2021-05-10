@@ -133,9 +133,9 @@ class Dish
         return $this->prize;
     }
 
-    public function setPrize(float $prize): self
+    public function setPrize($prize): self
     {
-        $this->prize = $prize;
+        $this->prize = floatval($prize);
 
         return $this;
     }

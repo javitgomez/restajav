@@ -41,7 +41,7 @@ class Category
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Dish::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Dish::class, mappedBy="category" , orphanRemoval=true )
      */
     private $dish;
 
