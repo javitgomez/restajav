@@ -8,14 +8,16 @@
             </div>
         </td>
         <td class="center">
-            <img onerror="this.src='{{ asset('back/assets/images/no-photo.png')|imagine_filter('square') }}';" src="{{ asset('uploads/dish_photo/' ~ dish.photo )|imagine_filter('square') }}" alt="foto"/>
+            <img onerror="this.src='{{ asset('back/assets/images/no-photo.png')|imagine_filter('square') }}';"
+                src="{{ asset('uploads/dish_photo/' ~ dish.photo )|imagine_filter('square') }}"
+                alt="foto-plato" />
         </td>
         <td>{{ dish.name }}</td>
         <td class="hidden-xs">{{ dish.shortDescription }}</td>
         <td class="hidden-xs"><b>{{ dish.prize }} €</b></td>
         <td class="hidden-xs">{{ dish.published|active|raw }}</td>
         <td class="hidden-xs">
-            <img alt="editar-registro-plato" src="{{ asset('back/assets/images/edit-button.png')|imagine_filter('mini') }}">
+            <a href="{{ path('admin_dish_edit',{'id': dish.id }) }}"><img alt="editar-registro-plato" src="{{ asset('back/assets/images/edit-button.png')|imagine_filter('mini') }}"></a>
             <img alt="añadir-complemento-plato" src="{{ asset('back/assets/images/add-button.png')|imagine_filter('mini') }}">
             <span style="cursor: pointer">
                 <img data-id-dish="{{ dish.id }}" class="del-action" alt="eliminar-registro-plato" src="{{ asset('back/assets/images/delete-button.png')|imagine_filter('mini') }}">

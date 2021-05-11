@@ -16,6 +16,26 @@
     <!-- end: PAGESLIDE LEFT -->
 {% endblock %}
 
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">
+                        Dashboard
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{{ path('admin_category') }}">Categorias</a>
+                </li>
+                <li class="active">
+                    Editar categoria
+                </li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
 {% block content %}
 
     {% for message in app.flashes('success') %}

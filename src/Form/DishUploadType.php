@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 
-class DishType extends AbstractType
+class DishUploadType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -29,14 +29,6 @@ class DishType extends AbstractType
             ->add('name', TextType::class, [
                 'attr' => ['class' => 'form-control'],
                 'label' => 'Nombre del plato',
-            ])
-            ->add('published', ChoiceType::class, [
-                'attr' => ['class' => 'form-control'],
-                'label' => 'Publicar',
-                'choices' => [
-                    'Publicar' => 1,
-                    'No publicado' => 0
-                ]
             ])
             ->add('shortDescription', TextType::class, [
                 'attr' => ['class' => 'form-control'],
@@ -75,28 +67,28 @@ class DishType extends AbstractType
         ;
 
         $builder->add('photo', FileType::class, [
-                'label' => 'Foto',
+            'label' => 'Foto',
 
-                // unmapped means that this field is not associated to any entity property
-                'mapped' => false,
+            // unmapped means that this field is not associated to any entity property
+            'mapped' => false,
 
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
-                'required' => false,
+            // make it optional so you don't have to re-upload the PDF file
+            // every time you edit the Product details
+            'required' => false,
 
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
-                'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/jpeg',
-                            'image/png',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid image image/png , image/jpg',
-                    ])
-                ],
-            ])
+            // unmapped fields can't define their validation using annotations
+            // in the associated entity, so you can use the PHP constraint classes
+            'constraints' => [
+                new File([
+                    'maxSize' => '1024k',
+                    'mimeTypes' => [
+                        'image/jpeg',
+                        'image/png',
+                    ],
+                    'mimeTypesMessage' => 'Please upload a valid image image/png , image/jpg',
+                ])
+            ],
+        ])
         ;
 
         $builder
@@ -112,7 +104,7 @@ class DishType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Dish::class,
+            'data_class' => null,
         ]);
     }
 }

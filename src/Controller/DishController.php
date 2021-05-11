@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Dish;
+use App\Form\CategoryType;
 use App\Form\DishType;
+use App\Form\DishUploadType;
 use App\Hydrators\DishHydrator;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +34,7 @@ class DishController extends AbstractController
     public function index(Request $request, $idCategory): Response
     {
         if ($request->isXmlHttpRequest()) {
-            $form = $this->createForm(DishType::class, [$idCategory]);
+            $form = $this->createForm(DishUploadType::class, [$idCategory]);
 
             return $this->render('dish/_form_ajax.html.twig', [
                     'form' => $form->createView(),
@@ -102,5 +106,58 @@ class DishController extends AbstractController
         }
 
         throw new NotFoundHttpException('this category not exist');
+    }
+
+    /**
+     * @Route("/edit/{id}", name="admin_dish_edit" )
+     * @ParamConverter("dish", class="App\Entity\Dish")
+     */
+    public function edit(Request $request, SluggerInterface $slugger, Dish $dish)
+    {
+        $form = $this->createForm(DishType::class, $dish);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $photoFile */
+            $photoFile = $request->files->get('dish')['photo'];
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($photoFile) {
+                $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photoFile->move(
+                        $this->getParameter('dish_photo_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $dish->setPhoto($newFilename);
+            }
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($dish);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Registro eliminado correctamente');
+
+            return $this->redirectToRoute('admin_dish_edit', ['id'=> $dish->getId()]);
+        }
+
+        return $this->render('dish/edit.html.twig', [
+            'controller_name' => 'DishController',
+            'form' => $form->createView(),
+            'dish' => $dish
+        ]);
     }
 }
