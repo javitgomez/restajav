@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\Chef;
 use App\Form\ChefType;
 use App\Repository\ChefRepository;
-use mysql_xdevapi\Exception;
+use App\Services\UploadService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,9 +31,9 @@ class ChefController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="admin_chef_new", methods={"GET","POST"})
+     * @Route("/nuevo", name="admin_chef_new", methods={"GET","POST"})
      */
-    public function new(Request $request, SluggerInterface $slugger): Response
+    public function new(Request $request, UploadService $uploadService): Response
     {
         $chef = new Chef();
         $form = $this->createForm(ChefType::class, $chef);
@@ -39,26 +41,17 @@ class ChefController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('photo')->getData();
-            if ($imageFile) {
-                $originalImageFile = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeImageFile = $slugger->slug($originalImageFile);
-                $newImageFile = $safeImageFile.'-'.uniqid().'.'.$imageFile->guessExtension();
-                try {
-                    $imageFile->move(
-                        $this->getParameter('chefs_photo_directory'),
-                        $newImageFile
-                    );
-                } catch (FileException $e) {
-                    throw new Exception("the file did not uploaded, because " . $e->getMessage());
-                }
+
+            if ($imageFile instanceof UploadedFile) {
+                $newImageFile = $uploadService->uploadFile($imageFile, $this->getParameter('chefs_photo_directory'));
                 $chef->setImage($newImageFile);
             }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($chef);
             $entityManager->flush();
 
-
-            return $this->redirectToRoute('chef_index');
+            return $this->redirectToRoute('admin_chef_new');
         }
 
         return $this->render('chef/new.html.twig', [

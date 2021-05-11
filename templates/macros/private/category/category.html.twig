@@ -1,0 +1,25 @@
+{% macro print_row(category) %}
+    <tr>
+        <td class="center">
+            <div class="checkbox-table">
+                <label>
+                    <input type="checkbox" class="flat-grey foocheck">
+                </label>
+            </div>
+        </td>
+        <td class="center">{{ category.name }}</td>
+        <td>{{ category.description }}</td>
+        <td class="hidden-xs">{{ category.dish|length }}</td>
+        <td class="hidden-xs">
+            <a href="{{ path('admin_category_edit', {'id': category.id }) }}" style="cursor:pointer;">
+                <img alt="editar-registro-plato" src="{{ asset('back/assets/images/edit-button.png')|imagine_filter('mini') }}">
+            </a>
+            <a data-id-category="{{ category.id }}" class="add-action" href="javascript:void(0);" style="cursor:pointer;">
+                <img alt="añadir-complemento-plato" src="{{ asset('back/assets/images/add-button.png')|imagine_filter('mini') }}">
+            </a>
+            <a data-id-category="{{ category.id }}" class="del-action" href="javascript:void(0);" style="cursor:pointer;">
+                <img alt="eliminar-registro-plato" src="{{ asset('back/assets/images/delete-button.png')|imagine_filter('mini') }}">
+            </a>
+        </td>
+    </tr>
+{% endmacro %}

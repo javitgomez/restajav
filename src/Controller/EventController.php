@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Services\UploadService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -31,7 +32,7 @@ class EventController extends AbstractController
     /**
      * @Route("/new", name="admin_event_new", methods={"GET","POST"})
      */
-    public function new(Request $request, SluggerInterface $slugger): Response
+    public function new(Request $request, UploadService $uploadService): Response
     {
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
@@ -40,29 +41,11 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             /** @var UploadedFile $photoFile */
-            $photoFile = $form->get('photo')->getData();
+            $imageFile = $form->get('photo')->getData();
 
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
-            if ($photoFile) {
-                $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $photoFile->move(
-                        $this->getParameter('events_photo_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $event->setImage($newFilename);
+            if ($imageFile instanceof UploadedFile) {
+                $newImageFile = $uploadService->uploadFile($imageFile, $this->getParameter('events_photo_directory'));
+                $event->setImage($newImageFile);
             }
 
             $entityManager = $this->getDoctrine()->getManager();

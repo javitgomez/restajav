@@ -49,8 +49,6 @@ class ContactFormController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $formData = $form->get("message")->getData();
-
             $contactFormManager->answer($contactForm);
 
             $this->em->persist($contactForm);

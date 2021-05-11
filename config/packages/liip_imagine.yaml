@@ -1,0 +1,42 @@
+liip_imagine:
+  driver: "imagick"
+  resolvers:
+    default:
+      web_path:
+        web_root: "%kernel.project_dir%/public"
+        cache_prefix: assets/media/cache
+  loaders:
+    default:
+      filesystem:
+        data_root:
+          - "%kernel.project_dir%/public"
+
+  # your filter sets are defined here
+  # sets the desired resize method: 'outbound' crops the image as required,
+  # while 'inset' performs a non-cropping relative resize.
+  filter_sets:
+    detail:
+      filters:
+        relative_resize: { heighten: 1080 }
+        strip: ~
+
+    square:
+      quality: 75
+      filters:
+        upscale: { min: [72, 72] }
+        thumbnail: { size: [72, 72], mode: 'outbound' }
+        strip: ~
+    mini:
+      quality: 75
+      filters:
+        upscale: { min: [32, 32] }
+        thumbnail: { size: [32, 32], mode: 'outbound' }
+        strip: ~
+    photo:
+      quality: 75
+      filters:
+        upscale: { min: [124, 124] }
+        thumbnail: { size: [124, 124], mode: 'outbound' }
+        strip: ~
+    # use the default cache configuration
+    cache: ~

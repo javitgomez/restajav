@@ -1,0 +1,127 @@
+{% extends 'back/index.html.twig' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ asset('back/assets/js/izi-modal/css/iziModal.min.css') }}" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">
+                        Dashboard
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{{ path('admin_category') }}">Categorias</a>
+                </li>
+                <li class="active">
+                    <a href="{{ path('admin_category_edit',{'id' : dish.category.id }) }}">{{ dish.category.name }}</a>
+                </li>
+                <li class="active">
+                    Editar Plato
+                </li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
+
+{% block content %}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <!-- start: PAGE CONTENT -->
+    <div class="row">
+        <div class="col-sm-12">
+
+            <!-- start: TEXT FIELDS PANEL -->
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Editar <span class="text-bold">Plato</span></h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        {% include('dish/_form.html.twig') with { 'dish': dish } %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    {% include 'modal/izi-modal.html.twig' %}
+
+{% endblock %}
+{% block scripts %}
+<!-- fos-js-routing -->
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+<!-- izi-modal-->
+<script src="{{ asset('back/assets/js/izi-modal/js/iziModal.min.js') }}"></script>
+<!-- j-query-confirm -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<script>
+
+    $(document).ready(function() {
+        $("#dish_photo").change(function(event){
+            let image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        });
+
+    });
+
+    function filterFloat(evt,input){
+        // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
+        var key = window.Event ? evt.which : evt.keyCode;
+        var chark = String.fromCharCode(key);
+        var tempValue = input.value+chark;
+        if(key >= 48 && key <= 57){
+            if(filter(tempValue)=== false){
+                return false;
+            }else{
+                return true;
+            }
+        }else{
+            if(key == 8 || key == 13 || key == 0) {
+                return true;
+            }else if(key == 46){
+                if(filter(tempValue)=== false){
+                    return false;
+                }else{
+                    return true;
+                }
+            }else{
+                return false;
+            }
+        }
+}
+    function filter(__val__){
+        var preg = /^([0-9]+\.?[0-9]{0,2})$/;
+        if(preg.test(__val__) === true){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+</script>
+{% endblock %}
