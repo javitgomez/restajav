@@ -23,9 +23,14 @@ liip_imagine:
     square:
       quality: 75
       filters:
-        upscale: { min: [770, 770] }
-        thumbnail: { size: [770, 770], mode: 'outbound' }
+        upscale: { min: [72, 72] }
+        thumbnail: { size: [72, 72], mode: 'outbound' }
         strip: ~
-
+    mini:
+      quality: 75
+      filters:
+        upscale: { min: [32, 32] }
+        thumbnail: { size: [32, 32], mode: 'outbound' }
+        strip: ~
     # use the default cache configuration
     cache: ~

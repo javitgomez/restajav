@@ -70,9 +70,16 @@ class Dish
      */
     private $aggregate;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $published;
+
     public function __construct()
     {
         $this->aggregate = new ArrayCollection();
+        // by defaut all dish is not published
+        $this->setPublished(false);
     }
 
     public function getId(): ?int
@@ -217,6 +224,18 @@ class Dish
                 $aggregate->setDish(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPublished(): ?bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(bool $published): self
+    {
+        $this->published = $published;
 
         return $this;
     }
