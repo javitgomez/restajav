@@ -79,23 +79,6 @@
 <!-- j-query-confirm -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 <script>
-// Restricts input for the set of matched elements to the given inputFilter function.
-(function($) {
-  $.fn.inputFilter = function(inputFilter) {
-    return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
-      if (inputFilter(this.value)) {
-        this.oldValue = this.value;
-        this.oldSelectionStart = this.selectionStart;
-        this.oldSelectionEnd = this.selectionEnd;
-      } else if (this.hasOwnProperty("oldValue")) {
-        this.value = this.oldValue;
-        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-      } else {
-        this.value = "";
-      }
-    });
-  };
-}(jQuery));
 
 $(document).on('click' , '.del-action', function(event) {
 
@@ -131,9 +114,6 @@ $(document).on('click', '.add-action', function (event) {
                 $("#dish_photo").change(function(event){
                         let image = document.getElementById('output');
                         image.src = URL.createObjectURL(event.target.files[0]);
-                });
-                $("#dish_prize").inputFilter(function(value) {
-                    return /[+-]?([0-9]*[.])?[0-9]+/.test(value);    // Allow digits only, using a RegExp
                 });
                 submit_form(modal);
                 modal.stopLoading();
@@ -181,5 +161,40 @@ function submit_form(modal)
 
     });
 }
+
+ function filterFloat(evt,input){
+        // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
+        var key = window.Event ? evt.which : evt.keyCode;
+        var chark = String.fromCharCode(key);
+        var tempValue = input.value+chark;
+        if(key >= 48 && key <= 57){
+            if(filter(tempValue)=== false){
+                return false;
+            }else{
+                return true;
+            }
+        }else{
+            if(key == 8 || key == 13 || key == 0) {
+                return true;
+            }else if(key == 46){
+                if(filter(tempValue)=== false){
+                    return false;
+                }else{
+                    return true;
+                }
+            }else{
+                return false;
+            }
+        }
+}
+    function filter(__val__){
+        var preg = /^([0-9]+\.?[0-9]{0,2})$/;
+        if(preg.test(__val__) === true){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
 </script>
 {% endblock %}

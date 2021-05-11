@@ -6,6 +6,7 @@ use App\Entity\Image;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -40,7 +41,6 @@ class GalleryController extends AbstractController
      */
     public function fileUploadHandler(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-        $output = array('uploaded' => false);
         // get the file from the request object
         /** @var UploadedFile $photoFile */
         $files = $request->files->get('file');
@@ -57,7 +57,7 @@ class GalleryController extends AbstractController
                 $entityManager->flush();
             }
         } else {
-            throw new \Exception('this method is for multiple files');
+            throw new Exception('this method is for multiple files');
         }
 
         return new JsonResponse(['uploaded'=>true]);

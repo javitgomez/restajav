@@ -9,9 +9,10 @@ use App\Form\DishType;
 use App\Form\DishUploadType;
 use App\Hydrators\DishHydrator;
 use App\Repository\CategoryRepository;
+use App\Services\UploadService;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -28,7 +29,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class DishController extends AbstractController
 {
     /**
-     * @Route("/new/{idCategory}", options={"expose"=true}, name="admin_dish_new" , methods={"GET"})
+     * @Route("/nueva/{idCategory}", options={"expose"=true}, name="admin_dish_new" , methods={"GET"})
      * @throws \Exception
      */
     public function index(Request $request, $idCategory): Response
@@ -40,6 +41,7 @@ class DishController extends AbstractController
                     'form' => $form->createView(),
             ]);
         }
+
         throw new Exception('this request is not allowed here');
     }
 
@@ -47,39 +49,23 @@ class DishController extends AbstractController
      * @Route("/upload", options={"expose"=true}, name="admin_dish_upload" , methods={"POST"}  )
      * @throws \Exception
      */
-    public function upload(Request $request, CategoryRepository $categoryRepository, SluggerInterface $slugger): Response
+    public function upload(Request $request, CategoryRepository $categoryRepository, UploadService $uploadService): Response
     {
         if ($request->isXmlHttpRequest()) {
-            $dish = (new DishHydrator($categoryRepository, $request->request->get('dish')))->getObject();
-            $file = $request->files->get('dish')['photo'];
+            $dish = (new DishHydrator($categoryRepository, $request->request->get('dish_upload')))->getObject();
+            $imageFile = $request->files->get('dish_upload')['photo'];
 
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded
-            if ($file) {
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
-                // Move the file to the directory where brochures are stored
-                try {
-                    $file->move(
-                        $this->getParameter('dish_photo_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $dish->setPhoto($newFilename);
+            if ($imageFile instanceof UploadedFile) {
+                $newImageFile = $uploadService->uploadFile($imageFile, $this->getParameter('dish_photo_directory'));
+                $dish->setPhoto($newImageFile);
             }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($dish);
             $entityManager->flush();
-
 
             return $this->redirectToRoute(
                 'admin_dish_new',
@@ -112,7 +98,7 @@ class DishController extends AbstractController
      * @Route("/edit/{id}", name="admin_dish_edit" )
      * @ParamConverter("dish", class="App\Entity\Dish")
      */
-    public function edit(Request $request, SluggerInterface $slugger, Dish $dish)
+    public function edit(Request $request, UploadService $uploadService, Dish $dish)
     {
         $form = $this->createForm(DishType::class, $dish);
 
@@ -120,36 +106,18 @@ class DishController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $photoFile */
-            $photoFile = $request->files->get('dish')['photo'];
+            $imageFile = $request->files->get('dish')['photo'];
 
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
-            if ($photoFile) {
-                $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$photoFile->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $photoFile->move(
-                        $this->getParameter('dish_photo_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $dish->setPhoto($newFilename);
+            if ($imageFile instanceof UploadedFile) {
+                $newImageFile = $uploadService->uploadFile($imageFile, $this->getParameter('dish_photo_directory'));
+                $dish->setPhoto($newImageFile);
             }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($dish);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Registro eliminado correctamente');
+            $this->addFlash('success', 'Registro actualizado correctamente');
 
             return $this->redirectToRoute('admin_dish_edit', ['id'=> $dish->getId()]);
         }

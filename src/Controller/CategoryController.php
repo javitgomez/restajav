@@ -7,6 +7,7 @@ use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -48,7 +49,7 @@ class CategoryController extends AbstractController
      * @Route("/delete/{id}", name="admin_category_delete" , options={"expose"=true} )
      * @ParamConverter("category", class="App\Entity\Category")
      */
-    public function delete(EntityManagerInterface $entityManager, Category $category)
+    public function delete(EntityManagerInterface $entityManager, Category $category): RedirectResponse
     {
         if ($category) {
             $entityManager->remove($category);

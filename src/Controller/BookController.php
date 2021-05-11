@@ -7,6 +7,7 @@ use App\Repository\BookRepository;
 use App\Services\BookManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -38,7 +39,7 @@ class BookController extends AbstractController
      * @Route("/workflow_canceled/{id}", name="workflow_canceled")
      * @ParamConverter("book", class="App\Entity\Book")
      */
-    public function workflowCanceled(BookManager $bookManager, Book $book)
+    public function workflowCanceled(BookManager $bookManager, Book $book): RedirectResponse
     {
         $bookManager->cancel($book);
         // TODO EVENT HERE FOR CANCEL BOOK
@@ -53,7 +54,7 @@ class BookController extends AbstractController
      * @Route("/workflow_answered/{id}", name="workflow_answered")
      * @ParamConverter("book", class="App\Entity\Book")
      */
-    public function workflowAnswered(BookManager $bookManager, Book $book)
+    public function workflowAnswered(BookManager $bookManager, Book $book): RedirectResponse
     {
         $bookManager->answer($book);
         // TODO EVENT HERE FOR CANCEL BOOK
