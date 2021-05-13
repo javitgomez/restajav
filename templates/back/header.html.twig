@@ -3,12 +3,12 @@
     <!-- start: TOPBAR CONTAINER -->
     <div class="container">
         <div class="navbar-header">
-            <a class="sb-toggle-left hidden-md hidden-lg" href="#main-navbar">
-                <i class="fa fa-bars"></i>
-            </a>
+{#            <a class="sb-toggle-left hidden-md hidden-lg" href="#main-navbar">#}
+{#                <i class="fa fa-bars"></i>#}
+{#            </a>#}
             <!-- start: LOGO -->
-            <a class="navbar-brand" href="index.html">
-                <img src="assets/images/logo.png" alt="restaurantly-logo"/>
+            <a class="navbar-brand" href="{{ path('admin_user_index')}}">
+                <img src="{{ asset('back/assets/images/logo.png') }}" alt="logo"/>
             </a>
             <!-- end: LOGO -->
         </div>
@@ -22,28 +22,18 @@
                     </a>
                     <ul class="dropdown-menu dropdown-dark">
                         <li>
-                            <a href="pages_user_profile.html">
-                                My Profile
+                            <a href="{{ path('admin_user_edit',  { 'id': app.user.id } ) }}">
+                                Mi perfil
                             </a>
                         </li>
                         <li>
-                            <a href="pages_calendar.html">
-                                My Calendar
+                            <a href="{{ path('admin_contact_form') }}">
+                                Mis mensajes
                             </a>
                         </li>
                         <li>
-                            <a href="pages_messages.html">
-                                My Messages (3)
-                            </a>
-                        </li>
-                        <li>
-                            <a href="login_lock_screen.html">
-                                Lock Screen
-                            </a>
-                        </li>
-                        <li>
-                            <a href="login_login.html">
-                                Log Out
+                            <a href="{{ path('app_logout') }}">
+                                Cerrar sesión
                             </a>
                         </li>
                     </ul>

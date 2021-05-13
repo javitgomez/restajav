@@ -39,7 +39,7 @@ class AppExtension extends AbstractExtension
     {
         $onButton = $this->assets->getUrl('back/assets/images/button-on-green.png');
         $offButton = $this->assets->getUrl('back/assets/images/button-off-red.png');
-        $tagImg = '<img src="//"  alt="//" width="32"/>';
+        $tagImg = '<img src="//"  alt="//" width="16"/>';
 
         if ($status) {
             $tagImg = str_replace('//', $onButton, $tagImg) ;

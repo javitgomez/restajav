@@ -102,7 +102,6 @@ $(document).on('click', '.add-action', function (event) {
 
     event.preventDefault();
     let idCategory = $(this).data('id-category');
-
     let modal = $('#modal').iziModal({
 
         onOpening: function(modal){
@@ -111,10 +110,7 @@ $(document).on('click', '.add-action', function (event) {
 
             $.get(Routing.generate('admin_dish_new' ,{'idCategory': idCategory }, true), function(data) {
                 $("#modal .iziModal-content").html(data);
-                $("#dish_photo").change(function(event){
-                        let image = document.getElementById('output');
-                        image.src = URL.createObjectURL(event.target.files[0]);
-                });
+                call_back();
                 submit_form(modal);
                 modal.stopLoading();
             });
@@ -148,6 +144,7 @@ function submit_form(modal)
                $('#ajax-modal-box-info').show();
                modal.stopLoading();
                submit_form(modal);
+               call_back();
                // console.log(data);
             },
             error: function(jqXHR, textStatus, errorThrown){
@@ -195,6 +192,14 @@ function submit_form(modal)
             return false;
         }
 
+    }
+
+    function call_back()
+    {
+        $("#dish_upload_photo").change(function(event){
+            let image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        });
     }
 </script>
 {% endblock %}

@@ -110,11 +110,11 @@ a, a:focus, a:hover, a:active {
 
 /* line 48, ../sass/partials/_base.scss */
 a {
-  color: #88BBC8;
+  color: black;
 }
 /* line 51, ../sass/partials/_base.scss */
 a:hover, a:focus, a:active {
-  color: #4a8fa0;
+  color: darkorange;
 }
 
 /* line 55, ../sass/partials/_base.scss */
@@ -4240,14 +4240,14 @@ ul.post-list .post-image {
 
 /* line 76, ../sass/partials/_buttons.scss */
 .btn-blue {
-  background-color: #5F8295;
-  border-color: #557485;
+  background-color: darkorange;
+  border-color: darkorange;
   color: #ffffff;
 }
 /* line 80, ../sass/partials/_buttons.scss */
 .btn-blue:hover, .btn-blue:focus, .btn-blue:active, .btn-blue.active {
-  background-color: #557485;
-  border-color: #4b6776;
+  background-color: orange;
+  border-color: orange;
   color: #ffffff;
 }
 /* line 85, ../sass/partials/_buttons.scss */
@@ -4483,14 +4483,14 @@ ul.post-list .post-image {
 
 /* line 283, ../sass/partials/_buttons.scss */
 .btn-red {
-  background-color: #e66b6b;
-  border-color: #e25555;
+  background-color: red;
+  border-color: red;
   color: #ffffff;
 }
 /* line 287, ../sass/partials/_buttons.scss */
 .btn-red:hover, .btn-red:focus, .btn-red:active, .btn-red.active {
-  background-color: #e25555;
-  border-color: #df3f3f;
+  background-color: darkred;
+  border-color: darkred;
   color: #ffffff;
 }
 /* line 292, ../sass/partials/_buttons.scss */

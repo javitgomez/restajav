@@ -1,5 +1,7 @@
 {% extends 'back/index.html.twig' %}
 
+{% block title %}Nuevo Usuario{% endblock %}
+
 {% block header %}
     {{ parent() }}
 {% endblock %}
@@ -11,11 +13,34 @@
     <!-- end: PAGESLIDE LEFT -->
 {% endblock %}
 
+  {% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Control de Acceso <small>Administración de usuarios</small></h1>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Administración</a></li>
+                <li class=""><a href="{{ path('admin_user_index') }}">Usuarios</a></li>
+                <li class="active"><a href="javascript:void(0);">Nuevo usuario</a></li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
 {% block main %}
     {{ parent() }}
 {% endblock %}
-
-{% block title %}Nuevo Usuario{% endblock %}
 
 {% block content %}
 

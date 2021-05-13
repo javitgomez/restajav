@@ -31,7 +31,10 @@ class UserType extends AbstractType
                 ],
                 'attr' => ['class' => 'form-control']
         ])->add('save', SubmitType::class, [
-            'attr' => ['class' => 'btn btn-primary'],
+            'attr' => [
+                'class' => 'btn btn-primary',
+                'style' => 'margin-top:15px'
+            ],
         ]);
 
         // roles field data transformer
