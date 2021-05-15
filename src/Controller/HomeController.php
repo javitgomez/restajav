@@ -5,6 +5,8 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Entity\ContactForm;
+use App\Repository\CategoryRepository;
+use App\Repository\DishRepository;
 use App\Repository\EventRepository;
 use App\Repository\ImageRepository;
 use App\Repository\TestimonialRepository;
@@ -23,15 +25,23 @@ class HomeController extends AbstractController
      * @param EventRepository $eventRepository
      * @return Response
      */
-    public function index(EventRepository $eventRepository, ImageRepository $imageRepository, TestimonialRepository $testimonialRepository): Response
+    public function index(
+        EventRepository $eventRepository,
+        ImageRepository $imageRepository,
+        TestimonialRepository $testimonialRepository,
+        CategoryRepository $categoryRepository
+    ): Response
     {
         $images = $imageRepository->findAll();
         $testimonials = $testimonialRepository->findBy(["published" => true ]);
+        $categories = $categoryRepository->findAll();
+
 
         return $this->render('front/index.html.twig', [
             'events' => $eventRepository->findAll(),
-             'images' => $images,
-             'testimonials' => $testimonials
+            'images' => $images,
+            'testimonials' => $testimonials,
+            'categories' => $categories
              
         ]);
     }
