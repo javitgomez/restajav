@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,10 +20,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class CartController extends AbstractController
 {
     private $em;
-
-    public function __construct(EntityManagerInterface $entityManager)
+    private $session;
+    public function __construct(EntityManagerInterface $entityManager, SessionInterface $session)
     {
         $this->em = $entityManager;
+        $this->session = $session;
     }
     /**
      * @Route("/", name="cart")
@@ -52,16 +53,16 @@ class CartController extends AbstractController
         if (null === $user) {
             return new JsonResponse(['error' => false, 'msg'=> 'user not authorized', 'code' => 403 ]);
         }
-        $session = new Session();
 
-        if (!$session->has('cart_')) {
+        if (!$this->session->has('_cart')) {
             $cart = new CartDish();
             $tokenIdSession = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
             $cart->setSessionId($tokenIdSession);
-            $session->set('_cart', $tokenIdSession);
+            $this->session->set('_cart', $tokenIdSession);
         } else {
+            $tokenIdSession = $this->session->get('_cart');
             $cart = $cartDishRepository
-                ->findOneBy(['sessionId' => $session->get('cart_')]);
+                ->findOneBy(['sessionId' => $tokenIdSession]);
         }
 
         $cart->addDish($dish);
@@ -71,7 +72,7 @@ class CartController extends AbstractController
 
         $this->em->persist($cart);
         $this->em->flush();
-        $jsonResponse = ['error' => false, 'msg'=> 'success', 'code' => 200 ];
-        return new JsonResponse($jsonResponse);
+
+        return new JsonResponse(['error' => false, 'msg'=> 'success', 'code' => 200 ]);
     }
 }

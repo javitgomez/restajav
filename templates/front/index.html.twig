@@ -1,5 +1,7 @@
 {% extends 'front/layout.html.twig' %}
 
+{% block styles %}<link rel="stylesheet" href="{{ asset('back/assets/js/izi-modal/css/iziModal.min.css') }}">
+{% endblock %}
 {% block top_bar %}
 <!-- ======= Top Bar ======= -->
 <div id="topbar" class="d-flex align-items-center fixed-top">
@@ -586,7 +588,7 @@
 
     </div>
   </section><!-- End Contact Section -->
-
+  <div id="modal" data-iziModal-group="alert"></div>
 </main><!-- End #main -->
 {% endblock %}
 
@@ -596,6 +598,8 @@
 <!-- fos-js-routing -->
 <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+<!-- izi-modal-->
+<script src="{{ asset('back/assets/js/izi-modal/js/iziModal.min.js') }}"></script>
 <script>
   $(document).ready(function(){
      $('.menu-item button[type="submit"]').on('click', function(){
@@ -604,8 +608,21 @@
        $.post( Routing.generate('add_dish_to_cart', { id_dish: id } ) , function( data ) {
           console.log(data);
           if(data.code === 403) {
-            console.log('this ok');
             location.href = Routing.generate('user_register',true);
+          } else if(data.code === 200) {
+            let modal = $("#modal").iziModal({
+              title: "Añadido",
+              subtitle: 'has añadido un plato a tu pedido',
+              icon: 'icon-power_settings_new',
+              headerColor: '#008926',
+              width: 600,
+              timeout: 5000,
+              timeoutProgressbar: true,
+              transitionIn: 'fadeInDown',
+              transitionOut: 'fadeOutDown',
+              pauseOnHover: true
+            });
+            modal.iziModal('open');
           }
        });
      });
