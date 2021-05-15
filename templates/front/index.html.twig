@@ -61,7 +61,12 @@
     </ul>
     <i class="bi bi-list mobile-nav-toggle"></i>
   </nav><!-- .navbar -->
-  <a href="#book-a-table" class="book-a-table-btn scrollto d-none d-lg-flex">Book a table</a>
+
+  {% if app.user is defined and app.user is not null %}
+    <span>Bienvenido <b>{{ app.user.username }}</b></span>
+  {% else %}
+  <a href="{{ path('app_login') }}" class="book-a-table-btn scrollto d-none d-lg-flex">Log In</a>
+  {% endif %}
 
 </div>
 </header><!-- End Header -->
@@ -195,14 +200,11 @@
                 <a href="#">{{ dish.name }}</a><span>{{ dish.prize }} €</span>
               </div>
               <div class="menu-ingredients">
-                {{ dish.shortDescription }}
+                <button type="submit" data-dish-id="{{ dish.id }}">Añadir</button> {{ dish.shortDescription }}
               </div>
             </div>
           {% endfor %}
         {% endfor %}
-
-
-
 
       </div>
 
@@ -586,4 +588,27 @@
   </section><!-- End Contact Section -->
 
 </main><!-- End #main -->
+{% endblock %}
+
+{% block scripts %}
+<!--[if gte IE 9]><!-->
+<script src="{{ asset('back/assets/plugins/jQuery/jquery-2.1.1.min.js') }}"></script>
+<!-- fos-js-routing -->
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+<script>
+  $(document).ready(function(){
+     $('.menu-item button[type="submit"]').on('click', function(){
+       let id = $(this).data('dish-id');
+
+       $.post( Routing.generate('add_dish_to_cart', { id_dish: id } ) , function( data ) {
+          console.log(data);
+          if(data.code === 403) {
+            console.log('this ok');
+            location.href = Routing.generate('user_register',true);
+          }
+       });
+     });
+  })
+</script>
 {% endblock %}
