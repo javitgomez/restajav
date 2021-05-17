@@ -20,11 +20,6 @@ class CartDish
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Dish::class)
-     */
-    private $dish;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $quanty;
@@ -39,39 +34,19 @@ class CartDish
      */
     private $sessionId;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $dishId;
+
     public function __construct()
     {
-        $this->dish = new ArrayCollection();
         $this->setQuanty(0);
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection|Dish[]
-     */
-    public function getDish(): Collection
-    {
-        return $this->dish;
-    }
-
-    public function addDish(Dish $dish): self
-    {
-        if (!$this->dish->contains($dish)) {
-            $this->dish[] = $dish;
-        }
-
-        return $this;
-    }
-
-    public function removeDish(Dish $dish): self
-    {
-        $this->dish->removeElement($dish);
-
-        return $this;
     }
 
     public function getQuanty(): ?int
@@ -108,5 +83,17 @@ class CartDish
         $this->sessionId = $sessionId;
 
         return $this;
+    }
+
+    public function setDishId(int $id): self
+    {
+        $this->dishId = $id;
+
+        return $this;
+    }
+
+    public function getDishId(): ?int
+    {
+        return $this->dishId;
     }
 }

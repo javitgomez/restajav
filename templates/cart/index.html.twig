@@ -1,20 +1,136 @@
-{% extends 'base.html.twig' %}
+{% extends 'front/layout.html.twig' %}
 
-{% block title %}Hello CartController!{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block top_bar %}
+    <!-- ======= Top Bar ======= -->
+    <div id="topbar" class="d-flex align-items-center fixed-top">
+        <div class="container d-flex justify-content-center justify-content-md-between">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+            <div class="contact-info d-flex align-items-center">
+                <i class="bi bi-phone d-flex align-items-center"><span>+1 5589 55488 55</span></i>
+                <i class="bi bi-clock d-flex align-items-center ms-4"><span> Mon-Sat: 11AM - 23PM</span></i>
+            </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/restaurantly.com/src/Controller/CartController.php'|file_link(0) }}">src/Controller/CartController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/restaurantly.com/templates/cart/index.html.twig'|file_link(0) }}">templates/cart/index.html.twig</a></code></li>
-    </ul>
-</div>
+            <div class="languages d-none d-md-flex align-items-center">
+                <ul>
+                    <li>En</li>
+                    <li><a href="#">De</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block header %}
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-cente">
+
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+
+            <h1 class="logo me-auto me-lg-0"><a href="index.html">Restaurantly</a></h1>
+
+            <!-- Uncomment below if you prefer to use an image logo -->
+            <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="front/assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+            <nav id="navbar" class="navbar order-last order-lg-0">
+                <ul>
+                    <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                    <li><a class="nav-link scrollto" href="#about">About</a></li>
+                    <li><a class="nav-link scrollto" href="#menu">Menu</a></li>
+                    <li><a class="nav-link scrollto" href="#specials">Specials</a></li>
+                    <li><a class="nav-link scrollto" href="#events">Events</a></li>
+                    <li><a class="nav-link scrollto" href="#chefs">Chefs</a></li>
+                    <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li>
+                    <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a href="#">Drop Down 1</a></li>
+                            <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
+                                <ul>
+                                    <li><a href="#">Deep Drop Down 1</a></li>
+                                    <li><a href="#">Deep Drop Down 2</a></li>
+                                    <li><a href="#">Deep Drop Down 3</a></li>
+                                    <li><a href="#">Deep Drop Down 4</a></li>
+                                    <li><a href="#">Deep Drop Down 5</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Drop Down 2</a></li>
+                            <li><a href="#">Drop Down 3</a></li>
+                            <li><a href="#">Drop Down 4</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+            <a href="#book-a-table" class="book-a-table-btn scrollto d-none d-lg-flex">Book a table</a>
+
+        </div>
+    </header><!-- End Header -->
+{% endblock %}
+
+{% block hero %}
+
+{% endblock %}
+
+
+{% block main %}
+<main id="main">
+    <section class="breadcrumbs">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Nuevo pedido realizado</h2>
+                <ol>
+                    <li><a href="{{ path('user_index') }}">Home</a></li>
+                    <li>Cesta de la compra</li>
+                </ol>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="inner-page">
+        <div class="container">
+
+        <table class="table table-light">
+        <thead>
+            <tr>
+                <th> Muestra </th>
+                <th> Plato </th>
+                <th> Precio (ud) </th>
+                <th> Descuento </th>
+            </tr>
+        </thead>
+        <tbody>
+
+        {% set total_order = 0 %}
+        {% for row in cart %}
+        {% set dish = row.dishId|dish %}
+        {% set prize = dish.prize * row.quanty %}
+        <tr>
+            <td> <img style="border:1px solid black" src=" {{  asset('uploads/dish_photo/' ~ dish.photo )|imagine_filter('square') }}" alt="{{ dish.name}}-foto" /></td>
+            <td> <label><b>{{ dish.name }}</b>
+                    <input type="number" value="{{ row.quanty }}" min="1" size="3" pattern="\d*" onKeyDown="if(this.value.length==2) return false;">
+                    <i class="bi bi-x-octagon" style="cursor:pointer;"></i>
+                </label></td>
+            <td> <b>{{ prize }} €</b> </td>
+            <td> <b>{{ row.dto }} %</b> </td>
+        </tr>
+        {% set total_order = total_order + prize - ( prize * row.dto / 100 )%}
+        {% endfor %}
+        <tr><td colspan="4">Total pedido: <b>{{ total_order }}</b> €</td></tr>
+        <tr><td colspan="4">Descuento aplicado: <b>--</b> €</td></tr>
+
+        </tbody>
+        </table>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        alert('this ok');
+    </script>
 {% endblock %}

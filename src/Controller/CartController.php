@@ -21,19 +21,11 @@ class CartController extends AbstractController
 {
     private $em;
     private $session;
+
     public function __construct(EntityManagerInterface $entityManager, SessionInterface $session)
     {
         $this->em = $entityManager;
         $this->session = $session;
-    }
-    /**
-     * @Route("/", name="cart")
-     */
-    public function index(): Response
-    {
-        return $this->render('cart/index.html.twig', [
-            'controller_name' => 'CartController',
-        ]);
     }
 
     /**
@@ -55,24 +47,49 @@ class CartController extends AbstractController
         }
 
         if (!$this->session->has('_cart')) {
-            $cart = new CartDish();
             $tokenIdSession = rtrim(strtr(base64_encode(random_bytes(32)), '+/', '-_'), '=');
-            $cart->setSessionId($tokenIdSession);
             $this->session->set('_cart', $tokenIdSession);
         } else {
             $tokenIdSession = $this->session->get('_cart');
-            $cart = $cartDishRepository
-                ->findOneBy(['sessionId' => $tokenIdSession]);
         }
 
-        $cart->addDish($dish);
-        $quantity = $cart->getQuanty() + 1;
-        $cart->setQuanty($quantity);
+        $cart = $cartDishRepository
+            ->findOneBy(['sessionId' => $tokenIdSession, 'dishId' => $dish->getId()]);
+        if (!$cart) {
+            $cart = new CartDish();
+        }
+
+        $cart->setSessionId($tokenIdSession);
+
+        $quantity = count($cartDishRepository->findBy(['sessionId' => $tokenIdSession]));
+
+        $cart->setDishId($dish->getId());
+        $cart->setQuanty($cart->getQuanty() + 1);
         $cart->setDto(0); // TODO SET RESTJAV-008 HERE FOR PROMOTIONS
 
         $this->em->persist($cart);
         $this->em->flush();
 
-        return new JsonResponse(['error' => false, 'msg'=> 'success', 'code' => 200 ]);
+        return new JsonResponse(['error' => false, 'msg'=> 'success', 'code' => 200 , 'data'  => ['quantity' => $quantity] ]);
+    }
+
+
+    /**
+    * @Route("/" , name="cart" , options={"expose"=true} )
+    * @throws \Exception
+    */
+    public function cart(Request $request, CartDishRepository $cartDishRepository)
+    {
+        $tokenIdSession = $this->session->get('_cart');
+        $cart = $cartDishRepository
+            ->findBy(['sessionId' => $tokenIdSession]);
+
+
+        return $this->render(
+            'cart/index.html.twig',
+            [
+                'cart' => $cart
+            ]
+        );
     }
 }

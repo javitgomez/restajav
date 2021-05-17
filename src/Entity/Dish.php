@@ -74,7 +74,7 @@ class Dish
      * @ORM\Column(type="boolean")
      */
     private $published;
-
+    
     public function __construct()
     {
         $this->aggregate = new ArrayCollection();
