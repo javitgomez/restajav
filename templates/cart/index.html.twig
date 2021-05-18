@@ -79,7 +79,7 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Nuevo pedido realizado</h2>
+                <h2>Mi pedido</h2>
                 <ol>
                     <li><a href="{{ path('user_index') }}">Home</a></li>
                     <li>Cesta de la compra</li>
@@ -91,7 +91,7 @@
 
     <section class="inner-page">
         <div class="container">
-
+        {% if cart is defined and cart is not empty %}
         <table class="table table-light">
         <thead>
             <tr>
@@ -110,8 +110,8 @@
         <tr>
             <td> <img style="border:1px solid black" src=" {{  asset('uploads/dish_photo/' ~ dish.photo )|imagine_filter('square') }}" alt="{{ dish.name}}-foto" /></td>
             <td> <label><b>{{ dish.name }}</b>
-                    <input type="number" value="{{ row.quanty }}" min="1" size="3" pattern="\d*" onKeyDown="if(this.value.length==2) return false;">
-                    <i class="bi bi-x-octagon" style="cursor:pointer;"></i>
+                    <input data-dish-id="{{ dish.id }}" type="number" value="{{ row.quanty }}" min="1" size="3" pattern="\d*" onKeyDown="if(this.value.length==2) return false;">
+                    <a href="{{ path('del_dish_to_cart', {'dishId': dish.id }) }}"><i class="bi bi-x-octagon" style="cursor:pointer;"></i></a>
                 </label></td>
             <td> <b>{{ prize }} €</b> </td>
             <td> <b>{{ row.dto }} %</b> </td>
@@ -123,6 +123,9 @@
 
         </tbody>
         </table>
+        {% else %}
+            <span>Cesta vacía . Ir a <a href="{{ path('user_index') }}">catálogo</a> para comprar</span>
+        {% endif %}
         </div>
     </section>
 
@@ -130,7 +133,19 @@
 {% endblock %}
 
 {% block scripts %}
+    <!--[if gte IE 9]><!-->
+    <script src="{{ asset('back/assets/plugins/jQuery/jquery-2.1.1.min.js') }}"></script>
+    <!-- fos-js-routing -->
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <script>
-        alert('this ok');
+        $(document).ready(function(){
+            $('table input[type="number"]').on('change',function(){
+                let quanty = $(this).val();
+                let dishId = $(this).data('dish-id');
+
+                location.href = Routing.generate('update_dish_to_cart', {'dishId' : dishId , 'quanty': quanty });
+            });
+        })
     </script>
 {% endblock %}
