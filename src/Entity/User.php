@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -64,6 +66,11 @@ class User implements UserInterface
      */
     private $active;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user")
+     */
+    private $orderCustomer;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -72,6 +79,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->setActive(false);
+        $this->orderCustomer = new ArrayCollection();
     }
 
     /**
@@ -204,6 +212,36 @@ class User implements UserInterface
     public function setActive(bool $active): self
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrderCustomer(): Collection
+    {
+        return $this->orderCustomer;
+    }
+
+    public function addOrderCustomer(Order $orderCustomer): self
+    {
+        if (!$this->orderCustomer->contains($orderCustomer)) {
+            $this->orderCustomer[] = $orderCustomer;
+            $orderCustomer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderCustomer(Order $orderCustomer): self
+    {
+        if ($this->orderCustomer->removeElement($orderCustomer)) {
+            // set the owning side to null (unless already changed)
+            if ($orderCustomer->getUser() === $this) {
+                $orderCustomer->setUser(null);
+            }
+        }
 
         return $this;
     }

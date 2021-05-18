@@ -74,63 +74,31 @@
 
 
 {% block main %}
-<main id="main">
-    <section class="breadcrumbs">
-        <div class="container">
+    <main id="main">
+        <section class="breadcrumbs">
+            <div class="container">
 
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Mi pedido</h2>
-                <ol>
-                    <li><a href="{{ path('user_index') }}">Home</a></li>
-                    <li>Cesta de la compra</li>
-                </ol>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Pedido realizado correctamente</h2>
+                    <ol>
+                        <li><a href="{{ path('user_index') }}">Home</a></li>
+                        <li>Cesta de la compra</li>
+                    </ol>
+                </div>
+
             </div>
+        </section>
 
-        </div>
-    </section>
+        <section class="inner-page">
+            <div class="container">
+                <p> Su pedido se ha realizado correctamente, y ya hemos avisado al restaurante.</p>
+                <p> En cuanto tu pedido esté listo, te avisaremos para que un repartido te lo lleve a tu lugar
+                preferido .</p>
+                <img src="{{ asset('front/assets/img/repartidor.png') }}" alt="repartidor-foto">
+            </div>
+        </section>
 
-    <section class="inner-page">
-        <div class="container">
-        {% if cart is defined and cart is not empty %}
-        <table class="table table-light">
-        <thead>
-            <tr>
-                <th> Muestra </th>
-                <th> Plato </th>
-                <th> Precio (ud) </th>
-                <th> Descuento </th>
-            </tr>
-        </thead>
-        <tbody>
-
-        {% set total_order = 0 %}
-        {% for row in cart %}
-        {% set dish = row.dishId|dish %}
-        {% set prize = dish.prize * row.quanty %}
-        <tr>
-            <td> <img style="border:1px solid black" src=" {{  asset('uploads/dish_photo/' ~ dish.photo )|imagine_filter('square') }}" alt="{{ dish.name}}-foto" /></td>
-            <td> <label><b>{{ dish.name }}</b>
-                    <input data-dish-id="{{ dish.id }}" type="number" value="{{ row.quanty }}" min="1" size="3" pattern="\d*" onKeyDown="if(this.value.length==2) return false;">
-                    <a href="{{ path('del_dish_to_cart', {'dishId': dish.id }) }}"><i class="bi bi-x-octagon" style="cursor:pointer;"></i></a>
-                </label></td>
-            <td> <b>{{ prize }} €</b> </td>
-            <td> <b>{{ row.dto }} %</b> </td>
-        </tr>
-        {% set total_order = total_order + prize - ( prize * row.dto / 100 )%}
-        {% endfor %}
-        <tr><td colspan="4">Total pedido: <b>{{ total_order }}</b> €</td></tr>
-        <tr><td colspan="4">Descuento aplicado: <b>--</b> €</td></tr>
-        <tr><td colspan="4"><a href="{{ path('order_create') }}"><button class="btn btn-primary">Ir a Pagar</button></a></td></tr>
-        </tbody>
-        </table>
-
-        {% else %}
-            <span>Cesta vacía . Ir a <a href="{{ path('user_index') }}">catálogo</a> para comprar</span>
-        {% endif %}
-        </div>
-    </section>
-
-</main><!-- End #main -->
+    </main><!-- End #main -->
 {% endblock %}
 
 {% block scripts %}
@@ -141,12 +109,7 @@
     <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
     <script>
         $(document).ready(function(){
-            $('table input[type="number"]').on('change',function(){
-                let quanty = $(this).val();
-                let dishId = $(this).data('dish-id');
 
-                location.href = Routing.generate('update_dish_to_cart', {'dishId' : dishId , 'quanty': quanty });
-            });
         })
     </script>
 {% endblock %}
