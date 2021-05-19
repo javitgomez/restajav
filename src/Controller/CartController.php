@@ -72,7 +72,7 @@ class CartController extends AbstractController
         $this->em->persist($cart);
         $this->em->flush();
 
-        return new JsonResponse(['error' => false, 'msg'=> 'success', 'code' => 200 , 'data'  => ['quantity' => $quantity] ]);
+        return new JsonResponse(['error' => false, 'msg'=> 'success', 'code' => 200 , 'data'  => ['quantity' => $quantity++] ]);
     }
 
     /**

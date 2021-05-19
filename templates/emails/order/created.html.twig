@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <title>Nuevo pedido realizado</title>
+</head>
+<body>
+<div class="main">
+    <p> Gracias {{ user.username }} ! </p>
+    <p> Su pedido se ha realizado correctamente.</p>
+    <h1> Su pedido confirmado a las :  {{ order.createdAt|date }} </h1>
+    <h3> PAGADO : <b>{{ order.total }} €</b></h3>
+    <span>Recibirá otro email cuando el repartidor salga del restaurante. ¡ No se olvide de valorarnos positivamente !</span>
+    <hr>
+    {% set items = order.getItems %}
+    <table style="width: 100%;">
+        <thead>
+            <th></th>
+            <th>Plato</th>
+            <th>Unidades</th>
+            <th>Precio</th>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td style="text-align:center"><img src="{{ asset('uploads/dish_photo/' ~ item.getDish.photo) }}" alt="{{ item.getDish.name }}"></td>
+                <td style="text-align:center">{{ item.getDish.name }}</td>
+                <td style="text-align:center">{{ item.quanty }}</td>
+                <td style="text-align:center">{{ item.getDish.prize }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

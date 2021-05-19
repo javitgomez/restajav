@@ -79,10 +79,9 @@
             <div class="container">
 
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2>Pedido realizado correctamente</h2>
+                    <h2>Oops. ¡ Hubo algún problema al realizar tu pedido !</h2>
                     <ol>
-                        <li><a href="{{ path('user_index') }}">Home</a></li>
-                        <li>Cesta de la compra</li>
+                        <li><a href="{{ path('user_index') }}">Ir a catálogo</a></li>
                     </ol>
                 </div>
 
@@ -93,10 +92,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
-                        <img src="{{ asset('front/assets/img/repartidor.png') }}" alt="repartidor-foto">
+                        <img src="{{ asset('front/assets/img/cry-baby.png') }}" alt="niño-llorando" width="512">
                     </div>
                     <div class="col-lg-6">
-                        {% for flash_message in app.session.flashbag.get('success_order') %}
+                        {% for flash_message in app.session.flashbag.get('fail_order') %}
                             <p class="flash-notice">
                                 {{ flash_message }}
                             </p>
