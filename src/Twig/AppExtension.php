@@ -31,6 +31,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('active', [$this, 'formatActive']),
             new TwigFilter('role', [$this, 'formatRole']),
             new TwigFilter('dish', [$this, 'getDish']),
+            new TwigFilter('state', [$this, 'formatStateOrder']),
         ];
     }
 
@@ -48,6 +49,29 @@ class AppExtension extends AbstractExtension
             $tagImg = str_replace('//', $onButton, $tagImg) ;
         } else {
             $tagImg = str_replace('//', $offButton, $tagImg) ;
+        }
+
+        return $tagImg;
+    }
+
+    /**
+     * @param $status
+     * @return string
+     */
+    public function formatStateOrder($status) : string
+    {
+        $receivedButton = $this->assets->getUrl('back/assets/images/button-blue.png');
+        $canceledButton = $this->assets->getUrl('back/assets/images/button-off-red.png');
+        $finishedButton = $this->assets->getUrl('back/assets/images/button-on-green.png');
+        $preparedButton = $this->assets->getUrl('back/assets/images/button-yellow.png');
+
+        $tagImg = '<img src="//"  alt="//" width="16" title="'.$status.'" />';
+
+        switch ($status) {
+            case 'received': $tagImg = str_replace('//', $receivedButton, $tagImg) ; break;
+            case 'canceled': $tagImg = str_replace('//', $canceledButton, $tagImg) ; break;
+            case 'finished': $tagImg = str_replace('//', $finishedButton, $tagImg) ; break;
+            case 'prepared': $tagImg = str_replace('//', $preparedButton, $tagImg) ; break;
         }
 
         return $tagImg;
