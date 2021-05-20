@@ -53,7 +53,8 @@
         <span>:</span>
         <span>Actualizado : {{ order.updatedAt|date }}</span>
         <div>
-            <h3>Estado <button class="btn btn-info">{{ order.state }}</button></h3>
+            {% set buttonStateClass = order.state|buttonState|raw %}
+            <h3>Estado <button class="btn {{ buttonStateClass }}">{{ order.state }}</button></h3>
         </div>
 
         <table class="table">

@@ -5,7 +5,20 @@
     <th>{{ order.createdAt|date }}</th>
     <th class="hidden-xs">{{ order.total }} &euro;</th>
     <th class="hidden-xs"><a href="{{ path('admin_order_show',{ 'orderId': order.id }) }}"><i class="fa fa-2x fa-eye"></i></a></th>
-    <th class="hidden-xs">pasar a preparado - cancelar</th>
+    <th class="hidden-xs">
+        {% if order.state == 'received' %}
+            <a href="{{ path('order_workflow_pending', { 'id' : order.id }) }}">Recoger</a>
+            <a href="{{ path('order_workflow_canceled', { 'id' : order.id }) }}">Cancelar</a>
+        {% elseif order.state == 'pending' %}
+            <a href="{{ path('order_workflow_on_travel', { 'id' : order.id }) }}">Pendiente</a>
+        {% elseif order.state == 'on_travel' %}
+            <a href="{{ path('order_workflow_delivered', { 'id' : order.id }) }}">En camino</a>
+        {% elseif order.state == 'delivered' %}
+            <span>{{ order.state }}</span>
+        {% else %}
+            <span>{{ order.state }}</span>
+        {% endif %}
+    </th>
     <th></th>
 </tr>
 {% endmacro %}

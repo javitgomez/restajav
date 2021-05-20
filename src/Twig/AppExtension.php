@@ -32,6 +32,7 @@ class AppExtension extends AbstractExtension
             new TwigFilter('role', [$this, 'formatRole']),
             new TwigFilter('dish', [$this, 'getDish']),
             new TwigFilter('state', [$this, 'formatStateOrder']),
+            new TwigFilter('buttonState', [$this, 'formatButtonState']),
         ];
     }
 
@@ -58,20 +59,40 @@ class AppExtension extends AbstractExtension
      * @param $status
      * @return string
      */
+    public function formatButtonState($status) : string
+    {
+        $buttonClass = '';
+        switch ($status) {
+            case 'received': $buttonClass = 'btn-primary'; break;
+            case 'canceled': $buttonClass = 'btn-danger'; break;
+            case 'pending': $buttonClass = 'btn-warning'; break;
+            case 'on_travel': $buttonClass = 'btn-secondary'; break;
+            case 'delivered': $buttonClass = 'btn-success';
+        }
+
+        return $buttonClass;
+    }
+
+    /**
+     * @param $status
+     * @return string
+     */
     public function formatStateOrder($status) : string
     {
-        $receivedButton = $this->assets->getUrl('back/assets/images/button-blue.png');
-        $canceledButton = $this->assets->getUrl('back/assets/images/button-off-red.png');
-        $finishedButton = $this->assets->getUrl('back/assets/images/button-on-green.png');
-        $preparedButton = $this->assets->getUrl('back/assets/images/button-yellow.png');
+        $receivedButton  = $this->assets->getUrl('back/assets/images/button-blue.png');
+        $canceledButton  = $this->assets->getUrl('back/assets/images/button-red.png');
+        $pendingButton   = $this->assets->getUrl('back/assets/images/button-yellow.png');
+        $onTravelButton  = $this->assets->getUrl('back/assets/images/button-orange.png');
+        $deliveredButton = $this->assets->getUrl('back/assets/images/button-green.png');
 
         $tagImg = '<img src="//"  alt="//" width="16" title="'.$status.'" />';
 
         switch ($status) {
             case 'received': $tagImg = str_replace('//', $receivedButton, $tagImg) ; break;
             case 'canceled': $tagImg = str_replace('//', $canceledButton, $tagImg) ; break;
-            case 'finished': $tagImg = str_replace('//', $finishedButton, $tagImg) ; break;
-            case 'prepared': $tagImg = str_replace('//', $preparedButton, $tagImg) ; break;
+            case 'pending': $tagImg = str_replace('//', $pendingButton, $tagImg) ; break;
+            case 'on_travel': $tagImg = str_replace('//', $onTravelButton, $tagImg) ; break;
+            case 'delivered': $tagImg = str_replace('//', $deliveredButton, $tagImg) ; break;
         }
 
         return $tagImg;

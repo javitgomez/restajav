@@ -32,3 +32,29 @@ framework:
                 mark_as_answered:
                     from: 'received'
                     to: 'answered'
+        order:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'state'
+            initial_marking: 'received'
+            places:
+                received: ~
+                canceled: ~
+                pending: ~
+                on_travel: ~
+                delivered: ~
+            supports: App\Entity\Order
+            transitions:
+                mark_as_canceled:
+                    from: 'received'
+                    to: 'canceled'
+                mark_as_pending:
+                    from: 'received'
+                    to: 'pending'
+                mark_as_on_travel:
+                    from: 'pending'
+                    to: 'on_travel'
+                mark_as_delivered:
+                    from: 'on_travel'
+                    to: 'delivered'
