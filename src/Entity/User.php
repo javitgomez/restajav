@@ -70,6 +70,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user")
      */
     private $orderCustomer;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Address::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $address;
     
     public function getId(): ?int
     {
@@ -242,6 +247,28 @@ class User implements UserInterface
                 $orderCustomer->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($address === null && $this->address !== null) {
+            $this->address->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($address !== null && $address->getUser() !== $this) {
+            $address->setUser($this);
+        }
+
+        $this->address = $address;
 
         return $this;
     }
