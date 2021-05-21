@@ -1,7 +1,7 @@
 {% macro print(order) %}
 <tr>
     <th class="center">{{ order.state|state|raw }}</th>
-    <th class="center">{{ order.state }}</th>
+    <th class="center"><button class="btn {{ order.state|buttonState|raw }}">{{ order.state }}</button></th>
     <th>{{ order.createdAt|date }}</th>
     <th class="hidden-xs">{{ order.total }} &euro;</th>
     <th class="hidden-xs"><a href="{{ path('admin_order_show',{ 'orderId': order.id }) }}"><i class="fa fa-2x fa-eye"></i></a></th>
