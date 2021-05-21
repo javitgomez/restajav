@@ -6,6 +6,9 @@ use App\Entity\CartDish;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Events\OrderCreatedEvent;
+use App\Form\CategoryType;
+use App\Form\PaymentType;
+use App\Form\AddressType;
 use App\Repository\CartDishRepository;
 use App\Repository\DishRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,7 +23,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 /**
  * @Route("/cart")
  */
@@ -67,9 +70,6 @@ class CartController extends AbstractController
         }
 
         $cart->setSessionId($tokenIdSession);
-
-
-
         $cart->setDishId($dish->getId());
         $cart->setQuanty($cart->getQuanty() + 1);
         $cart->setDto(0); // TODO SET RESTJAV-008 HERE FOR PROMOTIONS
@@ -174,6 +174,66 @@ class CartController extends AbstractController
 
         return $this->render('order/ko.html.twig', []);
     }
+
+    /**
+     * @Route("/check_address/{id}" , name="check_address")
+     * @ParamConverter("order", class="App\Entity\Order")
+     *
+     * @throws \Exception
+     */
+    public function checkAddress(Request $request, Order $order)
+    {
+        $address = $this->getUser()->getAddress() ?? new App\Entity\Address();
+        $form = $this->createForm(AddressType::class,$address);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            try {
+
+                $address->setUser($this->getUser());
+                $this->em->persist($address);
+                $this->em->flush();
+                return $this->redirectToRoute('order_confirm_ok');
+            } catch (Exception $e) {
+                $this->addFlash('fail_order', $e->getMessage());
+                return $this->redirectToRoute('order_confirm_ko');
+            }
+        }
+
+        return $this->render('order/address.html.twig',[
+            'form' => $form->createView(),
+            'order' => $order
+        ]);
+    }
+
+    /**
+     * @Route("/payment_method/{id}" , name="payment_method")
+     * @ParamConverter("order", class="App\Entity\Order")
+     *
+     * @throws \Exception
+     */
+    public function paymentMethod(Request $request, Order $order): Response
+    {
+        $form = $this->createForm(PaymentType::class, $order);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            try {
+                $this->em->persist($order);
+                $this->em->flush();
+                return $this->redirectToRoute('check_address',['id'=>$order->getId()]);
+            } catch (Exception $e) {
+                $this->addFlash('fail_order', $e->getMessage());
+                return $this->redirectToRoute('order_confirm_ko');
+            }
+        }
+
+        return $this->render('order/payment_method.html.twig',[
+            'form' => $form->createView(),
+            'order' => $order
+        ]);
+    }
+
     /**
      * @Route("/create/" , name="order_create")
      * @throws \Exception
@@ -230,6 +290,6 @@ class CartController extends AbstractController
         $orderCreatedEvent = new OrderCreatedEvent($user, $order);
         $dispatcher->dispatch($orderCreatedEvent, $orderCreatedEvent::ORDER_NEW_CREATED);
 
-        return $this->redirectToRoute('order_confirm_ok');
+        return $this->redirectToRoute('payment_method',['id' => $order->getId()]);
     }
 }
