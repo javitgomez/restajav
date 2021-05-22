@@ -36,5 +36,6 @@ security:
     access_control:
          - { path: ^/orion/reset/password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/orion/change/password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/orion/user/check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/orion, roles: ROLE_ADMIN }
          - { path: ^/profile, roles: ROLE_USER }

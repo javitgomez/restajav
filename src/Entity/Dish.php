@@ -75,11 +75,17 @@ class Dish
      */
     private $published;
 
+    /**
+     * @ORM\OneToMany(targetEntity=OrderItem::class, mappedBy="dish", orphanRemoval=true)
+     */
+    private $orderItem;
+    
     public function __construct()
     {
         $this->aggregate = new ArrayCollection();
         // by defaut all dish is not published
         $this->setPublished(false);
+        $this->orderItem = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -236,6 +242,36 @@ class Dish
     public function setPublished(bool $published): self
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderItem[]
+     */
+    public function getOrderItem(): Collection
+    {
+        return $this->orderItem;
+    }
+
+    public function addOrderItem(OrderItem $orderItem): self
+    {
+        if (!$this->orderItem->contains($orderItem)) {
+            $this->orderItem[] = $orderItem;
+            $orderItem->setDish($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderItem(OrderItem $orderItem): self
+    {
+        if ($this->orderItem->removeElement($orderItem)) {
+            // set the owning side to null (unless already changed)
+            if ($orderItem->getDish() === $this) {
+                $orderItem->setDish(null);
+            }
+        }
 
         return $this;
     }

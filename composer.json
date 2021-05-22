@@ -31,7 +31,7 @@
         "symfony/workflow": "5.2.*",
         "fakerphp/faker": "^1.14",
         "friendsofsymfony/jsrouting-bundle": "^2.7",
-        "liip/imagine-bundle": "^2.6"
+        "liip/imagine-bundle": "^2.6",
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.30",
