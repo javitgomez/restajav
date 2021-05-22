@@ -1,0 +1,82 @@
+{% extends 'back/index.html.twig' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ asset('back/assets/plugins/DataTables/media/css/DT_bootstrap.css') }}">
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
+
+  {% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Ver datos de pedido</h1>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Administración</a></li>
+                <li><a href="{{ path('admin_order_review') }}">Pedidos</a></li>
+                <li class="active">Ver datos de pedido</li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <!-- start: TABLE WITH IMAGES PANEL -->
+    <div class="panel-body panel-white">
+        <h1>Cliente: <a href="{{ path('admin_user_show',  { 'id': order.user.id } ) }}">{{ order.user.email }}</a></h1>
+
+        <span>Registrado : {{ order.createdAt|date }}</span>
+        <span>:</span>
+        <span>Actualizado : {{ order.updatedAt|date }}</span>
+        <div>
+            {% set buttonStateClass = order.state|buttonState|raw %}
+            <h3>Estado <button class="btn {{ buttonStateClass }}">{{ order.state }}</button></h3>
+        </div>
+
+        <table class="table">
+            <thead>
+                <th></th>
+                <th>Nombre plato</th>
+                <th>Cantidad</th>
+                <th>Complementos</th>
+            </thead>
+            <tbody>
+                {% for item in order.getItems %}
+                    {% set dish = item.getDish|dish %}
+                    <td><img src="{{ asset('uploads/dish_photo/' ~ dish.photo)|imagine_filter('square') }}" alt="{{ dish.name }}"></td>
+                    <td>{{ dish.name }}</td>
+                    <td>{{ item.quanty }}</td>
+                    <td> Ver complementos </td>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock  %}
