@@ -183,7 +183,7 @@ class CartController extends AbstractController
      */
     public function checkAddress(Request $request, Order $order)
     {
-        $address = $this->getUser()->getAddress() ?? new App\Entity\Address();
+        $address = $this->getUser()->getAddress() ?? new \App\Entity\Address();
         $form = $this->createForm(AddressType::class,$address);
 
         $form->handleRequest($request);
