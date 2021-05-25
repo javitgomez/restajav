@@ -47,4 +47,18 @@ class DishRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function searchDishByCriteria( string $data )
+    {
+        return $this->createQueryBuilder('d')
+            ->where('d.name LIKE :name')
+            ->orWhere('d.shortDescription LIKE :description')
+            ->setParameters([
+                'name' => '%' . $data . '%',
+                'description' => '%' . $data . '%',
+            ])
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }
