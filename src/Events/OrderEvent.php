@@ -5,9 +5,10 @@ use App\Entity\Order;
 use App\Entity\User;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class OrderCreatedEvent extends Event
+class OrderEvent extends Event
 {
-    const ORDER_NEW_CREATED   = 'order.new';
+    const ORDER_CREATED   = 'order.created';
+    const ORDER_DELIVERED = 'order.delivered';
 
     protected $user;
     protected $order;

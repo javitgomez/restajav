@@ -5,14 +5,13 @@ namespace App\Controller;
 use App\Entity\CartDish;
 use App\Entity\Order;
 use App\Entity\OrderItem;
-use App\Events\OrderCreatedEvent;
+use App\Events\OrderEvent;
 use App\Form\CategoryType;
 use App\Form\PaymentType;
 use App\Form\AddressType;
 use App\Repository\CartDishRepository;
 use App\Repository\DishRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -141,10 +140,11 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("/ok/" , name="order_confirm_ok")
+     * @Route("/ok/{id}" , name="order_confirm_ok")
+     * @ParamConverter("order", class="App\Entity\Order")
      * @throws \Exception
      */
-    public function order_ok(): Response
+    public function order_ok(EventDispatcherInterface $dispatcher ,Order $order): Response
     {
         $tokenIdSession = $this->session->get('_cart');
 
@@ -155,6 +155,10 @@ class CartController extends AbstractController
         $message = 'El pedido se ha realizado correctamente. Recibirá un correo con la confirmación del pedido.';
         $this->addFlash('success_order', $message);
         $this->session->remove('_cart');
+
+        $orderCreatedEvent = new OrderEvent($this->getUser(), $order);
+        $dispatcher->dispatch($orderCreatedEvent, $orderCreatedEvent::ORDER_DELIVERED);
+
 
         return $this->render('order/ok.html.twig', []);
     }
@@ -193,7 +197,7 @@ class CartController extends AbstractController
                 $address->setUser($this->getUser());
                 $this->em->persist($address);
                 $this->em->flush();
-                return $this->redirectToRoute('order_confirm_ok');
+                return $this->redirectToRoute('order_confirm_ok',['id' => $order->getId()]);
             } catch (Exception $e) {
                 $this->addFlash('fail_order', $e->getMessage());
                 return $this->redirectToRoute('order_confirm_ko');
@@ -287,8 +291,8 @@ class CartController extends AbstractController
             return $this->redirectToRoute('order_confirm_ko');
         }
 
-        $orderCreatedEvent = new OrderCreatedEvent($user, $order);
-        $dispatcher->dispatch($orderCreatedEvent, $orderCreatedEvent::ORDER_NEW_CREATED);
+        $orderCreatedEvent = new OrderEvent($user, $order);
+        $dispatcher->dispatch($orderCreatedEvent, $orderCreatedEvent::ORDER_CREATED);
 
         return $this->redirectToRoute('payment_method',['id' => $order->getId()]);
     }

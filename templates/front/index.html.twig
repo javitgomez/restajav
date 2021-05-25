@@ -82,6 +82,7 @@
 {% endblock %}
 
 {% block hero %}
+
 <!-- ======= Hero Section ======= -->
 <section id="hero" class="d-flex align-items-center">
   <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
@@ -609,6 +610,7 @@
 <script src="{{ asset('back/assets/js/izi-modal/js/iziModal.min.js') }}"></script>
 <script>
   $(document).ready(function(){
+
      $('.menu-item button[type="submit"]').on('click', function(){
        let id = $(this).data('dish-id');
 
@@ -641,4 +643,24 @@
      });
   })
 </script>
+{% for message in app.flashes('success_survey') %}
+  <script>
+    $(document).ready(function() {
+      let modal = $("#modal").iziModal({
+        title: '<i class="bi bi-bookmark-check"></i> {{ message }}',
+        subtitle: 'La revisaremos, y será publicada en la portada.',
+        icon: 'icon-power_settings_new',
+        headerColor: '#008926',
+        background: '#008926',
+        width: 600,
+        timeout: 5000,
+        timeoutProgressbar: true,
+        transitionIn: 'fadeInDown',
+        transitionOut: 'fadeOutDown',
+        pauseOnHover: true
+      });
+      modal.iziModal('open');
+    });
+  </script>
+{% endfor %}
 {% endblock %}

@@ -2,7 +2,7 @@
 
 namespace App\EventSubscriber;
 
-use App\Events\OrderCreatedEvent;
+use App\Events\OrderEvent;
 use App\Events\UserRegistrationEvent;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -24,7 +24,7 @@ class OrderSubscriber implements EventSubscriberInterface
         $this->logger = $logger;
     }
 
-    public function onOrderCreated(OrderCreatedEvent $event)
+    public function onOrderCreated(OrderEvent $event)
     {
         $this->logger->info('on Order created');
         $email = (new TemplatedEmail())
@@ -45,10 +45,31 @@ class OrderSubscriber implements EventSubscriberInterface
         }
     }
 
+    public function onOrderDelivered(OrderEvent $event)
+    {
+        $this->logger->info('on Order created');
+        $email = (new TemplatedEmail())
+            ->from('admin@restajav.com')
+            ->to($event->getUser()->getEmail())
+            ->subject('¡Tu ha pedido ha sido entregado!')
+            ->htmlTemplate('emails/survey/index.html.twig')
+            // pass variables (name => value) to the template
+            ->context([
+                'user' => $event->getUser(),
+            ]);
+
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            $this->logger->error($e->getMessage());
+        }
+    }
+
     public static function getSubscribedEvents(): array
     {
         return [
-            OrderCreatedEvent::ORDER_NEW_CREATED => 'onOrderCreated',
+            OrderEvent::ORDER_CREATED   => 'onOrderCreated',
+            OrderEvent::ORDER_DELIVERED => 'onOrderDelivered',
         ];
     }
 }
