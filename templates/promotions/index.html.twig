@@ -1,0 +1,53 @@
+{% extends 'back/index.html.twig' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ asset('back/assets/plugins/DataTables/media/css/DT_bootstrap.css') }}">
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
+
+  {% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Promociones</h1>
+                  <small>ver descuentos aplicados</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Administración</a></li>
+                <li class="active"><a href="{{ path('admin_category') }}">Pedidos</a></li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <h1>PROMOTIONS</h1>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock  %}
