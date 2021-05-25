@@ -1,20 +1,225 @@
-{% extends 'base.html.twig' %}
+{% extends 'front/layout.html.twig' %}
 
-{% block title %}Hello SurveyController!{% endblock %}
-
-{% block body %}
+{% block styles %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    form input{
+        margin:10px;
+        cursor: pointer;
+    }
+    form label{
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    form textarea{
+        display: block;
+        width: 100%;
+        resize: none;
+        margin-top:15px;
+        margin-bottom: 15px;
+    }
+    fieldset.star-rating{
+        margin-bottom:25px;
+    }
+    .star-rating__stars {
+         position: relative;
+         height: 5rem;
+         width: 25rem;
+         background: url('{{ asset('front/img/start-on.png') }}');
+         background-size: 5rem 5rem;
+     }
+
+    .star-rating__label {
+        position: absolute;
+        height: 100%;
+        background-size: 5rem 5rem;
+    }
+
+    .star-rating__input {
+        margin: 0;
+        position: absolute;
+        height: 1px; width: 1px;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+    }
+
+    .star-rating__stars .star-rating__label:nth-of-type(1) {
+        z-index: 5;
+        width: 20%;
+    }
+
+    .star-rating__stars .star-rating__label:nth-of-type(2) {
+        z-index: 4;
+        width: 40%;
+    }
+
+    .star-rating__stars .star-rating__label:nth-of-type(3) {
+        z-index: 3;
+        width: 60%;
+    }
+
+    .star-rating__stars .star-rating__label:nth-of-type(4) {
+        z-index: 2;
+        width: 80%;
+    }
+
+    .star-rating__stars .star-rating__label:nth-of-type(5) {
+        z-index: 1;
+        width: 100%;
+    }
+
+    .star-rating__input:checked + .star-rating__label,
+    .star-rating__input:focus + .star-rating__label,
+    .star-rating__label:hover {
+        background-image: url('{{ asset('front/assets/img/star-on.png') }}');
+    }
+
+    .star-rating__label:hover ~ .star-rating__label {
+        background-image: url('{{ asset('front/assets/img/star-off.png') }}');
+    }
+
+    .star-rating__input:focus ~ .star-rating__focus {
+        position: absolute;
+        top: -.25em;
+        right: -.25em;
+        bottom: -.25em;
+        left: -.25em;
+        outline: 0.25rem solid lightblue;
+    }
 </style>
+{% endblock %}
+{% block top_bar %}
+    <!-- ======= Top Bar ======= -->
+    <div id="topbar" class="d-flex align-items-center fixed-top">
+        <div class="container d-flex justify-content-center justify-content-md-between">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+            <div class="contact-info d-flex align-items-center">
+                <i class="bi bi-phone d-flex align-items-center"><span>+1 5589 55488 55</span></i>
+                <i class="bi bi-clock d-flex align-items-center ms-4"><span> Mon-Sat: 11AM - 23PM</span></i>
+            </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/restaurantly.com/src/Controller/SurveyController.php'|file_link(0) }}">src/Controller/SurveyController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/restaurantly.com/templates/survey/index.html.twig'|file_link(0) }}">templates/survey/index.html.twig</a></code></li>
-    </ul>
-</div>
+            <div class="languages d-none d-md-flex align-items-center">
+                <ul>
+                    <li>En</li>
+                    <li><a href="#">De</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block header %}
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-cente">
+
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+
+            <h1 class="logo me-auto me-lg-0"><a href="index.html">Restaurantly</a></h1>
+
+            <!-- Uncomment below if you prefer to use an image logo -->
+            <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="front/assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+            <nav id="navbar" class="navbar order-last order-lg-0">
+                <ul>
+                    <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                    <li><a class="nav-link scrollto" href="#about">About</a></li>
+                    <li><a class="nav-link scrollto" href="#menu">Menu</a></li>
+                    <li><a class="nav-link scrollto" href="#specials">Specials</a></li>
+                    <li><a class="nav-link scrollto" href="#events">Events</a></li>
+                    <li><a class="nav-link scrollto" href="#chefs">Chefs</a></li>
+                    <li><a class="nav-link scrollto" href="#gallery">Gallery</a></li>
+                    <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a href="#">Drop Down 1</a></li>
+                            <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
+                                <ul>
+                                    <li><a href="#">Deep Drop Down 1</a></li>
+                                    <li><a href="#">Deep Drop Down 2</a></li>
+                                    <li><a href="#">Deep Drop Down 3</a></li>
+                                    <li><a href="#">Deep Drop Down 4</a></li>
+                                    <li><a href="#">Deep Drop Down 5</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Drop Down 2</a></li>
+                            <li><a href="#">Drop Down 3</a></li>
+                            <li><a href="#">Drop Down 4</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+            <a href="#book-a-table" class="book-a-table-btn scrollto d-none d-lg-flex">Book a table</a>
+
+        </div>
+    </header><!-- End Header -->
+{% endblock %}
+
+{% block hero %}
+
+{% endblock %}
+
+
+{% block main %}
+    <main id="main">
+        <section class="breadcrumbs">
+            <div class="container">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Encuesta de satisfacción de cliente</h2>
+                    <ol>
+                        <li><a href="{{ path('user_index') }}">Home</a></li>
+                        <li>Cesta de la compra</li>
+                    </ol>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="inner-page">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">  <div class="mx-auto" style="width:500px;">
+
+                            {{ form_start(form) }}
+                            <fieldset class="star-rating">
+                                <legend class="star-rating__title">Tu nivel de satisfacción:</legend>
+                                <div class="star-rating__stars">
+                                    <input class="star-rating__input" type="radio" name="rating" value="1" id="rating-1" checked />
+                                    <label class="star-rating__label" for="rating-1" aria-label="One"></label>
+                                    <input class="star-rating__input" type="radio" name="rating" value="2" id="rating-2" />
+                                    <label class="star-rating__label" for="rating-2" aria-label="Two"></label>
+                                    <input class="star-rating__input" type="radio" name="rating" value="3" id="rating-3" />
+                                    <label class="star-rating__label" for="rating-3" aria-label="Three"></label>
+                                    <input class="star-rating__input" type="radio" name="rating" value="4" id="rating-4" />
+                                    <label class="star-rating__label" for="rating-4" aria-label="Four"></label>
+                                    <input class="star-rating__input" type="radio" name="rating" value="5" id="rating-5" />
+                                    <label class="star-rating__label" for="rating-5" aria-label="Five"></label>
+                                    <div class="star-rating__focus"></div>
+                                </div>
+                            </fieldset>
+                            {{ form_end(form) }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main><!-- End #main -->
+{% endblock %}
+
+{% block scripts %}
+    <!--[if gte IE 9]><!-->
+    <script src="{{ asset('back/assets/plugins/jQuery/jquery-2.1.1.min.js') }}"></script>
+    <!-- fos-js-routing -->
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.star-rating__input').on('change',function(){
+                let value = $(this).val();
+                $('#survey_form_satisfaction').val(value);
+            });
+        })
+    </script>
 {% endblock %}
