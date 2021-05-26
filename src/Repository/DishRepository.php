@@ -58,6 +58,7 @@ class DishRepository extends ServiceEntityRepository
                 'description' => '%' . $data . '%',
             ])
             ->getQuery()
+            ->setMaxResults(5)
             ->getResult()
             ;
     }

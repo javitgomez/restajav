@@ -2,6 +2,17 @@
 
 {% block styles %}
     <link rel="stylesheet" href="{{ asset('back/assets/plugins/DataTables/media/css/DT_bootstrap.css') }}">
+
+    <style>
+        ul li {
+            cursor: pointer;
+        }
+        ul li:hover {
+            text-decoration: underline;
+            color:darkorange;
+        }
+
+    </style>
 {% endblock %}
 
 {% block header %}
@@ -34,7 +45,7 @@
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li><a href="#">Administración</a></li>
-                <li class="active"><a href="{{ path('admin_category') }}">Pedidos</a></li>
+                <li class="active"><a href="{{ path('admin_category') }}">Promociones</a></li>
             </ol>
         </div>
     </div>
@@ -48,17 +59,104 @@
 <div class="panel-body panel-white">
     <div class="row">
         <div class="col-lg-3">
-            {{ form_start(form) }}
-            {{ form_end(form) }}
-        </div>
-    </div>
-    {% for item in search %}
-    {{ item.name }}
-    {% endfor %}
+            {{ form_start(formDishes) }}
+            {{ form_end(formDishes) }}
 
+            <br>
+            <ul id="searched-items">
+                {% for item in search %}
+                    <li data-id="{{ item.id }}">{{ item.name }}</li>
+                {% endfor %}
+            </ul>
+
+        </div>
+       <div class="col-lg-3">
+           {{ form_start(formCategories) }}
+           {{ form_end(formCategories) }}
+           <br>
+           <label>
+               <span>CÓDIGO DE PROMOCIÓN:</span>
+               <input type="text" class="" style="text-transform: uppercase;font-weight: bold;">
+           </label>
+           <label>
+               <span>DESCUENTO APLICADO (%) :</span>
+               <input type="text" class="" size="2" maxlength="2">
+           </label>
+       </div>
+
+        <div class="col-lg-3">
+
+
+            <label>
+                <span>Promoción válida desde:</span>
+                <input type="text" class="form-control" name="date_from" id="date_from">
+            </label>
+
+
+            <label>
+                <span>Promoción válida hasta:</span>
+                <input type="text" class="form-control" name="date_to" id="date_to">
+            </label>
+
+
+            <button class="btn btn-primary">Guardar promoción</button>
+
+        </div>
+        </div>
+
+        <table class="table">
+            <tr><td>Aquí las promociones activas</td></tr>
+        </table>
+    </div>
 </div>
 {% endblock %}
 
 {% block scripts %}
+    <!--[if gte IE 9]><!-->
+    <script src="{{ asset('back/assets/plugins/jQuery/jquery-2.1.1.min.js') }}"></script>
+    <!-- fos-js-routing -->
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <!-- datepicker -->
+    <script src="{{ asset('back/assets/plugins/datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('ul li').on('click',function(e){
+              let id = $(this).data('id');
+              $('#search_form_dish_criteria').val($(this).text());
+              $('#search_form_dish_criteria').prop({ readOnly: true });
+              $('#searched-items').empty();
+            });
 
+            $("#date_from").datepicker({
+                format: "dd/mm/yyyy",
+                changeMonth: true,
+                changeYear: true,
+                numberOfMonths: 1,
+                showOn: "button",
+                showAnim: "slideDown",
+                dateFormat: "yy-mm-dd",
+
+            });
+            $("#date_to").datepicker({
+                format: "dd/mm/yyyy",
+                changeMonth: true,
+                changeYear: true,
+                numberOfMonths: 1,
+                showOn: "button",
+                showAnim: "slideDown",
+                dateFormat: "yy-mm-dd",
+
+            });
+
+            $('#date_from').on('changeDate', function(ev){
+                $(this).datepicker('hide');
+            });
+
+            $('#date_to').on('changeDate', function(ev){
+                $(this).datepicker('hide');
+            });
+
+        })
+    </script>
 {% endblock  %}

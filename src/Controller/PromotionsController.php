@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\SearchFormDishType;
+use App\Form\SearchCategoryFormType;
 use App\Repository\DishRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,26 +15,29 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PromotionsController extends AbstractController
 {
+
     /**
      * @Route("/", name="admin_promotions" , methods={"GET","POST"})
      *
      */
     public function index(Request $request, DishRepository $dishRepository): Response
     {
-        $form = $this->createForm(SearchFormDishType::class);
-        $form->handleRequest($request);
+        $formDishes = $this->createForm(SearchFormDishType::class);
+        $formDishes->handleRequest($request);
+        $formCategories = $this->createForm(SearchCategoryFormType::class)->createView();
 
-        if($form->isSubmitted() && $form->isValid()){
+        if($formDishes->isSubmitted() && $formDishes->isValid()){
 
-            $data = $form->get('criteria')->getData();
+            $data = $formDishes->get('criteria')->getData();
             $search = $dishRepository->searchDishByCriteria($data);
 
         }
 
         return $this->render('promotions/index.html.twig', [
             'controller_name' => 'PromotionsController',
-            'form' => $form->createView(),
-            'search' => $search ?? []
+            'formDishes' => $formDishes->createView(),
+            'search' => $search ?? [],
+            'formCategories' => $formCategories
         ]);
     }
 }

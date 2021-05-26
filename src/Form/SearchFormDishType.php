@@ -17,7 +17,7 @@ class SearchFormDishType extends AbstractType
             ->add('criteria', TextType::class,[
                 'mapped' => false,
                 'attr' => ['class' => 'form-control','placeholder' => 'Buscar por plato'],
-                'label' => 'Buscador'
+                'label' => 'Selector de platos'
             ]);
         ;
 
