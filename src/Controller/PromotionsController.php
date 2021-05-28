@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\HiddenInputPromotionType;
 use App\Form\SearchFormDishType;
 use App\Form\SearchCategoryFormType;
 use App\Repository\DishRepository;
@@ -23,13 +24,19 @@ class PromotionsController extends AbstractController
     public function index(Request $request, DishRepository $dishRepository): Response
     {
         $formDishes = $this->createForm(SearchFormDishType::class);
-        $formDishes->handleRequest($request);
+
         $formCategories = $this->createForm(SearchCategoryFormType::class)->createView();
+        $formHiddenInputs = $this->createForm(HiddenInputPromotionType::class);
 
+        $formDishes->handleRequest($request);
         if($formDishes->isSubmitted() && $formDishes->isValid()){
-
             $data = $formDishes->get('criteria')->getData();
             $search = $dishRepository->searchDishByCriteria($data);
+        }
+
+        $formHiddenInputs->handleRequest($request);
+        if($formHiddenInputs->isSubmitted() && $formHiddenInputs->isValid()){
+            $data = $formHiddenInputs->getData();
 
         }
 
@@ -37,7 +44,8 @@ class PromotionsController extends AbstractController
             'controller_name' => 'PromotionsController',
             'formDishes' => $formDishes->createView(),
             'search' => $search ?? [],
-            'formCategories' => $formCategories
+            'formCategories' => $formCategories,
+            'formHiddenInputs' => $formHiddenInputs->createView()
         ]);
     }
 }

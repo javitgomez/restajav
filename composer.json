@@ -32,6 +32,7 @@
         "fakerphp/faker": "^1.14",
         "friendsofsymfony/jsrouting-bundle": "^2.7",
         "liip/imagine-bundle": "^2.6",
+        "symfony/apache-pack": "^1.0"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.30",
