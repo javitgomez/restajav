@@ -118,6 +118,9 @@
     <script>
         $(document).ready(function(){
 
+
+
+
             $('#btn-save-promotion').on('click',function(){
 
                 if(!( $('#search_form_dish_criteria').val() != '' ||
@@ -182,10 +185,12 @@
 
             $('#date_from').on('changeDate', function(ev){
                 $(this).datepicker('hide');
+                $('#hidden_input_promotion_begin').val($(this).val());
             });
 
             $('#date_to').on('changeDate', function(ev){
                 $(this).datepicker('hide');
+                $('#hidden_input_promotion_ending').val($(this).val());
             });
 
         })

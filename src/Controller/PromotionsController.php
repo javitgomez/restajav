@@ -36,7 +36,9 @@ class PromotionsController extends AbstractController
 
         $formHiddenInputs->handleRequest($request);
         if($formHiddenInputs->isSubmitted() && $formHiddenInputs->isValid()){
-            $data = $formHiddenInputs->getData();
+            $promotion = $formHiddenInputs->getData();
+
+            $formHiddenInputs = $this->createForm(HiddenInputPromotionType::class);
 
         }
 
