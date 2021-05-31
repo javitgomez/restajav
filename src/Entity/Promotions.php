@@ -37,6 +37,16 @@ class Promotions
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="string", length=5)
+     */
+    private $code;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $dto;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +96,30 @@ class Promotions
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function getDto(): ?int
+    {
+        return $this->dto;
+    }
+
+    public function setDto(int $dto): self
+    {
+        $this->dto = $dto;
 
         return $this;
     }

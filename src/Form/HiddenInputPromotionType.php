@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Promotions;
 use App\Entity\Category;
 use App\Entity\Dish;
+use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,6 +29,8 @@ class HiddenInputPromotionType extends AbstractType
         $builder
             ->add('begin', HiddenType::class)
             ->add('ending',HiddenType::class)
+            ->add('code',HiddenType::class)
+            ->add('dto',HiddenType::class)
             ->add('dish',HiddenType::class)
             ->add('category',HiddenType::class)
             ->addEventListener(
@@ -38,6 +41,9 @@ class HiddenInputPromotionType extends AbstractType
 
     }
 
+    /**
+     * @throws \Exception
+     */
     public function onPreSetData(FormEvent $event): void
     {
         $data = $event->getData();
@@ -45,6 +51,11 @@ class HiddenInputPromotionType extends AbstractType
         $category = $this->em->getRepository(Category::class)->find($data['category']);
         $data['category'] = $category;
         $data['dish'] = $this->em->getRepository(Dish::class)->find($data['dish']);
+
+        $data['code'] = strtoupper($data['code']);
+        $data['begin'] = new DateTime(str_replace('/','-',$data['begin']));
+        $data['ending'] = new DateTime(str_replace('/','-',$data['ending']));
+
         $event->setData($data);
 
     }

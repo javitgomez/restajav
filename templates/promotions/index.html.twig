@@ -98,9 +98,30 @@
 
         </div>
     </div>
-
+    <h1 style="background-color:whitesmoke;color:darkorange;">Promociones Activas</h1>
     <table class="table">
-        <tr><td>Aquí las promociones activas</td></tr>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Código</th>
+                <th>Estado</th>
+                <th>Empieza el:</th>
+                <th>Acaba el:</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for promotion in promotions %}
+            <tr>
+                <td> {{ promotion.id }} </td>
+                <td> <b>{{ promotion.code }}</b> </td>
+                <td> Activado </td>
+                <td> {{ promotion.begin|date }} </td>
+                <td> {{ promotion.ending|date }} </td>
+                <td> Suspender - Ver - Eliminar </td>
+            </tr>
+        {% endfor %}
+        </tbody>
     </table>
     {{ form_start(formHiddenInputs) }}
     {{ form_end(formHiddenInputs) }}
@@ -144,6 +165,8 @@
                     return;
                 }
 
+                $('#hidden_input_promotion_code').val($('#code-promotion').val());
+                $('#hidden_input_promotion_dto').val($('#dto-promotion').val());
 
                 $('form[name="hidden_input_promotion"]').submit();
             });
