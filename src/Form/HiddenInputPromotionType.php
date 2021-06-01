@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Promotions;
+use App\Entity\Promotion;
 use App\Entity\Category;
 use App\Entity\Dish;
 use DateTime;
@@ -62,7 +62,7 @@ class HiddenInputPromotionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Promotions::class,
+            'data_class' => Promotion::class,
         ]);
     }
 }

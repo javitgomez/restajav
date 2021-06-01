@@ -2,22 +2,25 @@
 
 namespace App\Controller;
 
+use App\Entity\Promotion;
 use App\Form\HiddenInputPromotionType;
 use App\Form\SearchFormDishType;
 use App\Form\SearchCategoryFormType;
 use App\Repository\DishRepository;
-use App\Repository\PromotionsRepository;
+use App\Repository\PromotionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\ChoiceList\EntityLoaderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
- * @Route("orion/promotions")
+ * @Route("orion/promotion")
  */
-class PromotionsController extends AbstractController
+class PromotionController extends AbstractController
 {
     private $em;
 
@@ -28,8 +31,12 @@ class PromotionsController extends AbstractController
     /**
      * @Route("/", name="admin_promotions" , methods={"GET","POST"})
      *
+     * @param Request $request
+     * @param DishRepository $dishRepository
+     * @param PromotionRepository $promotionsRepository
+     * @return Response
      */
-    public function index(Request $request, DishRepository $dishRepository , PromotionsRepository $promotionsRepository): Response
+    public function index(Request $request, DishRepository $dishRepository , PromotionRepository $promotionsRepository) : Response
     {
         $formDishes = $this->createForm(SearchFormDishType::class);
 
@@ -45,18 +52,37 @@ class PromotionsController extends AbstractController
         $formHiddenInputs->handleRequest($request);
         if($formHiddenInputs->isSubmitted() && $formHiddenInputs->isValid()){
             $promotion = $formHiddenInputs->getData();
+            $promotion->setStatus(false);
             $this->em->persist($promotion);
             $this->em->flush();
-            $formHiddenInputs = $this->createForm(HiddenInputPromotionType::class);
+
+            $this->redirectToRoute('admin_promotions');
+
+
         }
 
         return $this->render('promotions/index.html.twig', [
-            'controller_name' => 'PromotionsController',
+            'controller_name' => 'PromotionController',
             'formDishes' => $formDishes->createView(),
             'search' => $search ?? [],
             'formCategories' => $formCategories,
             'formHiddenInputs' => $formHiddenInputs->createView(),
             'promotions' => $promotionsRepository->findAll()
         ]);
+    }
+
+    /**
+     * @Route("/activate/{id}", name="admin_promotions_activate")
+     * @ParamConverter("promotion", class="App\Entity\Promotion")
+     */
+    public function activatePromotion(Promotion $promotion) : RedirectResponse
+    {
+        $promotion->setStatus(!($promotion->getStatus()));
+
+        $this->em->persist($promotion);
+        $this->em->flush();
+
+        return $this->redirectToRoute('admin_promotions');
+
     }
 }

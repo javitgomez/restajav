@@ -115,10 +115,17 @@
             <tr>
                 <td> {{ promotion.id }} </td>
                 <td> <b>{{ promotion.code }}</b> </td>
-                <td> Activado </td>
+                <td> {{ promotion.status|active|raw }} </td>
                 <td> {{ promotion.begin|date }} </td>
                 <td> {{ promotion.ending|date }} </td>
-                <td> Suspender - Ver - Eliminar </td>
+                <td>
+                    {% if promotion.status %}
+                        <a href="{{ path('admin_promotions_activate', { 'id': promotion.id } ) }}"><i class="fa fa-2x fa-toggle-off" title="desactivar-promoción"></i></a>
+                    {% else %}
+                        <a href="{{ path('admin_promotions_activate', { 'id': promotion.id } ) }}"><i class="fa fa-2x fa-toggle-on" title="activar-promoción"></i></a>
+                    {% endif %}
+
+                </td>
             </tr>
         {% endfor %}
         </tbody>

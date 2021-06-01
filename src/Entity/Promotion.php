@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\PromotionsRepository;
+use App\Repository\PromotionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PromotionsRepository::class)
+ * @ORM\Entity(repositoryClass=PromotionRepository::class)
+ * @ORM\Table(name="`promotions`")
  */
-class Promotions
+class Promotion
 {
     /**
      * @ORM\Id
@@ -46,6 +47,11 @@ class Promotions
      * @ORM\Column(type="integer")
      */
     private $dto;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $status;
 
     public function getId(): ?int
     {
@@ -120,6 +126,18 @@ class Promotions
     public function setDto(int $dto): self
     {
         $this->dto = $dto;
+
+        return $this;
+    }
+
+    public function getStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
