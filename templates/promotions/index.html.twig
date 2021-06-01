@@ -3,14 +3,17 @@
 {% block styles %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
     <style>
-        ul li {
+        ul#searched-items li {
             cursor: pointer;
         }
-        ul li:hover {
+        ul#searched-items li:hover {
             text-decoration: underline;
             color:darkorange;
         }
-
+        .day
+        {
+            cursor: pointer !important;
+        }
     </style>
 {% endblock %}
 
@@ -25,7 +28,7 @@
     <!-- end: PAGESLIDE LEFT -->
 {% endblock %}
 
-  {% block tool_bar %}
+{% block tool_bar %}
       <!-- start: TOOLBAR -->
       <div class="toolbar row">
           <div class="col-sm-6 hidden-xs">
@@ -78,7 +81,7 @@
            </label>
            <label>
                <span>DESCUENTO APLICADO (%) :</span>
-               <input type="text" class="" size="2" maxlength="2" id="dto-promotion">
+               <input type="text" class="" size="2" maxlength="2" id="dto-promotion" onkeypress="return filterFloat(event,this);">
            </label>
        </div>
 
@@ -98,38 +101,34 @@
 
         </div>
     </div>
-    <h1 style="background-color:whitesmoke;color:darkorange;">Promociones Activas</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Código</th>
-                <th>Estado</th>
-                <th>Empieza el:</th>
-                <th>Acaba el:</th>
-                <th>Opciones</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for promotion in promotions %}
-            <tr>
-                <td> {{ promotion.id }} </td>
-                <td> <b>{{ promotion.code }}</b> </td>
-                <td> {{ promotion.status|active|raw }} </td>
-                <td> {{ promotion.begin|date }} </td>
-                <td> {{ promotion.ending|date }} </td>
-                <td>
-                    {% if promotion.status %}
-                        <a href="{{ path('admin_promotions_activate', { 'id': promotion.id } ) }}"><i class="fa fa-2x fa-toggle-off" title="desactivar-promoción"></i></a>
-                    {% else %}
-                        <a href="{{ path('admin_promotions_activate', { 'id': promotion.id } ) }}"><i class="fa fa-2x fa-toggle-on" title="activar-promoción"></i></a>
-                    {% endif %}
-
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% if promotions is not empty %}
+        <h1 style="background-color:whitesmoke;color:darkorange;">Promociones Activas</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Código</th>
+                    <th>Estado</th>
+                    <th>Empieza el:</th>
+                    <th>Acaba el:</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% import 'macros/private/promotion/promotion.html.twig' as p %}
+            {% for promotion in promotions %}
+                {{ p.print(promotion) }}
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h2>No existen promociones activas</h2>
+    {% endif %}
     {{ form_start(formHiddenInputs) }}
     {{ form_end(formHiddenInputs) }}
 </div>
@@ -224,5 +223,41 @@
             });
 
         })
+
+
+         function filterFloat(evt,input){
+        // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
+        var key = window.Event ? evt.which : evt.keyCode;
+        var chark = String.fromCharCode(key);
+        var tempValue = input.value+chark;
+        if(key >= 48 && key <= 57){
+            if(filter(tempValue)=== false){
+                return false;
+            }else{
+                return true;
+            }
+        }else{
+            if(key == 8 || key == 13 || key == 0) {
+                return true;
+            }else if(key == 46){
+                if(filter(tempValue)=== false){
+                    return false;
+                }else{
+                    return true;
+                }
+            }else{
+                return false;
+            }
+        }
+    }
+    function filter(__val__){
+        var preg = /^([0-9]+\.?[0-9]{0,2})$/;
+        if(preg.test(__val__) === true){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
     </script>
 {% endblock  %}

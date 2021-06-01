@@ -200,7 +200,7 @@ class User implements UserInterface
      */
     public function setUpdatedAt(): void
     {
-        $this->updatedAt =  new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getToken(): ?string

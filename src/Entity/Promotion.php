@@ -58,9 +58,9 @@ class Promotion
         return $this->id;
     }
 
-    public function getBegin(): ?\DateTimeInterface
+    public function getBegin(): string
     {
-        return $this->begin;
+        return $this->begin->format('Y-m-d');
     }
 
     public function setBegin(?\DateTimeInterface $begin): self
@@ -70,9 +70,9 @@ class Promotion
         return $this;
     }
 
-    public function getEnding(): ?\DateTimeInterface
+    public function getEnding(): string
     {
-        return $this->ending;
+        return $this->ending->format('Y-m-d');
     }
 
     public function setEnding(?\DateTimeInterface $ending): self

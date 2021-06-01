@@ -85,4 +85,33 @@ class PromotionController extends AbstractController
         return $this->redirectToRoute('admin_promotions');
 
     }
+
+    /**
+     * @Route("/show/{id}", name="admin_promotions_show")
+     * @ParamConverter("promotion", class="App\Entity\Promotion")
+     */
+    public function showPromotion(Promotion $promotion) : Response
+    {
+        return $this->render('promotions/show.html.twig', [
+            'controller_name' => 'PromotionController',
+            'promotion' => $promotion
+        ]);
+
+    }
+
+    /**
+     * @Route("/delete/{id}", name="admin_promotions_delete")
+     * @ParamConverter("promotion", class="App\Entity\Promotion")
+     */
+    public function deletePromotion(Promotion $promotion) : Response
+    {
+
+        $this->em->remove($promotion);
+        $this->em->flush();
+
+        $this->addFlash('success','Promoción eliminada correctamente');
+
+        return $this->redirectToRoute('admin_promotions');
+
+    }
 }

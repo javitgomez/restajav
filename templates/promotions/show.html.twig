@@ -1,0 +1,83 @@
+{% extends 'back/index.html.twig' %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
+
+{% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Promociones</h1>
+                  <small>ver descuentos aplicados</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Administración</a></li>
+                <li><a href="{{ path('admin_promotions') }}">Promociones</a></li>
+                <li class="active"><a href="javascript:void(0);">Datos de promocion</a></li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="panel-body panel-white">
+    <div class="row">
+        <div class="col-md-12">
+        <h1>Datos de promoción</h1>
+            Empieza el : <b> {{ promotion.begin|date }} </b>
+            Acaba el : <b> {{ promotion.ending|date }} </b>
+        </div>
+        <div class="col-md-12"><hr> 
+            <button class="btn {{ promotion.status|buttonState|raw }}">
+            {% if promotion.status %}
+                Activado
+            {% else %}
+                Suspendida
+                {% endif %}
+            </button>
+        </div>
+        <div class="col-md-12"><hr> 
+            <h4>Código : <b> {{ promotion.code }} </b></h4>
+            <h4>Descuento aplicado : <b> {{ promotion.dto }} %</b></h4>
+        </div>
+        <div class="col-md-12"><hr> 
+           {% if promotion.getDish is not empty %}
+            <h4> Plato : {{ promotion.getDish.name }} </h4>
+           {% elseif promotion.getCategory is not empty %}
+            <h4> Categoria : <b>{{ promotion.getCategory.name }} </b></h4>
+           {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+    
+{% endblock  %}
