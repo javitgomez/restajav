@@ -53,8 +53,21 @@
                 </li>
                 <li><a href="{{ path('admin_book') }}"><i class="fa fa-pencil-square-o"></i> <span class="title"> Reservas Mesa </span> </a></li>
                 <li><a href="{{ path('admin_order_review') }}"><i class="fa fa-history"></i> <span class="title"> Historial Pedidos  </span> </a></li>
-                <li><a href="{{ path('admin_promotions') }}"><i class="fa fa-mercury"></i> <span class="title"> Promociones </span> </a></li>
-                <li><a href="javascript:void(0)"><i class="fa fa-star"></i> <span class="title"> Valoraciones Usuarios - <b>RESTAJAV-008</b>  </span><i class="icon-arrow"></i> </a></li>
+                <li><a href="javascript:void(0)"><i class="fa fa-mercury"></i> <span class="title"> Promociones <i class="icon-arrow"></i> </span></a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="{{ path('admin_promotions_add') }}">
+                                <span class="title"> Nueva promoción </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="layouts_sidebar_not_fixed.html">
+                                <span class="title"><a href="{{ path('admin_promotions') }}"> Promociones activas</a> </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="javascript:void(0)"><i class="fa fa-star"></i> <span class="title"> Valoraciones Usuarios </span><i class="icon-arrow"></i> </a></li>
                 <li><a href="{{ path('admin_gallery') }}"><i class="fa fa-picture-o"></i> <span class="title"> Galeria  </span> </a></li>
                 <li><a href="javascript:void(0)"><i class="fa fa-instagram"></i> <span class="title"> Chefs  </span><i class="icon-arrow"></i> </a></li>
                 <li><a href="{{ path('admin_contact_form') }}"><i class="fa fa-envelope"></i> <span class="title"> Contacto </span> </a></li>

@@ -3,8 +3,8 @@
     <td> {{ promotion.id }} </td>
     <td> <b>{{ promotion.code }}</b> </td>
     <td> {{ promotion.status|active|raw }} </td>
-    <td> {{ promotion.begin }} </td>
-    <td> {{ promotion.ending }} </td>
+    <td> <b>{{ promotion.begin|date }}</b </td>
+    <td> <b>{{ promotion.ending|date }}</b </td>
     <td>
         <div class="visible-md visible-lg hidden-sm hidden-xs">
             <a href="{{ path('admin_promotions_show',  { 'id': promotion.id } ) }}" class="btn btn-xs btn-grey tooltips" data-placement="top" data-original-title="Ver"><i class="fa fa-search"></i></a>

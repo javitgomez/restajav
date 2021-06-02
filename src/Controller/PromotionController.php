@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Promotion;
-use App\Form\HiddenInputPromotionType;
-use App\Form\SearchFormDishType;
-use App\Form\SearchCategoryFormType;
+use App\Form\PromotionType;
 use App\Repository\DishRepository;
 use App\Repository\PromotionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,42 +30,43 @@ class PromotionController extends AbstractController
      * @Route("/", name="admin_promotions" , methods={"GET","POST"})
      *
      * @param Request $request
+     * @param PromotionRepository $promotionsRepository
+     * @return Response
+     */
+    public function index(Request $request, PromotionRepository $promotionsRepository) : Response
+    {
+        return $this->render('promotions/index.html.twig', [
+            'controller_name' => 'PromotionController',
+            'promotions' => $promotionsRepository->findAll()
+        ]);
+    }
+
+    /**
+     * @Route("/add", name="admin_promotions_add" , methods={"GET","POST"})
+     *
+     * @param Request $request
      * @param DishRepository $dishRepository
      * @param PromotionRepository $promotionsRepository
      * @return Response
      */
-    public function index(Request $request, DishRepository $dishRepository , PromotionRepository $promotionsRepository) : Response
+    public function add(Request $request, DishRepository $dishRepository , PromotionRepository $promotionsRepository) : Response
     {
-        $formDishes = $this->createForm(SearchFormDishType::class);
+        $promotion = new Promotion();
+        $form = $this->createForm(PromotionType::class, $promotion);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
 
-        $formCategories = $this->createForm(SearchCategoryFormType::class)->createView();
-        $formHiddenInputs = $this->createForm(HiddenInputPromotionType::class);
-
-        $formDishes->handleRequest($request);
-        if($formDishes->isSubmitted() && $formDishes->isValid()){
-            $data = $formDishes->get('criteria')->getData();
-            $search = $dishRepository->searchDishByCriteria($data);
-        }
-
-        $formHiddenInputs->handleRequest($request);
-        if($formHiddenInputs->isSubmitted() && $formHiddenInputs->isValid()){
-            $promotion = $formHiddenInputs->getData();
             $promotion->setStatus(false);
             $this->em->persist($promotion);
             $this->em->flush();
 
-            $this->redirectToRoute('admin_promotions');
-
+            return $this->redirectToRoute('admin_promotions');
 
         }
-
-        return $this->render('promotions/index.html.twig', [
+        
+        return $this->render('promotions/new.html.twig', [
             'controller_name' => 'PromotionController',
-            'formDishes' => $formDishes->createView(),
-            'search' => $search ?? [],
-            'formCategories' => $formCategories,
-            'formHiddenInputs' => $formHiddenInputs->createView(),
-            'promotions' => $promotionsRepository->findAll()
+            'form' => $form->createView()
         ]);
     }
 
@@ -113,5 +112,20 @@ class PromotionController extends AbstractController
 
         return $this->redirectToRoute('admin_promotions');
 
+    }
+
+     /**
+     * @Route("/getDishByName/{criteria}", name="admin_promotion_find_dish_by_name" , methods={"GET"} , options={"expose"=true} )
+     *
+     * @param Request $request
+     * @param DishRepository $dishRepository
+     * @return Response
+     */
+    public function getDishByName(Request $request, DishRepository $dishRepository, string $criteria ) : Response
+    {
+        $dishes = $dishRepository->searchDishByCriteria($criteria);
+        if(null !== $dishes){
+            return new Response(json_encode($dishes));
+        } else return new Response(json_encode(['no-records']));
     }
 }

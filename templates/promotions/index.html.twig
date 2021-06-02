@@ -14,6 +14,13 @@
         {
             cursor: pointer !important;
         }
+        td.active {
+            background-color: darkorange !important;
+            color: white !important;
+        }
+        .active:hover {
+            color: white !important;
+        }
     </style>
 {% endblock %}
 
@@ -59,48 +66,9 @@
 
 {% block content %}
 <div class="panel-body panel-white">
-
-    <div class="row">
-        <div class="col-lg-3">
-            {{ form_start(formDishes) }}
-            {{ form_end(formDishes) }}
-            <br>
-            <ul id="searched-items">
-                {% for item in search %}
-                    <li data-id="{{ item.id }}">{{ item.name }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        <div class="col-lg-3">
-           {{ form_start(formCategories) }}
-           {{ form_end(formCategories) }}
-           <br>
-           <label>
-               <span>CÓDIGO DE PROMOCIÓN:</span>
-               <input type="text" class="" style="text-transform: uppercase;font-weight: bold;" id="code-promotion">
-           </label>
-           <label>
-               <span>DESCUENTO APLICADO (%) :</span>
-               <input type="text" class="" size="2" maxlength="2" id="dto-promotion" onkeypress="return filterFloat(event,this);">
-           </label>
-       </div>
-
-        <div class="col-lg-3">
-
-            <label>
-                <span>Promoción válida desde:</span>
-                <input type="text" class="form-control" name="date_from" id="date_from">
-            </label>
-
-            <label>
-                <span>Promoción válida hasta:</span>
-                <input type="text" class="form-control" name="date_to" id="date_to">
-            </label>
-
-            <button class="btn btn-primary" id="btn-save-promotion">Guardar promoción</button>
-
-        </div>
-    </div>
+    <a href="{{ path('admin_promotions_add') }}">
+        <button class="btn btn-primary mb-5">Nueva Promocion</button>
+    </a><br>
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">
             {{ message }}
@@ -108,6 +76,7 @@
     {% endfor %}
     {% if promotions is not empty %}
         <h1 style="background-color:whitesmoke;color:darkorange;">Promociones Activas</h1>
+
         <table class="table">
             <thead>
                 <tr>
@@ -129,135 +98,10 @@
     {% else %}
         <h2>No existen promociones activas</h2>
     {% endif %}
-    {{ form_start(formHiddenInputs) }}
-    {{ form_end(formHiddenInputs) }}
+
 </div>
 {% endblock %}
 
 {% block scripts %}
-    <!-- jquery-confirm -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
-    <!-- fos-js-routing -->
-    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-    <!-- datepicker -->
-    <script src="{{ asset('back/assets/plugins/datepicker/js/bootstrap-datepicker.js') }}"></script>
-    <script>
-        $(document).ready(function(){
-
-
-
-
-            $('#btn-save-promotion').on('click',function(){
-
-                if(!( $('#search_form_dish_criteria').val() != '' ||
-                    $('#search_category_form_categories').val() != -1 )){
-
-                    $.dialog({
-                        title: 'No se puede guardar la promoción',
-                        content: 'Necesita un plato o categoria por defecto',
-                    });
-
-                    return;
-                }
-
-                if(!( $('#code-promotion').val() != '' ||
-                    $('#dto-promotion').val() != '' )){
-
-                    $.dialog({
-                        title: 'No se puede guardar la promoción',
-                        content: 'Necesita código de promoción y un descuento aplicado',
-                    });
-                    return;
-                }
-
-                $('#hidden_input_promotion_code').val($('#code-promotion').val());
-                $('#hidden_input_promotion_dto').val($('#dto-promotion').val());
-
-                $('form[name="hidden_input_promotion"]').submit();
-            });
-
-            $('select#search_category_form_categories').on('change',function(){
-                let categoryid = $(this).val();
-                $('#hidden_input_promotion_category').val(categoryid);
-            });
-
-            $('ul#searched-items li').on('click',function(e){
-                let dishid = $(this).data('id');
-                $('#hidden_input_promotion_dish').val(dishid);
-                let criteria = $('#search_form_dish_criteria');
-                criteria.val($(this).text());
-                criteria.prop({ readOnly: true });
-                $('#searched-items').empty();
-            });
-
-            $("#date_from").datepicker({
-                format: "dd/mm/yyyy",
-                changeMonth: true,
-                changeYear: true,
-                numberOfMonths: 1,
-                showOn: "button",
-                showAnim: "slideDown",
-                dateFormat: "yy-mm-dd",
-
-            });
-            $("#date_to").datepicker({
-                format: "dd/mm/yyyy",
-                changeMonth: true,
-                changeYear: true,
-                numberOfMonths: 1,
-                showOn: "button",
-                showAnim: "slideDown",
-                dateFormat: "yy-mm-dd",
-
-            });
-
-            $('#date_from').on('changeDate', function(ev){
-                $(this).datepicker('hide');
-                $('#hidden_input_promotion_begin').val($(this).val());
-            });
-
-            $('#date_to').on('changeDate', function(ev){
-                $(this).datepicker('hide');
-                $('#hidden_input_promotion_ending').val($(this).val());
-            });
-
-        })
-
-
-         function filterFloat(evt,input){
-        // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
-        var key = window.Event ? evt.which : evt.keyCode;
-        var chark = String.fromCharCode(key);
-        var tempValue = input.value+chark;
-        if(key >= 48 && key <= 57){
-            if(filter(tempValue)=== false){
-                return false;
-            }else{
-                return true;
-            }
-        }else{
-            if(key == 8 || key == 13 || key == 0) {
-                return true;
-            }else if(key == 46){
-                if(filter(tempValue)=== false){
-                    return false;
-                }else{
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-    }
-    function filter(__val__){
-        var preg = /^([0-9]+\.?[0-9]{0,2})$/;
-        if(preg.test(__val__) === true){
-            return true;
-        }else{
-            return false;
-        }
-
-    }
-    </script>
+  
 {% endblock  %}
