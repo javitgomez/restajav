@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Dish;
 use App\Entity\Promotion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,5 +18,27 @@ class PromotionRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Promotion::class);
+    }
+
+    public function findActivePromotion(Dish $dish)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p.dto')
+            ->where('p.status = :status')
+            ->andWhere('p.begin <= :date')
+            ->andWhere('p.ending >= :date')
+            ->andWhere('p.dish = :dish OR p.category = :category')
+            ->setParameters(
+                [
+                    'status'=> 1,
+                    'date'=> new \DateTime('now') ,
+                    'dish'=> $dish,
+                    'category' => $dish->getCategory()
+                ])
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getArrayResult()
+        ;
     }
 }
