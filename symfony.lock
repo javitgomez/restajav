@@ -279,6 +279,9 @@
             "src/Kernel.php"
         ]
     },
+    "symfony/http-client": {
+        "version": "v5.2.10"
+    },
     "symfony/http-client-contracts": {
         "version": "v2.3.1"
     },
@@ -412,6 +415,24 @@
     },
     "symfony/security-http": {
         "version": "v5.2.6"
+    },
+    "symfony/sendgrid-mailer": {
+        "version": "4.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.4",
+            "ref": "b46e4f8f1adb2864f0aa9c0ff57aea3324a07199"
+        }
+    },
+    "symfony/sendinblue-mailer": {
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "ae1cf494ce06b9a4578a8445c610402a1676ee8d"
+        }
     },
     "symfony/serializer": {
         "version": "v5.2.7"

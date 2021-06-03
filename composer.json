@@ -33,7 +33,10 @@
         "friendsofsymfony/jsrouting-bundle": "^2.7",
         "liip/imagine-bundle": "^2.6",
         "symfony/apache-pack": "^1.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "symfony/sendgrid-mailer": "5.2.*",
+        "symfony/sendinblue-mailer": "5.2.*",
+        "symfony/http-client": "5.2.*"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.30",
