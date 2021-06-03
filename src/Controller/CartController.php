@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\CartDish;
+use App\Entity\Dish;
 use App\Entity\Order;
 use App\Entity\OrderItem;
+use App\Entity\Promotion;
 use App\Events\OrderEvent;
 use App\Form\CategoryType;
 use App\Form\PaymentType;
@@ -71,13 +73,30 @@ class CartController extends AbstractController
         $cart->setSessionId($tokenIdSession);
         $cart->setDishId($dish->getId());
         $cart->setQuanty($cart->getQuanty() + 1);
-        $cart->setDto(0); // TODO SET RESTJAV-008 HERE FOR PROMOTIONS
+        $dtoToApply = $this->findDtoToApply($dish);
+        $cart->setDto($dtoToApply['dto'] ?? 0);
 
         $this->em->persist($cart);
         $this->em->flush();
         $quantity = $cartDishRepository->count(['sessionId' => $tokenIdSession]);
 
         return new JsonResponse(['error' => false, 'msg'=> 'success', 'code' => 200 , 'data'  => ['quantity' => $quantity] ]);
+    }
+
+    /**
+     * @param Dish $dish
+     * @return int
+     */
+    private function findDtoToApply(Dish $dish) : array {
+
+        $promotions = $this->em
+            ->getRepository(Promotion::class)
+            ->findActivePromotion($dish);
+
+        if(!empty($promotions)){
+           return array_pop($promotions);
+        }
+        return [];
     }
 
     /**

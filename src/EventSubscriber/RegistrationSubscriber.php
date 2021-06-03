@@ -9,6 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 
 class RegistrationSubscriber implements EventSubscriberInterface
 {
@@ -34,7 +35,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
     {
         $this->logger->info('onUserRegistration entered');
         $email = (new TemplatedEmail())
-            ->from('admin@restajav.com')
+            ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))
             ->to($event->getUser()->getEmail())
             ->subject('Your account in RestaJav has been created')
             ->htmlTemplate('emails/user/registration/signup.html.twig')
@@ -54,7 +55,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
     {
         $this->logger->info('onUserConfirmedEmail entered');
         $email = (new TemplatedEmail())
-            ->from('admin@restajav.com')
+            ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))
             ->to($event->getUser()->getEmail())
             ->subject('Email Account confirmed!')
             ->htmlTemplate('emails/user/registration/confirmed.html.twig')
@@ -74,7 +75,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
     {
         $this->logger->info('onUserResetPassword entered');
         $email = (new TemplatedEmail())
-            ->from('admin@restajav.com')
+            ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))
             ->to($event->getUser()->getEmail())
             ->subject('Reset Password confirmed!')
             ->htmlTemplate('emails/user/reset/linkAccess.html.twig')
