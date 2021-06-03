@@ -37,7 +37,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
         $email = (new TemplatedEmail())
             ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))
             ->to($event->getUser()->getEmail())
-            ->subject('Your account in RestaJav has been created')
+            ->subject('Su cuenta de usuario ha sido creada')
             ->htmlTemplate('emails/user/registration/signup.html.twig')
             // pass variables (name => value) to the template
             ->context([
@@ -57,7 +57,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
         $email = (new TemplatedEmail())
             ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))
             ->to($event->getUser()->getEmail())
-            ->subject('Email Account confirmed!')
+            ->subject('Su email de usuario ha sido confirmado')
             ->htmlTemplate('emails/user/registration/confirmed.html.twig')
             // pass variables (name => value) to the template
             ->context([
@@ -77,7 +77,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
         $email = (new TemplatedEmail())
             ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))
             ->to($event->getUser()->getEmail())
-            ->subject('Reset Password confirmed!')
+            ->subject('Solicitud de cambio de contraseña')
             ->htmlTemplate('emails/user/reset/linkAccess.html.twig')
             // pass variables (name => value) to the template
             ->context([

@@ -92,9 +92,9 @@ class UserController extends AbstractController
             $userRegistrationEvent = new UserRegistrationEvent($user);
             $dispatcher->dispatch($userRegistrationEvent, $userRegistrationEvent::RESET_PASS_MAIL);
 
-            return $this->render('user/reset_sended_email.html.twig', [
-                    'form' => $form->createView(),
-                ]);
+            $this->addFlash('success_reset', 'Su solicitud de cambio de contraseña se ha procesado correctamente');
+
+            return $this->redirectToRoute('user_index');
         }
 
         return $this->render('user/reset.html.twig', [

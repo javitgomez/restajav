@@ -160,6 +160,8 @@ class HomeController extends AbstractController
             $userRegistrationEvent = new UserRegistrationEvent($user);
             $dispatcher->dispatch($userRegistrationEvent, $userRegistrationEvent::USER_NEW_SIGNUP);
 
+            $this->addFlash('success_register', 'Su cuenta de usuario ha sido creada correctamente');
+
             return $this->redirectToRoute('user_index');
         }
 

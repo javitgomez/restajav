@@ -1,0 +1,31 @@
+[1mdiff --git a/src/EventSubscriber/RegistrationSubscriber.php b/src/EventSubscriber/RegistrationSubscriber.php[m
+[1mindex 67806f0..2d9ac64 100644[m
+[1m--- a/src/EventSubscriber/RegistrationSubscriber.php[m
+[1m+++ b/src/EventSubscriber/RegistrationSubscriber.php[m
+[36m@@ -37,7 +37,7 @@[m [mclass RegistrationSubscriber implements EventSubscriberInterface[m
+         $email = (new TemplatedEmail())[m
+             ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))[m
+             ->to($event->getUser()->getEmail())[m
+[31m-            ->subject('Your account in RestaJav has been created')[m
+[32m+[m[32m            ->subject('Su cuenta de usuario ha sido creada')[m
+             ->htmlTemplate('emails/user/registration/signup.html.twig')[m
+             // pass variables (name => value) to the template[m
+             ->context([[m
+[36m@@ -57,7 +57,7 @@[m [mclass RegistrationSubscriber implements EventSubscriberInterface[m
+         $email = (new TemplatedEmail())[m
+             ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))[m
+             ->to($event->getUser()->getEmail())[m
+[31m-            ->subject('Email Account confirmed!')[m
+[32m+[m[32m            ->subject('Su email de usuario ha sido confirmado')[m
+             ->htmlTemplate('emails/user/registration/confirmed.html.twig')[m
+             // pass variables (name => value) to the template[m
+             ->context([[m
+[36m@@ -77,7 +77,7 @@[m [mclass RegistrationSubscriber implements EventSubscriberInterface[m
+         $email = (new TemplatedEmail())[m
+             ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))[m
+             ->to($event->getUser()->getEmail())[m
+[31m-            ->subject('Reset Password confirmed!')[m
+[32m+[m[32m            ->subject('Se ha cambiado la contraseña correctamente')[m
+             ->htmlTemplate('emails/user/reset/linkAccess.html.twig')[m
+             // pass variables (name => value) to the template[m
+             ->context([[m

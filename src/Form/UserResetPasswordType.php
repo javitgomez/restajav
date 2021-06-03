@@ -27,7 +27,8 @@ class UserResetPasswordType extends AbstractType
         }
 
         $builder->add('save', SubmitType::class, [
-            'attr' => ['class' => 'save'],
+            'attr' => ['class' => 'btn btn-secundary'],
+            'label' => 'Enviar enlace'
         ]);
     }
 
