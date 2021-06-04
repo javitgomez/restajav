@@ -15,6 +15,7 @@ use App\Repository\EventRepository;
 use App\Repository\ImageRepository;
 use App\Repository\TestimonialRepository;
 use App\Repository\UserRepository;
+use App\Repository\CustomManagerRepository;
 use App\Tools\StaticFunctions;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,13 +45,15 @@ class HomeController extends AbstractController
      * @param ImageRepository $imageRepository
      * @param TestimonialRepository $testimonialRepository
      * @param CategoryRepository $categoryRepository
+     * @param CustomManagerRepository $customManagerRepository
      * @return Response
      */
     public function index(
         EventRepository $eventRepository,
         ImageRepository $imageRepository,
         TestimonialRepository $testimonialRepository,
-        CategoryRepository $categoryRepository
+        CategoryRepository $categoryRepository,
+        CustomManagerRepository $customManagerRepository
     ): Response {
         $images = $imageRepository->findAll();
         $testimonials = $testimonialRepository->findBy(["published" => true ]);
@@ -61,8 +64,8 @@ class HomeController extends AbstractController
             'events' => $eventRepository->findAll(),
             'images' => $images,
             'testimonials' => $testimonials,
-            'categories' => $categories
-             
+            'categories' => $categories,
+            'customManager' => $customManagerRepository->find(1)
         ]);
     }
 

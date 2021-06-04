@@ -34,7 +34,8 @@ class PromotionRepository extends ServiceEntityRepository
                     'date'=> new \DateTime('now') ,
                     'dish'=> $dish,
                     'category' => $dish->getCategory()
-                ])
+                ]
+            )
             ->orderBy('p.id', 'ASC')
             ->setMaxResults(1)
             ->getQuery()

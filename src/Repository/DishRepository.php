@@ -19,7 +19,7 @@ class DishRepository extends ServiceEntityRepository
         parent::__construct($registry, Dish::class);
     }
 
-    public function searchDishByCriteria( string $data )
+    public function searchDishByCriteria(string $data)
     {
         return $this->createQueryBuilder('d')
             ->select('d.id,d.name,d.photo')

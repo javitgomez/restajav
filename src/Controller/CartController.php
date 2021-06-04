@@ -25,6 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
 /**
  * @Route("/cart")
  */
@@ -87,14 +88,14 @@ class CartController extends AbstractController
      * @param Dish $dish
      * @return int
      */
-    private function findDtoToApply(Dish $dish) : array {
-
+    private function findDtoToApply(Dish $dish) : array
+    {
         $promotions = $this->em
             ->getRepository(Promotion::class)
             ->findActivePromotion($dish);
 
-        if(!empty($promotions)){
-           return array_pop($promotions);
+        if (!empty($promotions)) {
+            return array_pop($promotions);
         }
         return [];
     }
@@ -163,7 +164,7 @@ class CartController extends AbstractController
      * @ParamConverter("order", class="App\Entity\Order")
      * @throws \Exception
      */
-    public function order_ok(EventDispatcherInterface $dispatcher ,Order $order): Response
+    public function order_ok(EventDispatcherInterface $dispatcher, Order $order): Response
     {
         $tokenIdSession = $this->session->get('_cart');
 
@@ -207,23 +208,22 @@ class CartController extends AbstractController
     public function checkAddress(Request $request, Order $order)
     {
         $address = $this->getUser()->getAddress() ?? new \App\Entity\Address();
-        $form = $this->createForm(AddressType::class,$address);
+        $form = $this->createForm(AddressType::class, $address);
 
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
-
                 $address->setUser($this->getUser());
                 $this->em->persist($address);
                 $this->em->flush();
-                return $this->redirectToRoute('order_confirm_ok',['id' => $order->getId()]);
+                return $this->redirectToRoute('order_confirm_ok', ['id' => $order->getId()]);
             } catch (Exception $e) {
                 $this->addFlash('fail_order', $e->getMessage());
                 return $this->redirectToRoute('order_confirm_ko');
             }
         }
 
-        return $this->render('order/address.html.twig',[
+        return $this->render('order/address.html.twig', [
             'form' => $form->createView(),
             'order' => $order
         ]);
@@ -240,18 +240,18 @@ class CartController extends AbstractController
         $form = $this->createForm(PaymentType::class, $order);
 
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->em->persist($order);
                 $this->em->flush();
-                return $this->redirectToRoute('check_address',['id'=>$order->getId()]);
+                return $this->redirectToRoute('check_address', ['id'=>$order->getId()]);
             } catch (Exception $e) {
                 $this->addFlash('fail_order', $e->getMessage());
                 return $this->redirectToRoute('order_confirm_ko');
             }
         }
 
-        return $this->render('order/payment_method.html.twig',[
+        return $this->render('order/payment_method.html.twig', [
             'form' => $form->createView(),
             'order' => $order
         ]);
@@ -313,6 +313,6 @@ class CartController extends AbstractController
         $orderCreatedEvent = new OrderEvent($user, $order);
         $dispatcher->dispatch($orderCreatedEvent, $orderCreatedEvent::ORDER_CREATED);
 
-        return $this->redirectToRoute('payment_method',['id' => $order->getId()]);
+        return $this->redirectToRoute('payment_method', ['id' => $order->getId()]);
     }
 }

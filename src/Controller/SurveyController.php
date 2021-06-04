@@ -24,7 +24,8 @@ class SurveyController extends AbstractController
 
     private $urlGenerator;
 
-    public function __construct(EntityManagerInterface $entityManager,UrlGeneratorInterface $urlGenerator){
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator)
+    {
         $this->em = $entityManager;
         $this->urlGenerator = $urlGenerator;
     }
@@ -39,8 +40,7 @@ class SurveyController extends AbstractController
         $form = $this->createForm(SurveyFormType::class, $survey);
 
         $form->handleRequest($request);
-        if($form->isSubmitted() and $form->isValid())
-        {
+        if ($form->isSubmitted() and $form->isValid()) {
             /** @var User $user */
             $user = $this->getUser();
             $survey->setUser($user);
@@ -52,12 +52,8 @@ class SurveyController extends AbstractController
             return $this->redirect($toRoute);
         }
 
-        return $this->render('survey/index.html.twig',[
+        return $this->render('survey/index.html.twig', [
             'form' => $form->createView()
         ]);
-
     }
-
-
-
 }

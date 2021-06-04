@@ -28,8 +28,8 @@ class SurveyFormType extends AbstractType
                 'label' => 'Valoración del servicio:',
                 'expanded' => true,
             ))
-            ->add('satisfaction', HiddenType::class,['attr'=>['value'=>1]])
-            ->add('comment', TextareaType::class,[
+            ->add('satisfaction', HiddenType::class, ['attr'=>['value'=>1]])
+            ->add('comment', TextareaType::class, [
                 'label' => 'Algunos comentarios (aparecerán publicados en portada):'
             ])
         ;

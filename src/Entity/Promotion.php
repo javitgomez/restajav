@@ -61,7 +61,6 @@ class Promotion
     public function getBegin(): ?\DateTimeInterface
     {
         return $this->begin;
-
     }
 
     public function setBegin(?\DateTimeInterface $begin): self
@@ -73,8 +72,7 @@ class Promotion
 
     public function getEnding(): ?\DateTimeInterface
     {
-       return $this->ending;
-      
+        return $this->ending;
     }
 
     public function setEnding(?\DateTimeInterface $ending): self

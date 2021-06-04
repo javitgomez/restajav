@@ -32,46 +32,46 @@ class PromotionType extends AbstractType
             ->getRepository(Category::class)
             ->getAllCategories();
 
-        foreach ($categories as $k => $category){
+        foreach ($categories as $k => $category) {
             $categories[$category['name']] = $category['id'];
             unset($categories[$k]);
         }
 
         $builder
-            ->add('dish_ghost', TextType::class,[
+            ->add('dish_ghost', TextType::class, [
                 'label' => 'Plato',
                 'attr' => ['class' => 'form-control'],
                 'required' => false,
                 'mapped'=> false
             ])
             ->add('dish', HiddenType::class)
-            ->add('category', ChoiceType::class,[
-                'choices' => array_merge(['Sin categoria'=>-1],$categories),
+            ->add('category', ChoiceType::class, [
+                'choices' => array_merge(['Sin categoria'=>-1], $categories),
                 'label' => 'Selector de categorias',
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('code',TextType::class, [
+            ->add('code', TextType::class, [
                 'label' => 'Código de descuento',
                 'attr' => [
                     'class' => 'form-control',
                     'style' => 'text-transform: uppercase;font-weight:bold',
                 ]
             ])
-            ->add('dto',TextType::class,[
+            ->add('dto', TextType::class, [
                 'label' => 'Descuento aplicado',
                 'attr' => [
                     'class' => 'form-control',
                     'onkeypress' => "return filterFloat(event,this);"
                 ]
             ])
-            ->add('begin',TextType::class,[
+            ->add('begin', TextType::class, [
                 'label' => 'Inicio de promoción',
                 'attr' => ['class' => 'form-control']
             ])
-            ->add('ending',TextType::class,[
+            ->add('ending', TextType::class, [
                 'label' => 'Fin promoción',
                 'attr' => ['class' => 'form-control']
-            ])  
+            ])
             ->add('save', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary', 'style' => 'margin-top:15px;width:270px'],
                 'label' => 'Guardar promoción'
@@ -82,38 +82,36 @@ class PromotionType extends AbstractType
             );
 
 
-            $builder->get('category')
+        $builder->get('category')
             ->addModelTransformer(new CallbackTransformer(
-            function ($categoryAsEntity) {
-                if(null !== $categoryAsEntity){
+                function ($categoryAsEntity) {
+                if (null !== $categoryAsEntity) {
                     return $categoryAsEntity->getId();
                 }
             },
-            function ($categoryAsString) {
-                if(null !== $categoryAsString) {
+                function ($categoryAsString) {
+                if (null !== $categoryAsString) {
                     return $this->em
                         ->getRepository(Category::class)
                         ->find(intval($categoryAsString));
                 }
-
             }
             ))
             ;
 
-            $builder->get('dish')
+        $builder->get('dish')
             ->addModelTransformer(new CallbackTransformer(
                 function ($dishAsEntity) {
-                    if(null !== $dishAsEntity){
+                    if (null !== $dishAsEntity) {
                         return $dishAsEntity->getId();
                     }
                 },
                 function ($dishAsString) {
-                    if(null !== $dishAsString) {
+                    if (null !== $dishAsString) {
                         return $this->em
                             ->getRepository(Dish::class)
                             ->find(intval($dishAsString));
                     }
-
                 }
             ))
             ;
@@ -130,7 +128,6 @@ class PromotionType extends AbstractType
         $data['ending'] = new \DateTime($data['ending'] ?? date('d/m/YYYY'));
 
         $event->setData($data);
-
     }
 
     public function configureOptions(OptionsResolver $resolver)

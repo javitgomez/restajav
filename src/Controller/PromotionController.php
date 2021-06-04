@@ -22,7 +22,8 @@ class PromotionController extends AbstractController
 {
     private $em;
 
-    public function __construct(EntityManagerInterface $entityManager){
+    public function __construct(EntityManagerInterface $entityManager)
+    {
         $this->em = $entityManager ;
     }
 
@@ -49,19 +50,17 @@ class PromotionController extends AbstractController
      * @param PromotionRepository $promotionsRepository
      * @return Response
      */
-    public function add(Request $request, DishRepository $dishRepository , PromotionRepository $promotionsRepository) : Response
+    public function add(Request $request, DishRepository $dishRepository, PromotionRepository $promotionsRepository) : Response
     {
         $promotion = new Promotion();
         $form = $this->createForm(PromotionType::class, $promotion);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-
+        if ($form->isSubmitted() && $form->isValid()) {
             $promotion->setStatus(false);
             $this->em->persist($promotion);
             $this->em->flush();
 
             return $this->redirectToRoute('admin_promotions');
-
         }
         
         return $this->render('promotions/new.html.twig', [
@@ -82,7 +81,6 @@ class PromotionController extends AbstractController
         $this->em->flush();
 
         return $this->redirectToRoute('admin_promotions');
-
     }
 
     /**
@@ -95,7 +93,6 @@ class PromotionController extends AbstractController
             'controller_name' => 'PromotionController',
             'promotion' => $promotion
         ]);
-
     }
 
     /**
@@ -104,28 +101,28 @@ class PromotionController extends AbstractController
      */
     public function deletePromotion(Promotion $promotion) : Response
     {
-
         $this->em->remove($promotion);
         $this->em->flush();
 
-        $this->addFlash('success','Promoción eliminada correctamente');
+        $this->addFlash('success', 'Promoción eliminada correctamente');
 
         return $this->redirectToRoute('admin_promotions');
-
     }
 
-     /**
-     * @Route("/getDishByName/{criteria}", name="admin_promotion_find_dish_by_name" , methods={"GET"} , options={"expose"=true} )
-     *
-     * @param Request $request
-     * @param DishRepository $dishRepository
-     * @return Response
-     */
-    public function getDishByName(Request $request, DishRepository $dishRepository, string $criteria ) : Response
+    /**
+    * @Route("/getDishByName/{criteria}", name="admin_promotion_find_dish_by_name" , methods={"GET"} , options={"expose"=true} )
+    *
+    * @param Request $request
+    * @param DishRepository $dishRepository
+    * @return Response
+    */
+    public function getDishByName(Request $request, DishRepository $dishRepository, string $criteria) : Response
     {
         $dishes = $dishRepository->searchDishByCriteria($criteria);
-        if(null !== $dishes){
+        if (null !== $dishes) {
             return new Response(json_encode($dishes));
-        } else return new Response(json_encode(['no-records']));
+        } else {
+            return new Response(json_encode(['no-records']));
+        }
     }
 }

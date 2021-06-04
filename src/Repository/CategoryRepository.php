@@ -28,6 +28,5 @@ class CategoryRepository extends ServiceEntityRepository
              ->select('c.id,c.name')
             ->getQuery()
             ->getArrayResult();
-
     }
 }
