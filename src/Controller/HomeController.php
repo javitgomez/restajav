@@ -53,16 +53,28 @@ class HomeController extends AbstractController
         ImageRepository $imageRepository,
         TestimonialRepository $testimonialRepository,
         CategoryRepository $categoryRepository,
+        DishRepository $dishRepository,
         CustomManagerRepository $customManagerRepository
     ): Response {
         $images = $imageRepository->findAll();
         $testimonials = $testimonialRepository->findBy(["published" => true ]);
         $categories = $categoryRepository->findAll();
 
+        $lastId = -1;
+        for($i=0;$i<=5;$i++){
+            $dishId = rand(5, 20);
+            while($dishId != $lastId){
+                $dishId = rand(5, 20);
+                $lastId = $dishId;
+            }
+            $specials[] = $dishRepository->find($dishId);
+            $lastId = $dishId;
+        }
 
         return $this->render('front/index.html.twig', [
             'events' => $eventRepository->findAll(),
             'images' => $images,
+            'specials' => $specials,
             'testimonials' => $testimonials,
             'categories' => $categories,
             'customManager' => $customManagerRepository->find(1)
