@@ -35,7 +35,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
          - { path: ^/orion/user/reset/password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-         - { path: ^/orion/change/password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/orion/user/change/password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/orion/user/check, roles: IS_AUTHENTICATED_ANONYMOUSLY }
          - { path: ^/orion, roles: ROLE_ADMIN }
          - { path: ^/profile, roles: ROLE_USER }

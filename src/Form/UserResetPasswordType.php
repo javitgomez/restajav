@@ -15,21 +15,30 @@ class UserResetPasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if (isset($options['data'])) {
+
             $builder
                 ->add('password-change', TextType::class, [
                     'mapped' => false
                 ])
                 ->add('repeat-password-change', TextType::class, [
                     'mapped' => false
+                ])
+                ->add('save', SubmitType::class, [
+                    'attr' => ['class' => 'btn btn-secundary'],
+                    'label' => 'Cambiar'
                 ]);
+
         } else {
-            $builder->add('email', EmailType::class);
+
+            $builder
+            ->add('email', EmailType::class)
+            ->add('save', SubmitType::class, [
+                    'attr' => ['class' => 'btn btn-secundary'],
+                    'label' => 'Enviar enlace'
+            ]);
         }
 
-        $builder->add('save', SubmitType::class, [
-            'attr' => ['class' => 'btn btn-secundary'],
-            'label' => 'Enviar enlace'
-        ]);
+  
     }
 
     public function configureOptions(OptionsResolver $resolver)

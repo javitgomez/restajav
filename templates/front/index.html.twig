@@ -703,4 +703,44 @@
     });
   </script>
 {% endfor %}
+{% for message in app.flashes('success_change') %}
+  <script>
+    $(document).ready(function() {
+      let modal = $("#modal").iziModal({
+        title: '<i class="bi bi-bookmark-check"></i> {{ message }}',
+        subtitle: 'Puede identificarse de nuevo con la nueva clave',
+        icon: 'icon-power_settings_new',
+        headerColor: '#008926',
+        background: '#008926',
+        width: 600,
+        timeout: 5000,
+        timeoutProgressbar: true,
+        transitionIn: 'fadeInDown',
+        transitionOut: 'fadeOutDown',
+        pauseOnHover: true
+      });
+      modal.iziModal('open');
+    });
+  </script>
+{% endfor %}
+{% for message in app.flashes('success_confirmed') %}
+  <script>
+    $(document).ready(function() {
+      let modal = $("#modal").iziModal({
+        title: '<i class="bi bi-bookmark-check"></i> {{ message }}',
+        subtitle: 'Estamos encantados de volver a verle.',
+        icon: 'icon-power_settings_new',
+        headerColor: '#008926',
+        background: '#008926',
+        width: 600,
+        timeout: 5000,
+        timeoutProgressbar: true,
+        transitionIn: 'fadeInDown',
+        transitionOut: 'fadeOutDown',
+        pauseOnHover: true
+      });
+      modal.iziModal('open');
+    });
+  </script>
+{% endfor %}
 {% endblock %}
