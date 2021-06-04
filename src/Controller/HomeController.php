@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Book;
 use App\Entity\ContactForm;
 use App\Entity\User;
+use App\Entity\Link;
 use App\Events\UserRegistrationEvent;
 use App\Form\ClientType;
 use App\Form\UserType;
@@ -29,14 +30,17 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class HomeController extends AbstractController
 {
+    private $em ;
+
     /**
      * @var UserPasswordEncoderInterface
      */
     private $passwordEncoder;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $entityManager)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->em = $entityManager;
     }
 
     /**
@@ -57,13 +61,13 @@ class HomeController extends AbstractController
         CustomManagerRepository $customManagerRepository
     ): Response {
         $images = $imageRepository->findAll();
-        $testimonials = $testimonialRepository->findBy(["published" => true ]);
+        $testimonials = $testimonialRepository->findBy(["published" => true]);
         $categories = $categoryRepository->findAll();
 
         $lastId = -1;
-        for($i=0;$i<=5;$i++){
+        for ($i=0;$i<=5;$i++) {
             $dishId = rand(5, 20);
-            while($dishId != $lastId){
+            while ($dishId != $lastId) {
                 $dishId = rand(5, 20);
                 $lastId = $dishId;
             }
@@ -71,14 +75,36 @@ class HomeController extends AbstractController
             $lastId = $dishId;
         }
 
+        $links['header'] = $this->prepareLinksHeader();
+
         return $this->render('front/index.html.twig', [
             'events' => $eventRepository->findAll(),
             'images' => $images,
+            'links' => $links,
             'specials' => $specials,
             'testimonials' => $testimonials,
             'categories' => $categories,
             'customManager' => $customManagerRepository->find(1)
         ]);
+    }
+
+    private function prepareLinksHeader() : array
+    {
+        $links = $this->em->getRepository(Link::class)->findAll();
+        $menu = [];
+        $only = ['home','about','menu','especiales','eventos','chef','galeria','cesta','contacto'];
+
+        if (!empty($links)) {
+            foreach ($links as $link) {
+                if (in_array($link->getSlug(), $only)) {
+                    $menu[$link->getId()] = ['name' => $link->getName(), 'href' => $link->getHref()];
+                }
+            }
+        } else {
+            throw new Exception('this menu should be filled before');
+        }
+
+        return $menu;
     }
 
     /**

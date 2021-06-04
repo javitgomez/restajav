@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\CartDish;
 use App\Entity\Dish;
+use App\Entity\Link;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\Promotion;
@@ -25,6 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use App\Repository\CustomManagerRepository;
 
 /**
  * @Route("/cart")
@@ -145,18 +147,39 @@ class CartController extends AbstractController
     * @Route("/" , name="cart" , options={"expose"=true} )
     * @throws \Exception
     */
-    public function cart(CartDishRepository $cartDishRepository): Response
+    public function cart(CartDishRepository $cartDishRepository, CustomManagerRepository $customManagerRepository): Response
     {
         $tokenIdSession = $this->session->get('_cart');
         $cart = $cartDishRepository
             ->findBy(['sessionId' => $tokenIdSession]);
-
+        $links['header'] = $this->prepareLinksHeader();
         return $this->render(
             'cart/index.html.twig',
             [
-                'cart' => $cart
+                'cart' => $cart,
+                'links' => $links,
+                'customManager' => $customManagerRepository->find(1)
             ]
         );
+    }
+
+    private function prepareLinksHeader() : array
+    {
+        $links = $this->em->getRepository(Link::class)->findAll();
+        $menu = [];
+        $only = ['home','about','menu','especiales','eventos','chef','galeria','cesta','contacto'];
+
+        if (!empty($links)) {
+            foreach ($links as $link) {
+                if (in_array($link->getSlug(), $only)) {
+                    $menu[$link->getId()] = ['name' => $link->getName(), 'href' => $link->getHref()];
+                }
+            }
+        } else {
+            throw new Exception('this menu should be filled before');
+        }
+
+        return $menu;
     }
 
     /**
