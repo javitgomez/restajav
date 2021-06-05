@@ -1,5 +1,4 @@
 {% extends 'back/index.html.twig' %}
-
 {% block header %}
     {{ parent() }}
 {% endblock %}
@@ -9,6 +8,35 @@
     <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
     {{ parent() }}
     <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
+
+{% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Contacto</h1>
+                  <small>ver mensajes de clientes</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="{{ path('admin_contact_form') }}">Administración</a></li>
+                <li class="active">Mensajes</li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}

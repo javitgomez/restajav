@@ -8,17 +8,17 @@
         <span>{{ chef.job }}</span>
       </div>
       <div class="social">
-     	{% if chef.twitter is not null %}
+     	{% if chef.twitter is not null and '' != chef.twitter %}
         	<a href="{{ chef.twitter }}"><i class="bi bi-twitter"></i></a>
     	{% endif %}
-		{% if chef.facebook is not null %}
-        	<a href="{{ chef.facebook }}"><i class="bi bi-twitter"></i></a>
-    	{% endif %}
-		{% if chef.instagram is not null %}
-        	<a href="{{ chef.instagram }}"><i class="bi bi-twitter"></i></a>
-    	{% endif %}
-		{% if chef.linkedin is not null %}
-        	<a href="{{ chef.linkedin }}"><i class="bi bi-twitter"></i></a>
+      {% if chef.facebook is not null and '' != chef.facebook  %}
+          	<a href="{{ chef.facebook }}"><i class="bi bi-facebook"></i></a>
+      	{% endif %}
+      {% if chef.instagram is not null and '' != chef.instagram  %}
+          	<a href="{{ chef.instagram }}"><i class="bi bi-instagram"></i></a>
+      	{% endif %}
+      {% if chef.linkedin is not null and '' != chef.linkedin  %}
+          	<a href="{{ chef.linkedin }}"><i class="bi bi-linkedin"></i></a>
     	{% endif %}
       </div>
     </div>
