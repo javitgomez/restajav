@@ -81,7 +81,7 @@ class ChefController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('chef_index');
+            return $this->redirectToRoute('admin_chef_index');
         }
 
         return $this->render('chef/edit.html.twig', [
@@ -101,7 +101,7 @@ class ChefController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('chef_index');
+        return $this->redirectToRoute('admin_chef_index');
     }
 
     /**

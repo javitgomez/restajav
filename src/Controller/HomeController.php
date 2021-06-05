@@ -17,6 +17,7 @@ use App\Repository\ImageRepository;
 use App\Repository\TestimonialRepository;
 use App\Repository\UserRepository;
 use App\Repository\CustomManagerRepository;
+use App\Repository\ChefRepository;
 use App\Tools\StaticFunctions;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,6 +51,7 @@ class HomeController extends AbstractController
      * @param TestimonialRepository $testimonialRepository
      * @param CategoryRepository $categoryRepository
      * @param CustomManagerRepository $customManagerRepository
+     * @param ChefRepository $chefRepository
      * @return Response
      */
     public function index(
@@ -58,7 +60,8 @@ class HomeController extends AbstractController
         TestimonialRepository $testimonialRepository,
         CategoryRepository $categoryRepository,
         DishRepository $dishRepository,
-        CustomManagerRepository $customManagerRepository
+        CustomManagerRepository $customManagerRepository,
+        ChefRepository $chefRepository
     ): Response {
         $images = $imageRepository->findAll();
         $testimonials = $testimonialRepository->findBy(["published" => true]);
@@ -78,6 +81,7 @@ class HomeController extends AbstractController
             'specials' => $specials,
             'testimonials' => $testimonials,
             'categories' => $categories,
+            'chefs' => $chefRepository->findAll(),
             'customManager' => $customManagerRepository->find(1)
         ]);
     }
