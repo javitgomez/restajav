@@ -18,17 +18,12 @@
                 <!-- start: USER DROPDOWN -->
                 <li class="dropdown current-user">
                     <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" data-close-others="true" href="#">
-                        <img src="https://png.pngtree.com/png-vector/20190501/ourmid/pngtree-users-icon-design-png-image_1014936.jpg" width="32" class="img-circle" alt=""> <span class="username hidden-xs">Peter Clark</span> <i class="fa fa-caret-down "></i>
+                        <img src="https://png.pngtree.com/png-vector/20190501/ourmid/pngtree-users-icon-design-png-image_1014936.jpg" width="32" class="img-circle" alt=""> <span class="username hidden-xs">{{ app.user.username }}</span> <i class="fa fa-caret-down "></i>
                     </a>
                     <ul class="dropdown-menu dropdown-dark">
                         <li>
                             <a href="{{ path('admin_user_edit',  { 'id': app.user.id } ) }}">
                                 Mi perfil
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('admin_contact_form') }}">
-                                Mis mensajes
                             </a>
                         </li>
                         <li>
