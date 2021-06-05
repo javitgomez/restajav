@@ -18,30 +18,30 @@
             <!-- start: MAIN NAVIGATION MENU -->
             <ul class="main-navigation-menu">
                 <li class="active open">
-                    <a href="index.html"><i class="fa fa-home"></i> <span class="title"> Administración </span> </a>
+                    <a href="javascript:void(0);"><i class="fa fa-home"></i> <span class="title">Administración</span> </a>
                 </li>
                 <li>
-                    <a href="javascript:void(0)"><i class="fa fa-user"></i> <span class="title"> Usuarios  </span><i class="icon-arrow"></i> </a>
+                    <a href="javascript:void(0)"><i class="fa fa-user"></i> <span class="title">Usuarios</span><i class="icon-arrow"></i> </a>
                     <ul class="sub-menu">
                         <li>
                             <a href="{{ path('admin_user_new') }}">
-                                <span class="title"> Nuevo usuario</span>
+                                <span class="title">Nuevo usuario</span>
                             </a>
                         </li>
                         <li>
                             <a href="layouts_sidebar_not_fixed.html">
-                                <span class="title"><a href="{{ path('admin_user_index') }}"> Administrar</a> </span>
+                                <span class="title"><a href="{{ path('admin_user_index') }}">Administrar</a> </span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li><a href="javascript:void(0)"><i class="fa fa-puzzle-piece"></i> <span class="title"> Categorías  </span><i class="icon-arrow"></i> </a></li>
+                <li><a href="{{path('admin_category')}}"><i class="fa fa-puzzle-piece"></i> <span class="title">Categorías</span></a></li>
                 <li>
-                    <a href="javascript:void(0)"><i class="fa fa-user"></i> <span class="title"> Eventos  </span><i class="icon-arrow"></i> </a>
+                    <a href="javascript:void(0)"><i class="fa fa-user"></i> <span class="title">Eventos</span><i class="icon-arrow"></i> </a>
                     <ul class="sub-menu">
                         <li>
                             <a href="{{ path('admin_event_new')}}">
-                                <span class="title"> Nuevo Evento</span>
+                                <span class="title">Nuevo Evento</span>
                             </a>
                         </li>
                         <li>
@@ -51,6 +51,7 @@
                         </li>
                     </ul>
                 </li>
+                <li><a href="{{ path('custom_manager') }}"><i class="fa fa-mercury"></i> <span class="title"> Manager </span> </a></li>
                 <li><a href="{{ path('admin_book') }}"><i class="fa fa-pencil-square-o"></i> <span class="title"> Reservas Mesa </span> </a></li>
                 <li><a href="{{ path('admin_order_review') }}"><i class="fa fa-history"></i> <span class="title"> Historial Pedidos  </span> </a></li>
                 <li><a href="javascript:void(0)"><i class="fa fa-mercury"></i> <span class="title"> Promociones <i class="icon-arrow"></i> </span></a>

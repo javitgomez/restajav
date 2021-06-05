@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Event;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,14 +17,18 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('description', CKEditorType::class, array(
-                'config' => array(
-                    'uiColor' => '#ffffff',
-                    //...
-                ),
-            ))
-            ->add('prize')
+            ->add('title', TextType::class, [
+                'label' => 'Nombre evento',
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('description', CKEditorType::class, [
+                'label' => 'Descripción del evento',
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('prize', TextType::class, [
+                'label' => 'Precio evento',
+                'attr' => ['class' => 'form-control'],
+            ])
             ->add('photo', FileType::class, [
                 'label' => 'Foto',
 
@@ -48,7 +53,8 @@ class EventType extends AbstractType
                 ],
             ])
             ->add('save', SubmitType::class, [
-                'attr' => ['class' => 'save'],
+                'attr' => ['class' => 'btn btn-primary'],
+                'label' => 'Guardar'
             ]);
     }
 

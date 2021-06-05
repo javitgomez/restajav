@@ -44,7 +44,7 @@
 
 <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
 
-  <h1 class="logo me-auto me-lg-0"><a href="index.html">Restaurantly</a></h1>
+  <h1 class="logo me-auto me-lg-0"><a href="{{path('user_index')}}">Restaurantly</a></h1>
 
   <!-- Uncomment below if you prefer to use an image logo -->
   <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="front/assets/img/logo.png" alt="" class="img-fluid"></a>-->
@@ -59,7 +59,7 @@
   </nav><!-- .navbar -->
 
   {% if app.user is defined and app.user is not null %}
-    <span>Bienvenido <b>{{ app.user.username }}</b></span>
+    <span>Hola <b>{{ app.user.username }} - <a href="{{path('app_logout')}}">salir</a></b></span>
   {% else %}
   <a href="{{ path('app_login') }}" class="book-a-table-btn scrollto d-none d-lg-flex">Entrar</a>
   {% endif %}
@@ -75,12 +75,12 @@
   <div class="container position-relative text-center text-lg-start" data-aos="zoom-in" data-aos-delay="100">
     <div class="row">
       <div class="col-lg-8">
-        <h1>Welcome to <span>Restaurantly</span></h1>
-        <h2>Delivering great food for more than 18 years!</h2>
+        <h1>Bienvenido a <span>Restaurantly</span></h1>
+        <h2>Haciendo feliz a la gente desde hace 5 años</h2>
 
         <div class="btns">
-          <a href="#menu" class="btn-menu animated fadeInUp scrollto">Our Menu</a>
-          <a href="#book-a-table" class="btn-book animated fadeInUp scrollto">Book a Table</a>
+          <a href="#menu" class="btn-menu animated fadeInUp scrollto">Nuestro menu</a>
+          <a href="#book-a-table" class="btn-book animated fadeInUp scrollto">Reservar mesa</a>
         </div>
       </div>
       <div class="col-lg-4 d-flex align-items-center justify-content-center position-relative" data-aos="zoom-in" data-aos-delay="200">

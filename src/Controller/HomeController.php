@@ -64,16 +64,10 @@ class HomeController extends AbstractController
         $testimonials = $testimonialRepository->findBy(["published" => true]);
         $categories = $categoryRepository->findAll();
 
-        $lastId = -1;
-        for ($i=0;$i<=5;$i++) {
-            $dishId = rand(5, 20);
-            while ($dishId != $lastId) {
-                $dishId = rand(5, 20);
-                $lastId = $dishId;
-            }
-            $specials[] = $dishRepository->find($dishId);
-            $lastId = $dishId;
-        }
+        $specials[0] = $dishRepository->find(15);
+        $specials[1] = $dishRepository->find(5);
+        $specials[2] = $dishRepository->find(17);
+        $specials[3] = $dishRepository->find(22);
 
         $links['header'] = $this->prepareLinksHeader();
 
@@ -184,7 +178,7 @@ class HomeController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function register(Request $request, EventDispatcherInterface $dispatcher): Response
+    public function register(Request $request, EventDispatcherInterface $dispatcher, CustomManagerRepository $customManagerRepository): Response
     {
         $user = new User();
         $form = $this->createForm(ClientType::class, $user);
@@ -208,7 +202,10 @@ class HomeController extends AbstractController
 
         return $this->render(
             'front/register.html.twig',
-            ['form'=>$form->createView()]
+            [
+                'form'=>$form->createView(),
+                'customManager' => $customManagerRepository->find(1)
+            ]
         );
     }
 }

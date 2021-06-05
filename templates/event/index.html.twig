@@ -1,5 +1,29 @@
 {% extends 'back/index.html.twig' %}
 
+{% block styles %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <style>
+        ul#searched-items li {
+            cursor: pointer;
+        }
+        ul#searched-items li:hover {
+            text-decoration: underline;
+            color:darkorange;
+        }
+        .day
+        {
+            cursor: pointer !important;
+        }
+        td.active {
+            background-color: darkorange !important;
+            color: white !important;
+        }
+        .active:hover {
+            color: white !important;
+        }
+    </style>
+{% endblock %}
+
 {% block header %}
     {{ parent() }}
 {% endblock %}
@@ -11,10 +35,48 @@
     <!-- end: PAGESLIDE LEFT -->
 {% endblock %}
 
+{% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Eventos</h1>
+                  <small>de grupo</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Administración</a></li>
+                <li class="active"><a href="{{ path('admin_event_index') }}">Eventos</a></li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+{% endblock %}
+
 {% block content %}
-        <!-- start: TABLE WITH IMAGES PANEL -->
-        <div class="panel panel-white">
-            <table class="table table-striped table-hover" id="sample-table-2">
+<div class="panel-body panel-white">
+    <a href="{{ path('admin_event_new') }}">
+        <button class="btn btn-primary mb-5">Nuevo Evento</button>
+    </a><br>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% if events is not empty %}
+        <h1 style="background-color:whitesmoke;color:darkorange;">Eventos Activos</h1>
+         <table class="table table-striped table-hover" id="sample-table-2">
                 <thead>
                 <tr>
                     <th class="center">
@@ -38,5 +100,13 @@
                 {% endfor %}
                 </tbody>
             </table>
-        </div>
+    {% else %}
+        <h2>No existen eventos activos</h2>
+    {% endif %}
+
+</div>
 {% endblock %}
+
+{% block scripts %}
+  
+{% endblock  %}

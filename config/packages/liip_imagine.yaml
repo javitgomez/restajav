@@ -41,7 +41,8 @@ liip_imagine:
     portrait:
       quality: 100
       filters:
-        upscale: { min: [256, 256] }
+        upscale: { min: [512, 512] }
+        thumbnail: { size: [512, 512], mode: 'outbound' }
         strip: ~    
     # use the default cache configuration
     cache: ~

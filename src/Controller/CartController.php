@@ -228,7 +228,7 @@ class CartController extends AbstractController
      *
      * @throws \Exception
      */
-    public function checkAddress(Request $request, Order $order)
+    public function checkAddress(Request $request, Order $order, CustomManagerRepository $customManagerRepository)
     {
         $address = $this->getUser()->getAddress() ?? new \App\Entity\Address();
         $form = $this->createForm(AddressType::class, $address);
@@ -248,7 +248,8 @@ class CartController extends AbstractController
 
         return $this->render('order/address.html.twig', [
             'form' => $form->createView(),
-            'order' => $order
+            'order' => $order,
+            'customManager' => $customManagerRepository->find(1)
         ]);
     }
 
@@ -258,7 +259,7 @@ class CartController extends AbstractController
      *
      * @throws \Exception
      */
-    public function paymentMethod(Request $request, Order $order): Response
+    public function paymentMethod(Request $request, Order $order, CustomManagerRepository $customManagerRepository): Response
     {
         $form = $this->createForm(PaymentType::class, $order);
 
@@ -276,7 +277,8 @@ class CartController extends AbstractController
 
         return $this->render('order/payment_method.html.twig', [
             'form' => $form->createView(),
-            'order' => $order
+            'order' => $order,
+            'customManager' => $customManagerRepository->find(1)
         ]);
     }
 

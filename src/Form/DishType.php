@@ -51,7 +51,7 @@ class DishType extends AbstractType
             ])
             ->add('allergen', ChoiceType::class, [
                 'required' => true,
-                'multiple' => true,
+                'multiple' => false,
                 'expanded' => false,
                 'label' => 'Incluir alérgenos',
                 'choices'  => [
