@@ -16,7 +16,33 @@
 {% endblock %}
 
 {% block header %}
-    {{ parent() }}
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top d-flex align-items-cente">
+
+<div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+
+  <h1 class="logo me-auto me-lg-0"><a href="{{path('user_index')}}">Restaurantly</a></h1>
+
+  <!-- Uncomment below if you prefer to use an image logo -->
+  <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="front/assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+  <nav id="navbar" class="navbar order-last order-lg-0">
+    <ul>
+        {% for link in links['header'] %}
+           <li><a class="nav-link scrollto {% if loop.index == 1%}active{%endif%}" href="{{ link.href }}">{{ link.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <i class="bi bi-list mobile-nav-toggle"></i>
+  </nav><!-- .navbar -->
+
+  {% if app.user is defined and app.user is not null %}
+    <span>Hola <b>{{ app.user.username }} - <a href="{{path('app_logout')}}">salir</a></b></span>
+  {% else %}
+  <a href="{{ path('app_login') }}" class="book-a-table-btn scrollto d-none d-lg-flex">Entrar</a>
+  {% endif %}
+
+</div>
+</header><!-- End Header -->
 {% endblock %}
 
 {% block hero %}

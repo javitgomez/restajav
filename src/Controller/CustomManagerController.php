@@ -37,12 +37,19 @@ class CustomManagerController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
             /** @var UploadedFile $photoFile */
             $photoFile = $request->files->get('custom_manager')['photo'];
-
             if ($photoFile instanceof UploadedFile) {
                 $newImageFile = $uploadService->uploadFile($photoFile, $this->getParameter('manager'));
                 $customManager->setPhotoDescription($newImageFile);
+            }
+
+            /** @var UploadedFile $photoMainFile */
+            $photoMainFile = $request->files->get('custom_manager')['photoMain'];
+            if ($photoMainFile instanceof UploadedFile) {
+                $newImageMainFile = $uploadService->uploadFile($photoMainFile, $this->getParameter('manager'));
+                $customManager->setPhotoMain($newImageMainFile);
             }
 
             $entityManager = $this->getDoctrine()->getManager();

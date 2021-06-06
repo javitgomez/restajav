@@ -62,6 +62,11 @@ class CustomManager
      */
     private $googleMapsFrame;
 
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $photoMain;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -171,6 +176,18 @@ class CustomManager
     public function setGoogleMapsFrame(?string $googleMapsFrame): self
     {
         $this->googleMapsFrame = $googleMapsFrame;
+
+        return $this;
+    }
+
+    public function getPhotoMain(): ?string
+    {
+        return $this->photoMain;
+    }
+
+    public function setPhotoMain(string $photoMain): self
+    {
+        $this->photoMain = $photoMain;
 
         return $this;
     }

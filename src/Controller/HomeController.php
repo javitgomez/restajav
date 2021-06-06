@@ -204,10 +204,12 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('user_index');
         }
 
+        $links['header'] = $this->prepareLinksHeader();
         return $this->render(
             'front/register.html.twig',
             [
                 'form'=>$form->createView(),
+                'links' => $links,
                 'customManager' => $customManagerRepository->find(1)
             ]
         );
