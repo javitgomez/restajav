@@ -277,7 +277,7 @@ class CartController extends AbstractController
             }
         }
         
-        $links['header'] = $this->prepareLinksHeader();    
+        $links['header'] = $this->prepareLinksHeader();
 
         return $this->render('order/payment_method.html.twig', [
             'form' => $form->createView(),

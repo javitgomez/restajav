@@ -37,6 +37,16 @@ class Survey
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $public;
+
+    public function __construct()
+    {
+        $this->setPublic(false);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +96,18 @@ class Survey
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPublic(): ?bool
+    {
+        return $this->public;
+    }
+
+    public function setPublic(bool $public): self
+    {
+        $this->public = $public;
 
         return $this;
     }

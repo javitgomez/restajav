@@ -1,0 +1,202 @@
+{% extends 'front/layout.html.twig' %}
+
+{% block styles %}
+<style>
+    form input{
+        margin:10px;
+        cursor: pointer;
+    }
+    form label{
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    form textarea{
+        display: block;
+        width: 100%;
+        resize: none;
+        margin-top:15px;
+        margin-bottom: 15px;
+    }
+    fieldset.star-rating{
+        margin-bottom:25px;
+    }
+    .star-rating__stars {
+         position: relative;
+         height: 5rem;
+         width: 25rem;
+         background: url('{{ asset('front/img/start-on.png') }}');
+         background-size: 5rem 5rem;
+     }
+
+    .star-rating__label {
+        position: absolute;
+        height: 100%;
+        background-size: 5rem 5rem;
+    }
+
+    .star-rating__input {
+        margin: 0;
+        position: absolute;
+        height: 1px; width: 1px;
+        overflow: hidden;
+        clip: rect(1px, 1px, 1px, 1px);
+    }
+
+    .star-rating__stars .star-rating__label:nth-of-type(1) {
+        z-index: 5;
+        width: 20%;
+    }
+
+    .star-rating__stars .star-rating__label:nth-of-type(2) {
+        z-index: 4;
+        width: 40%;
+    }
+
+    .star-rating__stars .star-rating__label:nth-of-type(3) {
+        z-index: 3;
+        width: 60%;
+    }
+
+    .star-rating__stars .star-rating__label:nth-of-type(4) {
+        z-index: 2;
+        width: 80%;
+    }
+
+    .star-rating__stars .star-rating__label:nth-of-type(5) {
+        z-index: 1;
+        width: 100%;
+    }
+
+    .star-rating__input:checked + .star-rating__label,
+    .star-rating__input:focus + .star-rating__label,
+    .star-rating__label:hover {
+        background-image: url('{{ asset('front/assets/img/star-on.png') }}');
+    }
+
+    .star-rating__label:hover ~ .star-rating__label {
+        background-image: url('{{ asset('front/assets/img/star-off.png') }}');
+    }
+
+    .star-rating__input:focus ~ .star-rating__focus {
+        position: absolute;
+        top: -.25em;
+        right: -.25em;
+        bottom: -.25em;
+        left: -.25em;
+        outline: 0.25rem solid lightblue;
+    }
+</style>
+{% endblock %}
+
+{% block top_bar %}
+<!-- ======= Top Bar ======= -->
+<div id="topbar" class="d-flex align-items-center fixed-top">
+  <div class="container d-flex justify-content-center justify-content-md-between">
+
+    <div class="contact-info d-flex align-items-center">
+      {{ customManager.phone|raw }}
+      {{ customManager.calendar|raw }}
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block header %}
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top d-flex align-items-cente">
+
+<div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+
+  <h1 class="logo me-auto me-lg-0"><a href="{{path('user_index')}}">Restaurantly</a></h1>
+
+  <!-- Uncomment below if you prefer to use an image logo -->
+  <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="front/assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+  <nav id="navbar" class="navbar order-last order-lg-0">
+    <ul>
+        {% for link in links['header'] %}
+           <li><a class="nav-link scrollto {% if loop.index == 1%}active{%endif%}" href="{{ link.href }}">{{ link.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <i class="bi bi-list mobile-nav-toggle"></i>
+  </nav><!-- .navbar -->
+
+  {% if app.user is defined and app.user is not null %}
+    <span>Hola <b>{{ app.user.username }} - <a href="{{path('app_logout')}}">salir</a></b></span>
+  {% else %}
+  <a href="{{ path('app_login') }}" class="book-a-table-btn scrollto d-none d-lg-flex">Entrar</a>
+  {% endif %}
+
+</div>
+</header><!-- End Header -->
+{% endblock %}
+
+{% block hero %}
+    {{ parent() }}
+{% endblock %}
+
+{% block main %}
+    <main id="main">
+        <section class="breadcrumbs">
+            <div class="container">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>Encuesta de satisfacción de cliente</h2>
+                    <ol>
+                        <li><a href="{{ path('user_index') }}">Home</a></li>
+                        <li>Cesta de la compra</li>
+                    </ol>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="inner-page">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">  <div class="mx-auto" style="width:500px;">
+
+                            {{ form_start(form) }}
+                            <fieldset class="star-rating">
+                                <legend class="star-rating__title">Tu nivel de satisfacción:</legend>
+                                <div class="star-rating__stars">
+                                    <input class="star-rating__input" type="radio" name="rating" value="1" id="rating-1" checked />
+                                    <label class="star-rating__label" for="rating-1" aria-label="One"></label>
+                                    <input class="star-rating__input" type="radio" name="rating" value="2" id="rating-2" />
+                                    <label class="star-rating__label" for="rating-2" aria-label="Two"></label>
+                                    <input class="star-rating__input" type="radio" name="rating" value="3" id="rating-3" />
+                                    <label class="star-rating__label" for="rating-3" aria-label="Three"></label>
+                                    <input class="star-rating__input" type="radio" name="rating" value="4" id="rating-4" />
+                                    <label class="star-rating__label" for="rating-4" aria-label="Four"></label>
+                                    <input class="star-rating__input" type="radio" name="rating" value="5" id="rating-5" />
+                                    <label class="star-rating__label" for="rating-5" aria-label="Five"></label>
+                                    <div class="star-rating__focus"></div>
+                                </div>
+                            </fieldset>
+                            {{ form_end(form) }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main><!-- End #main -->
+{% endblock %}
+
+{% block scripts %}
+    <!--[if gte IE 9]><!-->
+    <script src="{{ asset('back/assets/plugins/jQuery/jquery-2.1.1.min.js') }}"></script>
+    <!-- fos-js-routing -->
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.star-rating__input').on('change',function(){
+                let value = $(this).val();
+                $('#survey_form_satisfaction').val(value);
+            });
+        })
+    </script>
+{% endblock %}

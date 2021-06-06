@@ -46,31 +46,10 @@ class OrderSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function onOrderDelivered(OrderEvent $event)
-    {
-        $this->logger->info('on Order delivered');
-        $email = (new TemplatedEmail())
-            ->from('admin@restajav.com')
-            ->to($event->getUser()->getEmail())
-            ->subject('¡Tu ha pedido ha sido entregado!')
-            ->htmlTemplate('emails/survey/index.html.twig')
-            // pass variables (name => value) to the template
-            ->context([
-                'user' => $event->getUser(),
-            ]);
-
-        try {
-            $this->mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            $this->logger->error($e->getMessage());
-        }
-    }
-
     public static function getSubscribedEvents(): array
     {
         return [
-            OrderEvent::ORDER_CREATED   => 'onOrderCreated',
-            OrderEvent::ORDER_DELIVERED => 'onOrderDelivered',
+            OrderEvent::ORDER_CREATED   => 'onOrderCreated'
         ];
     }
 }

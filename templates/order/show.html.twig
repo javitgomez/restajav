@@ -66,11 +66,13 @@
             </thead>
             <tbody>
                 {% for item in order.getItems %}
-                    {% set dish = item.getDish|dish %}
-                    <td><img src="{{ asset('uploads/dish_photo/' ~ dish.photo)|imagine_filter('square') }}" alt="{{ dish.name }}"></td>
-                    <td>{{ dish.name }}</td>
-                    <td>{{ item.quanty }}</td>
-                    <td> Ver complementos </td>
+                <tr>
+                {% set dish = item.getDish|dish %}
+                <td><img src="{{ asset('uploads/dish_photo/' ~ dish.photo)|imagine_filter('square') }}" alt="{{ dish.name }}"></td>
+                <td>{{ dish.name }}</td>
+                <td>{{ item.quanty }}</td>
+                <td> Ver complementos </td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
