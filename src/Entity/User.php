@@ -75,6 +75,11 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity=Address::class, mappedBy="user", cascade={"persist", "remove"})
      */
     private $address;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Survey::class, mappedBy="user")
+     */
+    private $survey;
     
     public function getId(): ?int
     {
@@ -85,6 +90,7 @@ class User implements UserInterface
     {
         $this->setActive(false);
         $this->orderCustomer = new ArrayCollection();
+        $this->survey = new ArrayCollection();
     }
 
     /**
@@ -194,7 +200,7 @@ class User implements UserInterface
      */
     public function setUpdatedAt(): void
     {
-        $this->updatedAt =  new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getToken(): ?string
@@ -269,6 +275,36 @@ class User implements UserInterface
         }
 
         $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Survey[]
+     */
+    public function getSurvey(): Collection
+    {
+        return $this->survey;
+    }
+
+    public function addSurvey(Survey $survey): self
+    {
+        if (!$this->survey->contains($survey)) {
+            $this->survey[] = $survey;
+            $survey->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSurvey(Survey $survey): self
+    {
+        if ($this->survey->removeElement($survey)) {
+            // set the owning side to null (unless already changed)
+            if ($survey->getUser() === $this) {
+                $survey->setUser(null);
+            }
+        }
 
         return $this;
     }

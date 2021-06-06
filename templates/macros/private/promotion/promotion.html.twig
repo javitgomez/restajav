@@ -1,0 +1,20 @@
+{% macro print(promotion) %}
+<tr>
+    <td> {{ promotion.id }} </td>
+    <td> <b>{{ promotion.code }}</b> </td>
+    <td> {{ promotion.status|active|raw }} </td>
+    <td> <b>{{ promotion.begin|date }}</b </td>
+    <td> <b>{{ promotion.ending|date }}</b </td>
+    <td>
+        <div class="visible-md visible-lg hidden-sm hidden-xs">
+            <a href="{{ path('admin_promotions_show',  { 'id': promotion.id } ) }}" class="btn btn-xs btn-grey tooltips" data-placement="top" data-original-title="Ver"><i class="fa fa-search"></i></a>
+             {% if promotion.status %}
+	            <a href="{{ path('admin_promotions_activate',  { 'id': promotion.id } ) }}" class="btn btn-xs btn-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-toggle-off"></i></a>
+	        {% else %}
+	           	<a href="{{ path('admin_promotions_activate',  { 'id': promotion.id } ) }}" class="btn btn-xs btn-blue tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-toggle-on"></i></a>
+	        {% endif %}
+            <a href="{{ path('admin_promotions_delete',{ 'id': promotion.id } ) }}" class="btn btn-xs btn-red tooltips" data-placement="top"data-original-title="Eliminar promoción"><i class="fa fa-times fa fa-white"></i></a>
+        </div>
+    </td>
+</tr>
+{% endmacro %}

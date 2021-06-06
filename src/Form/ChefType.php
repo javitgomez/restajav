@@ -6,6 +6,7 @@ use App\Entity\Chef;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -15,12 +16,34 @@ class ChefType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('job')
-            ->add('twitter')
-            ->add('facebook')
-            ->add('instagram')
-            ->add('linkedin')
+            ->add('name', TextType::class, [
+                'label' => 'Nombre Chef',
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('job', TextType::class, [
+                'label' => 'Puesto',
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('twitter', TextType::class, [
+                'label' => 'Twitter',
+                'attr' => ['class' => 'form-control'],
+                'required' => false
+            ])
+            ->add('facebook', TextType::class, [
+                'label' => 'Facebook',
+                'attr' => ['class' => 'form-control'],
+                'required' => false
+            ])
+            ->add('instagram', TextType::class, [
+                'label' => 'Instagram',
+                'attr' => ['class' => 'form-control'],
+                'required' => false
+            ])
+            ->add('linkedin', TextType::class, [
+                'label' => 'Instagram',
+                'attr' => ['class' => 'form-control'],
+                'required' => false
+            ])
             ->add('photo', FileType::class, [
                 'label' => 'Foto',
 
@@ -44,7 +67,8 @@ class ChefType extends AbstractType
                     ])
                 ],
                  ])->add('save', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary']
+                'attr' => ['class' => 'btn btn-primary'],
+                'label' => 'Guardar',
             ]);
 
 

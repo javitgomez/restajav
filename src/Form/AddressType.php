@@ -18,10 +18,10 @@ class AddressType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('address',TextType::class , ['attr' => ['class'=>'form-control'],'label'=>'Dirección Postal'])
-            ->add('number',NumberType::class , ['attr' => ['class'=>'form-control'],'label'=>'Número o puerta'])
-            ->add('phone',TextType::class , ['attr' => ['class'=>'form-control'],'label'=>'Teléfono de contacto'])
-            ->add('cp',TextType::class , ['attr' => ['class'=>'form-control'],'label'=>'Código Postal'])
+            ->add('address', TextType::class, ['attr' => ['class'=>'form-control'],'label'=>'Dirección Postal'])
+            ->add('number', NumberType::class, ['attr' => ['class'=>'form-control'],'label'=>'Número o puerta'])
+            ->add('phone', TextType::class, ['attr' => ['class'=>'form-control'],'label'=>'Teléfono de contacto'])
+            ->add('cp', TextType::class, ['attr' => ['class'=>'form-control'],'label'=>'Código Postal'])
 
             ->add('save', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary', 'style' => 'margin-top:15px;width:270px'],

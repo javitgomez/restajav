@@ -1,0 +1,27 @@
+{% macro print(chef) %}
+<div class="col-lg-4 col-md-6">
+  <div class="member" data-aos="zoom-in" data-aos-delay="100">
+    <img src="{{ asset('uploads/chef_photo/' ~ chef.image) }}" class="img-fluid" alt="">
+    <div class="member-info">
+      <div class="member-info-content">
+        <h4> {{ chef.name }}</h4>
+        <span>{{ chef.job }}</span>
+      </div>
+      <div class="social">
+     	{% if chef.twitter is not null and '' != chef.twitter %}
+        	<a href="{{ chef.twitter }}"><i class="bi bi-twitter"></i></a>
+    	{% endif %}
+      {% if chef.facebook is not null and '' != chef.facebook  %}
+          	<a href="{{ chef.facebook }}"><i class="bi bi-facebook"></i></a>
+      	{% endif %}
+      {% if chef.instagram is not null and '' != chef.instagram  %}
+          	<a href="{{ chef.instagram }}"><i class="bi bi-instagram"></i></a>
+      	{% endif %}
+      {% if chef.linkedin is not null and '' != chef.linkedin  %}
+          	<a href="{{ chef.linkedin }}"><i class="bi bi-linkedin"></i></a>
+    	{% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endmacro %}

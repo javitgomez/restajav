@@ -1,0 +1,152 @@
+{% extends 'back/index.html.twig' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <style>
+        ul#searched-items li {
+            cursor: pointer;
+        }
+        ul#searched-items li:hover {
+            text-decoration: underline;
+            color:darkorange;
+        }
+        .day
+        {
+            cursor: pointer !important;
+        }
+        td.active {
+            background-color: darkorange !important;
+            color: white !important;
+        }
+        .active:hover {
+            color: white !important;
+        }
+        .result {
+            display: none;
+            background-color: #eee;
+            border: 1px solid darkorange;
+            font-weight: bold;
+            position: absolute;
+            width: 20%;
+            padding:1em;
+            box-shadow: 0 5px 10px #000;
+        }
+        .result ul li{
+            cursor: pointer;
+        }
+        .result ul li:hover {
+            color:darkorange;
+        }
+    </style>
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
+
+{% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Promociones</h1>
+                  <small>ver descuentos aplicados</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Administración</a></li>
+                <li class=""><a href="{{ path('admin_category') }}">Promociones</a></li>
+                <li class="active"><a href="{{ path('admin_category') }}">Añadir promoción</a></li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="panel-body panel-white">
+    <h1>Añadir nueva promoción</h1>
+    {# print_promotion_form #}
+        {{ form_start(form) }}
+        {{ form_end(form) }}
+    {# end_form#}
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <!-- jquery-confirm -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+    <!-- fos-js-routing -->
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+    <!-- datepicker -->
+    <script src="{{ asset('back/assets/plugins/datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <!-- filters -->
+    <script src="{{ asset('back/assets/js/filters.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+
+            let begin = $('#promotion_begin');
+            begin.mouseover(function(){
+                $(this).datepicker('show');
+            });
+            begin.on('changeDate',function(){
+                $(this).datepicker('hide');
+                $(this).unbind( "mouseover" );
+            });
+            let ending = $('#promotion_ending');
+            ending.mouseover(function(){
+                $(this).datepicker('show');
+            });
+            ending.on('changeDate',function(){
+                $(this).datepicker('hide');
+                $(this).unbind( "mouseover" );
+            });
+            $('#promotion_dish_ghost').parent().append('<div class="result"></div>');
+            $('#promotion_dish_ghost').keyup(function( event ){
+
+                if(this.value.length > 3) {
+                    findDish(this);
+                }
+            });
+
+        });
+
+        function findDish(e){
+            let route = Routing.generate('admin_promotion_find_dish_by_name',{ 'criteria':e.value });
+
+            $.get( route , function( data ) {
+                let returnedData = JSON.parse(data);
+                let select = '<ul>';
+                $.each(returnedData, function(i, item) {
+                    select += '<li data-id="' + item.id + '">' + item.name + '</li>';
+                });
+                select += '</ul>';
+                $( ".result" ).show().html( select );
+                $(".result ul li").on('click',function(){
+                   $('#promotion_dish_ghost').val($(this).text());
+                   $('#promotion_dish').val($(this).data('id'));
+                   $( ".result" ).hide();
+                })
+            });
+        }
+    </script>
+{% endblock  %}

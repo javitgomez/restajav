@@ -1,13 +1,59 @@
-{% extends 'base.html.twig' %}
+{% extends 'back/index.html.twig' %}
 
-{% block title %}Edit Event{% endblock %}
+{% block styles %}
+    {{ parent() }}
+{% endblock %}
 
-{% block body %}
-    <h1>Edit Event</h1>
+{% block header %}
+    {{ parent() }}
+{% endblock %}
 
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
+
+{% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Eventos</h1>
+                  <small>incluir eventos de grupo</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Administración</a></li>
+                <li class=""><a href="{{ path('admin_event_index') }}">Eventos</a></li>
+                <li class="active"><a href="javascript:void(0)">Editar evento</a></li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="panel-body panel-white">
+    <h1>Actualizar evento</h1>
     {{ include('event/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('admin_event_index') }}">back to list</a>
 
     {{ include('event/_delete_form.html.twig') }}
+</div>
 {% endblock %}
+
+{% block scripts %}{% endblock  %}

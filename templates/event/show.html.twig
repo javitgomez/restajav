@@ -1,46 +1,59 @@
-{% extends 'base.html.twig' %}
+{% extends 'back/index.html.twig' %}
 
-{% block title %}Event{% endblock %}
+{% block styles %}
+    {{ parent() }}
+{% endblock %}
 
-{% block body %}
-    <h1>Event</h1>
+{% block header %}
+    {{ parent() }}
+{% endblock %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ event.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ event.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ event.description }}</td>
-            </tr>
-            <tr>
-                <th>Prize</th>
-                <td>{{ event.prize }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ event.createdAt ? event.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdateAt</th>
-                <td>{{ event.updatedAt ? event.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ event.image }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
 
-    <a href="{{ path('event_index') }}">back to list</a>
+{% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Eventos</h1>
+                  <small>incluir eventos de grupo</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
 
-    <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Administración</a></li>
+                <li class=""><a href="{{ path('admin_event_index') }}">Eventos</a></li>
+                <li class="active"><a href="javascript:void(0)">Ver evento</a></li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="panel-body panel-white">
+    <h1>Ver evento</h1>
+    <a href="{{ path('event_index') }}" class="btn btn-green">back to list</a>
+
+    <a href="{{ path('event_edit', {'id': event.id}) }}" class="btn btn-secundary">edit</a>
 
     {{ include('event/_delete_form.html.twig') }}
+</div>
 {% endblock %}
+
+{% block scripts %}{% endblock  %}

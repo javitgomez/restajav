@@ -1,0 +1,21 @@
+{% macro print_row(survey) %}
+    <tr>
+        <td class="center">
+            <div class="checkbox-table">
+                <label>
+                    <input type="checkbox" class="flat-grey foocheck">
+                </label>
+            </div></td>
+        <td>{{ survey.user.username }}</td>
+        <td class="hidden-xs">{{ survey.satisfaction }}</td>
+        <td class="hidden-xs">{{ survey.valoration }}</td>
+        <td>{{ survey.comment }}</td>
+        <td>{{ survey.public|active|raw }}</td>
+        <td class="center" style="width:150px;">
+            <div class="visible-md visible-lg hidden-sm hidden-xs">
+                <a href="{{ path('admin_survey_public',  { 'id': survey.id } ) }}" class="btn btn-xs btn-grey tooltips" data-placement="top" data-original-title="Publicar testimonio"><i class="fa fa-edit"></i></a>
+                <a href="{{ path('admin_survey_delete',{ 'id': survey.id } ) }}" class="btn btn-xs btn-red tooltips" data-placement="top" data-original-title="Eliminar testimonio"><i class="fa fa-times fa fa-white"></i></a>
+            </div>
+        </td>
+    </tr>
+{% endmacro %}

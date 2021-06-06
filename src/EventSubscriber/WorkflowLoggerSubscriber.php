@@ -11,6 +11,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Workflow\Event\Event;
+use Symfony\Component\Mime\Address;
 
 class WorkflowLoggerSubscriber implements EventSubscriberInterface
 {
@@ -43,6 +44,10 @@ class WorkflowLoggerSubscriber implements EventSubscriberInterface
             $this->sendMailOnTravel($event);
             $this->logWorkFlow($event);
         }
+        if ($event->getTransition()->getName() === 'mark_as_delivered') {
+            $this->onOrderDelivered($event);
+            $this->logWorkFlow($event);
+        }
     }
 
     private function logWorkFlow(Event $event)
@@ -64,10 +69,33 @@ class WorkflowLoggerSubscriber implements EventSubscriberInterface
         $user = $event->getSubject()->getUser();
 
         $email = (new TemplatedEmail())
-            ->from('admin@restajav.com')
+            ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))
             ->to($user->getEmail())
             ->subject('Su pedido está en camino')
             ->htmlTemplate('emails/order/on_travel.html.twig')
+            // pass variables (name => value) to the template
+            ->context([
+                'user' => $user,
+            ]);
+
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            $this->logger->error($e->getMessage());
+        }
+    }
+
+    public function onOrderDelivered(Event $event)
+    {
+        $this->logger->info('on Order delivered');
+        /** @var User $user */
+        $user = $event->getSubject()->getUser();
+
+        $email = (new TemplatedEmail())
+            ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))
+            ->to($user->getEmail())
+            ->subject('¡Tu ha pedido ha sido entregado!')
+            ->htmlTemplate('emails/survey/index.html.twig')
             // pass variables (name => value) to the template
             ->context([
                 'user' => $user,

@@ -10,9 +10,9 @@
             <a href="{{ path('order_workflow_pending', { 'id' : order.id }) }}">Recoger</a>
             <a href="{{ path('order_workflow_canceled', { 'id' : order.id }) }}">Cancelar</a>
         {% elseif order.state == 'pending' %}
-            <a href="{{ path('order_workflow_on_travel', { 'id' : order.id }) }}">Pendiente</a>
+            <a href="{{ path('order_workflow_on_travel', { 'id' : order.id }) }}">Preparando el pedido</a>
         {% elseif order.state == 'on_travel' %}
-            <a href="{{ path('order_workflow_delivered', { 'id' : order.id }) }}">En camino</a>
+            <a href="{{ path('order_workflow_delivered', { 'id' : order.id }) }}">Espera de entrega a cliente</a>
         {% elseif order.state == 'delivered' %}
             <span>{{ order.state }}</span>
         {% else %}

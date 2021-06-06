@@ -9,34 +9,41 @@
     {{ parent() }}
 {% endblock %}
 
-{% block bread_crumb %}
-    <div class="row">
-        <div class="col-md-12">
-            <ol class="breadcrumb">
-                <li>
-                    <a href="#">
-                        Dashboard
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="{{ path('admin_category') }}">Categorias</a>
-                </li>
-                <li class="active">
-                    <a href="{{ path('admin_category_edit',{'id' : dish.category.id }) }}">{{ dish.category.name }}</a>
-                </li>
-                <li class="active">
-                    Editar Plato
-                </li>
-            </ol>
-        </div>
-    </div>
-{% endblock %}
-
 {% block page_slide_left %}
     <!-- start: PAGESLIDE LEFT -->
     <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
     {{ parent() }}
     <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
+
+{% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Categorias</h1>
+                  <small>registro de platos</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Administración</a></li>
+                <li class=""><a href="{{ path('admin_category') }}">Categorias</a></li>
+                <li class="active">Editar plato</li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
 {% endblock %}
 
 {% block content %}
@@ -66,8 +73,6 @@
         </div>
     </div>
 
-
-
     {% include 'modal/izi-modal.html.twig' %}
 
 {% endblock %}
@@ -79,8 +84,10 @@
 <script src="{{ asset('back/assets/js/izi-modal/js/iziModal.min.js') }}"></script>
 <!-- j-query-confirm -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<!-- filter -->
+<!-- izi-modal-->
+<script src="{{ asset('back/assets/js/filters.js') }}"></script>
 <script>
-
     $(document).ready(function() {
         $("#dish_photo").change(function(event){
             let image = document.getElementById('output');
@@ -88,40 +95,5 @@
         });
 
     });
-
-    function filterFloat(evt,input){
-        // Backspace = 8, Enter = 13, ‘0′ = 48, ‘9′ = 57, ‘.’ = 46, ‘-’ = 43
-        var key = window.Event ? evt.which : evt.keyCode;
-        var chark = String.fromCharCode(key);
-        var tempValue = input.value+chark;
-        if(key >= 48 && key <= 57){
-            if(filter(tempValue)=== false){
-                return false;
-            }else{
-                return true;
-            }
-        }else{
-            if(key == 8 || key == 13 || key == 0) {
-                return true;
-            }else if(key == 46){
-                if(filter(tempValue)=== false){
-                    return false;
-                }else{
-                    return true;
-                }
-            }else{
-                return false;
-            }
-        }
-}
-    function filter(__val__){
-        var preg = /^([0-9]+\.?[0-9]{0,2})$/;
-        if(preg.test(__val__) === true){
-            return true;
-        }else{
-            return false;
-        }
-
-    }
 </script>
 {% endblock %}

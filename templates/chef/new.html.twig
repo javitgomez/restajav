@@ -1,5 +1,9 @@
 {% extends 'back/index.html.twig' %}
 
+{% block styles %}
+    {{ parent() }}
+{% endblock %}
+
 {% block header %}
     {{ parent() }}
 {% endblock %}
@@ -11,14 +15,36 @@
     <!-- end: PAGESLIDE LEFT -->
 {% endblock %}
 
+{% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Chefs</h1>
+                  <small>cinco estrellas michelin</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="{{ path('admin_chef_index') }}">Administración</a></li>
+                <li class="active">Nuevo registro</li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
 {% block main %}
     {{ parent() }}
 {% endblock %}
-
-{% block title %}Nuevo Chef{% endblock %}
-
 {% block content %}
-
+<div class="panel-body panel-white">
     <!-- start: PAGE CONTENT -->
     <div class="row">
     <div class="col-sm-12">
@@ -34,4 +60,7 @@
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
+
+{% block scripts %}{% endblock  %}

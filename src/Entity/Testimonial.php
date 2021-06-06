@@ -58,6 +58,11 @@ class Testimonial
      */
     private $email;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $comment;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -159,6 +164,18 @@ class Testimonial
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(string $comment): self
+    {
+        $this->comment = $comment;
 
         return $this;
     }

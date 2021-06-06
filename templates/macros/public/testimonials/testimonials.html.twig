@@ -1,14 +1,14 @@
 {% macro print(testimonial) %}
-<div class="swiper-slide">
-            <div class="testimonial-item">
-              <p>
-                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                {{testimonial.valoration}}
-                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-              </p>
-              <img src="{{ asset('front/assets/img/testimonials/testimonials-1.jpg') }}" class="testimonial-img" alt="">
-              <h3>{{testimonial.name}}</h3>
-              <h4>{{testimonial.job}}</h4>
-            </div>
-          </div>
-          {% endmacro %}
+ <div class="swiper-slide">
+  <div class="testimonial-item">
+    <p>
+      <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+      {{ testimonial.comment }}
+      <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+    </p>
+    <img src="https://png.pngtree.com/png-vector/20190501/ourmid/pngtree-users-icon-design-png-image_1014936.jpg" class="testimonial-img" alt="">
+    <h3>{{testimonial.name}}</h3>
+    <h4>{{testimonial.job}}</h4>
+  </div>
+</div><!-- End testimonial item -->
+{% endmacro %}

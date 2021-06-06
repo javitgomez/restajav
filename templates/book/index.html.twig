@@ -11,6 +11,36 @@
     <!-- end: PAGESLIDE LEFT -->
 {% endblock %}
 
+{% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Registro de mesas</h1>
+                  <small>y reservas</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Administración</a></li>
+                <li class=""><a href="{{ path('admin_book') }}">Reservas</a></li>
+                <li class="active">Registro de comandas</li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+{% endblock %}
+
 {% block content %}
     <!-- start: TABLE WITH IMAGES PANEL -->
     <div class="panel panel-white">

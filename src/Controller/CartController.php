@@ -3,16 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\CartDish;
+use App\Entity\Dish;
+use App\Entity\Link;
 use App\Entity\Order;
 use App\Entity\OrderItem;
-use App\Events\OrderCreatedEvent;
+use App\Entity\Promotion;
+use App\Events\OrderEvent;
 use App\Form\CategoryType;
 use App\Form\PaymentType;
 use App\Form\AddressType;
 use App\Repository\CartDishRepository;
 use App\Repository\DishRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -24,6 +26,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use App\Repository\CustomManagerRepository;
+
 /**
  * @Route("/cart")
  */
@@ -72,13 +76,30 @@ class CartController extends AbstractController
         $cart->setSessionId($tokenIdSession);
         $cart->setDishId($dish->getId());
         $cart->setQuanty($cart->getQuanty() + 1);
-        $cart->setDto(0); // TODO SET RESTJAV-008 HERE FOR PROMOTIONS
+        $dtoToApply = $this->findDtoToApply($dish);
+        $cart->setDto($dtoToApply['dto'] ?? 0);
 
         $this->em->persist($cart);
         $this->em->flush();
         $quantity = $cartDishRepository->count(['sessionId' => $tokenIdSession]);
 
         return new JsonResponse(['error' => false, 'msg'=> 'success', 'code' => 200 , 'data'  => ['quantity' => $quantity] ]);
+    }
+
+    /**
+     * @param Dish $dish
+     * @return int
+     */
+    private function findDtoToApply(Dish $dish) : array
+    {
+        $promotions = $this->em
+            ->getRepository(Promotion::class)
+            ->findActivePromotion($dish);
+
+        if (!empty($promotions)) {
+            return array_pop($promotions);
+        }
+        return [];
     }
 
     /**
@@ -126,25 +147,47 @@ class CartController extends AbstractController
     * @Route("/" , name="cart" , options={"expose"=true} )
     * @throws \Exception
     */
-    public function cart(CartDishRepository $cartDishRepository): Response
+    public function cart(CartDishRepository $cartDishRepository, CustomManagerRepository $customManagerRepository): Response
     {
         $tokenIdSession = $this->session->get('_cart');
         $cart = $cartDishRepository
             ->findBy(['sessionId' => $tokenIdSession]);
-
+        $links['header'] = $this->prepareLinksHeader();
         return $this->render(
             'cart/index.html.twig',
             [
-                'cart' => $cart
+                'cart' => $cart,
+                'links' => $links,
+                'customManager' => $customManagerRepository->find(1)
             ]
         );
     }
 
+    private function prepareLinksHeader() : array
+    {
+        $links = $this->em->getRepository(Link::class)->findAll();
+        $menu = [];
+        $only = ['home','about','menu','especiales','eventos','chef','galeria','cesta','contacto'];
+
+        if (!empty($links)) {
+            foreach ($links as $link) {
+                if (in_array($link->getSlug(), $only)) {
+                    $menu[$link->getId()] = ['name' => $link->getName(), 'href' => $link->getHref()];
+                }
+            }
+        } else {
+            throw new Exception('this menu should be filled before');
+        }
+
+        return $menu;
+    }
+
     /**
-     * @Route("/ok/" , name="order_confirm_ok")
+     * @Route("/ok/{id}" , name="order_confirm_ok")
+     * @ParamConverter("order", class="App\Entity\Order")
      * @throws \Exception
      */
-    public function order_ok(): Response
+    public function order_ok(EventDispatcherInterface $dispatcher, Order $order, CustomManagerRepository $customManagerRepository): Response
     {
         $tokenIdSession = $this->session->get('_cart');
 
@@ -152,18 +195,21 @@ class CartController extends AbstractController
             throw new UnauthorizedHttpException('you cant allow here');
         }
 
-        $message = 'El pedido se ha realizado correctamente. Recibirá un correo con la confirmación del pedido.';
-        $this->addFlash('success_order', $message);
         $this->session->remove('_cart');
 
-        return $this->render('order/ok.html.twig', []);
+        $orderCreatedEvent = new OrderEvent($this->getUser(), $order);
+        $dispatcher->dispatch($orderCreatedEvent, $orderCreatedEvent::ORDER_CREATED);
+
+        $this->addFlash('success_order', 'El pedido se ha realizado correctamente.');
+
+        return $this->redirectToRoute('user_index');
     }
 
     /**
      * @Route("/ko/" , name="order_confirm_ko")
      * @throws \Exception
      */
-    public function order_ko(): Response
+    public function order_ko(CustomManagerRepository $customManagerRepository): Response
     {
         $tokenIdSession = $this->session->get('_cart');
         if (!$tokenIdSession) {
@@ -172,7 +218,9 @@ class CartController extends AbstractController
 
         $this->session->remove('_cart');
 
-        return $this->render('order/ko.html.twig', []);
+        $this->addFlash('fail_order', 'Hubo un problema al realizar el pedido.');
+
+        return $this->redirectToRoute('user_index');
     }
 
     /**
@@ -181,28 +229,29 @@ class CartController extends AbstractController
      *
      * @throws \Exception
      */
-    public function checkAddress(Request $request, Order $order)
+    public function checkAddress(Request $request, Order $order, CustomManagerRepository $customManagerRepository)
     {
         $address = $this->getUser()->getAddress() ?? new \App\Entity\Address();
-        $form = $this->createForm(AddressType::class,$address);
+        $form = $this->createForm(AddressType::class, $address);
 
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
-
                 $address->setUser($this->getUser());
                 $this->em->persist($address);
                 $this->em->flush();
-                return $this->redirectToRoute('order_confirm_ok');
+                return $this->redirectToRoute('order_confirm_ok', ['id' => $order->getId()]);
             } catch (Exception $e) {
                 $this->addFlash('fail_order', $e->getMessage());
                 return $this->redirectToRoute('order_confirm_ko');
             }
         }
-
-        return $this->render('order/address.html.twig',[
+        $links['header'] = $this->prepareLinksHeader();
+        return $this->render('order/address.html.twig', [
             'form' => $form->createView(),
-            'order' => $order
+            'order' => $order,
+            'links' => $links,
+            'customManager' => $customManagerRepository->find(1)
         ]);
     }
 
@@ -212,25 +261,29 @@ class CartController extends AbstractController
      *
      * @throws \Exception
      */
-    public function paymentMethod(Request $request, Order $order): Response
+    public function paymentMethod(Request $request, Order $order, CustomManagerRepository $customManagerRepository): Response
     {
         $form = $this->createForm(PaymentType::class, $order);
 
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $this->em->persist($order);
                 $this->em->flush();
-                return $this->redirectToRoute('check_address',['id'=>$order->getId()]);
+                return $this->redirectToRoute('check_address', ['id'=>$order->getId()]);
             } catch (Exception $e) {
                 $this->addFlash('fail_order', $e->getMessage());
                 return $this->redirectToRoute('order_confirm_ko');
             }
         }
+        
+        $links['header'] = $this->prepareLinksHeader();
 
-        return $this->render('order/payment_method.html.twig',[
+        return $this->render('order/payment_method.html.twig', [
             'form' => $form->createView(),
-            'order' => $order
+            'order' => $order,
+            'links' => $links,
+            'customManager' => $customManagerRepository->find(1)
         ]);
     }
 
@@ -245,7 +298,7 @@ class CartController extends AbstractController
         $cart = $cartDishRepository
             ->findBy(['sessionId' => $tokenIdSession]);
         if (!$cart) {
-            throw new Exception('i cant do the order. try later');
+            throw new \Exception('i cant do the order. try later');
         }
 
         $order = new Order();
@@ -287,9 +340,6 @@ class CartController extends AbstractController
             return $this->redirectToRoute('order_confirm_ko');
         }
 
-        $orderCreatedEvent = new OrderCreatedEvent($user, $order);
-        $dispatcher->dispatch($orderCreatedEvent, $orderCreatedEvent::ORDER_NEW_CREATED);
-
-        return $this->redirectToRoute('payment_method',['id' => $order->getId()]);
+        return $this->redirectToRoute('payment_method', ['id' => $order->getId()]);
     }
 }

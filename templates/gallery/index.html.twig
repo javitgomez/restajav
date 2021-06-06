@@ -15,13 +15,39 @@
     <!-- end: PAGESLIDE LEFT -->
 {% endblock %}
 
+{% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Galería</h1>
+                  <small>de fotos</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Administración</a></li>
+                <li class="active"><a href="{{ path('admin_gallery') }}">Fotos galería</a></li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+{% endblock %}
+
 {% block content %}
     <!-- start: TABLE WITH IMAGES PANEL -->
     <div class="panel panel-white">
         <form action="{{ path('fileuploadhandler') }}" class="dropzone" id="dropzoneForm"></form>
-
-
-
     </div>
 
     <div class="panel panel-white">

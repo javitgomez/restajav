@@ -1,5 +1,9 @@
 {% extends 'back/index.html.twig' %}
 
+{% block styles %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+{% endblock %}
+
 {% block header %}
     {{ parent() }}
 {% endblock %}
@@ -11,9 +15,47 @@
     <!-- end: PAGESLIDE LEFT -->
 {% endblock %}
 
+{% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Chefs</h1>
+                  <small>cinco estrellas michelin</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="{{ path('admin_chef_index') }}">Administración</a></li>
+                <li class="active">Chefs</li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+{% endblock %}
+
 {% block content %}
-    <!-- start: TABLE WITH IMAGES PANEL -->
-    <div class="panel panel-white">
+<div class="panel-body panel-white">
+    <a href="{{ path('admin_chef_new') }}">
+        <button class="btn btn-primary mb-5">Nuevo registro</button>
+    </a><br>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% if chefs is not empty %}
+        <div class="panel panel-white">
         <table class="table table-striped table-hover" id="sample-table-2">
             <thead>
             <tr>
@@ -26,10 +68,6 @@
                 <th class="hidden-xs">Foto</th>
                 <th class="hidden-xs">Nombre</th>
                 <th class="center">Puesto</th>
-                <th>Twitter</th>
-                <th>Facebook</th>
-                <th>Instagram</th>
-                <th>Linkedin</th>
                 <th></th>
             </tr>
             </thead>
@@ -41,4 +79,13 @@
             </tbody>
         </table>
     </div>
+    {% else %}
+        <h2>No existen registros</h2>
+    {% endif %}
+
+</div>
 {% endblock %}
+
+{% block scripts %}
+  
+{% endblock  %}

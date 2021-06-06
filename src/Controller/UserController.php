@@ -67,6 +67,8 @@ class UserController extends AbstractController
         $userRegistrationEvent = new UserRegistrationEvent($user);
         $dispatcher->dispatch($userRegistrationEvent, $userRegistrationEvent::CONFIRMED_EMAIL);
 
+        $this->addFlash('success_confirmed', 'Su cuenta ya está activada');
+
         return $this->redirectToRoute('user_index');
     }
 
@@ -92,9 +94,9 @@ class UserController extends AbstractController
             $userRegistrationEvent = new UserRegistrationEvent($user);
             $dispatcher->dispatch($userRegistrationEvent, $userRegistrationEvent::RESET_PASS_MAIL);
 
-            return $this->render('user/reset_sended_email.html.twig', [
-                    'form' => $form->createView(),
-                ]);
+            $this->addFlash('success_reset', 'Su solicitud de cambio de contraseña se ha procesado correctamente');
+
+            return $this->redirectToRoute('user_index');
         }
 
         return $this->render('user/reset.html.twig', [
@@ -128,9 +130,9 @@ class UserController extends AbstractController
                 $this->getDoctrine()->getManager()->persist($user);
                 $this->getDoctrine()->getManager()->flush();
 
-                // TODO SEND_CONFIRMED_CHANGE_PASSWORD_EMAIL
+                $this->addFlash('success_change', 'Su clave de acceso se ha cambiado correctamente');
 
-                return $this->render('user/reset_ok.html.twig');
+                return $this->redirectToRoute('user_index');
             }
             return $this->render('user/reset.html.twig', [
                 'form' => $form->createView(),

@@ -19,32 +19,19 @@ class DishRepository extends ServiceEntityRepository
         parent::__construct($registry, Dish::class);
     }
 
-    // /**
-    //  * @return Dish[] Returns an array of Dish objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function searchDishByCriteria(string $data)
     {
         return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('d.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('d.id,d.name,d.photo')
+            ->where('d.name LIKE :name')
+            ->orWhere('d.shortDescription LIKE :description')
+            ->setParameters([
+                'name' => '%' . $data . '%',
+                'description' => '%' . $data . '%',
+            ])
             ->getQuery()
-            ->getResult()
-        ;
+            ->setMaxResults(5)
+            ->getArrayResult()
+            ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Dish
-    {
-        return $this->createQueryBuilder('d')
-            ->andWhere('d.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

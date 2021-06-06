@@ -1,0 +1,107 @@
+{% extends 'back/index.html.twig' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <style>
+        ul#searched-items li {
+            cursor: pointer;
+        }
+        ul#searched-items li:hover {
+            text-decoration: underline;
+            color:darkorange;
+        }
+        .day
+        {
+            cursor: pointer !important;
+        }
+        td.active {
+            background-color: darkorange !important;
+            color: white !important;
+        }
+        .active:hover {
+            color: white !important;
+        }
+    </style>
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block page_slide_left %}
+    <!-- start: PAGESLIDE LEFT -->
+    <a class="closedbar inner hidden-sm hidden-xs" href="#"></a>
+    {{ parent() }}
+    <!-- end: PAGESLIDE LEFT -->
+{% endblock %}
+
+{% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Promociones</h1>
+                  <small>ver descuentos aplicados</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Administración</a></li>
+                <li class="active"><a href="{{ path('admin_promotions') }}">Promociones</a></li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+<div class="panel-body panel-white">
+    <a href="{{ path('admin_promotions_add') }}">
+        <button class="btn btn-primary mb-5">Nueva Promocion</button>
+    </a><br>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% if promotions is not empty %}
+        <h1 style="background-color:whitesmoke;color:darkorange;">Promociones Activas</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Código</th>
+                    <th>Estado</th>
+                    <th>Empieza el:</th>
+                    <th>Acaba el:</th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% import 'macros/private/promotion/promotion.html.twig' as p %}
+            {% for promotion in promotions %}
+                {{ p.print(promotion) }}
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h2>No existen promociones activas</h2>
+    {% endif %}
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+  
+{% endblock  %}

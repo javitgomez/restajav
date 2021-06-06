@@ -1,5 +1,9 @@
 {% extends 'back/index.html.twig' %}
 
+{% block styles %}
+    {{ parent() }}
+{% endblock %}
+
 {% block header %}
     {{ parent() }}
 {% endblock %}
@@ -11,27 +15,41 @@
     <!-- end: PAGESLIDE LEFT -->
 {% endblock %}
 
+{% block tool_bar %}
+      <!-- start: TOOLBAR -->
+      <div class="toolbar row">
+          <div class="col-sm-6 hidden-xs">
+              <div class="page-header">
+                  <h1>Eventos</h1>
+                  <small>incluir eventos de grupo</small>
+              </div>
+          </div>
+          <div class="col-sm-6 col-xs-12"></div>
+      </div>
+      <!-- end: TOOLBAR -->
+  {% endblock %}
+
+{% block bread_crumb %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="#">Administración</a></li>
+                <li class=""><a href="{{ path('admin_event_index') }}">Eventos</a></li>
+                <li class="active"><a href="javascript:void(0)">Añadir evento</a></li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
 {% block main %}
     {{ parent() }}
 {% endblock %}
 
-{% block title %}Nuevo Evento{% endblock %}
-
 {% block content %}
-
-    <!-- start: PAGE CONTENT -->
-    <div class="row">
-    <div class="col-sm-12">
-        <!-- start: TEXT FIELDS PANEL -->
-        <div class="panel panel-white">
-            <div class="panel-heading">
-                <h4 class="panel-title">Añadir nuevo <span class="text-bold">Evento</span></h4>
-            </div>
-            <div class="panel-body">
-                <div class="form-group">
-                    {{ include('event/_form.html.twig') }}
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="panel-body panel-white">
+    <h1>Añadir nuevo evento</h1>
+    {{ include('event/_form.html.twig') }}
+</div>
 {% endblock %}
+
+{% block scripts %}{% endblock  %}

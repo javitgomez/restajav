@@ -73,15 +73,24 @@ class ChefController extends AbstractController
     /**
      * @Route("/{id}/edit", name="admin_chef_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Chef $chef): Response
+    public function edit(Request $request, Chef $chef, UploadService $uploadService): Response
     {
         $form = $this->createForm(ChefType::class, $chef);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $imageFile = $form->get('photo')->getData();
 
-            return $this->redirectToRoute('chef_index');
+            if ($imageFile instanceof UploadedFile) {
+                $newImageFile = $uploadService->uploadFile($imageFile, $this->getParameter('chefs_photo_directory'));
+                $chef->setImage($newImageFile);
+            }
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($chef);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('admin_chef_new');
         }
 
         return $this->render('chef/edit.html.twig', [
@@ -101,7 +110,7 @@ class ChefController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('chef_index');
+        return $this->redirectToRoute('admin_chef_index');
     }
 
     /**

@@ -9,6 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 
 class RegistrationSubscriber implements EventSubscriberInterface
 {
@@ -24,19 +25,13 @@ class RegistrationSubscriber implements EventSubscriberInterface
         $this->logger = $logger;
     }
 
-
-    public function onUserChangePassword(UserRegistrationEvent $event)
-    {
-        // TODO
-    }
-
     public function onUserRegistration(UserRegistrationEvent $event)
     {
         $this->logger->info('onUserRegistration entered');
         $email = (new TemplatedEmail())
-            ->from('admin@restajav.com')
+            ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))
             ->to($event->getUser()->getEmail())
-            ->subject('Your account in RestaJav has been created')
+            ->subject('Su cuenta de usuario ha sido creada')
             ->htmlTemplate('emails/user/registration/signup.html.twig')
             // pass variables (name => value) to the template
             ->context([
@@ -54,9 +49,9 @@ class RegistrationSubscriber implements EventSubscriberInterface
     {
         $this->logger->info('onUserConfirmedEmail entered');
         $email = (new TemplatedEmail())
-            ->from('admin@restajav.com')
+            ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))
             ->to($event->getUser()->getEmail())
-            ->subject('Email Account confirmed!')
+            ->subject('Su email de usuario ha sido confirmado')
             ->htmlTemplate('emails/user/registration/confirmed.html.twig')
             // pass variables (name => value) to the template
             ->context([
@@ -74,9 +69,9 @@ class RegistrationSubscriber implements EventSubscriberInterface
     {
         $this->logger->info('onUserResetPassword entered');
         $email = (new TemplatedEmail())
-            ->from('admin@restajav.com')
+            ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))
             ->to($event->getUser()->getEmail())
-            ->subject('Reset Password confirmed!')
+            ->subject('Solicitud de cambio de contraseña')
             ->htmlTemplate('emails/user/reset/linkAccess.html.twig')
             // pass variables (name => value) to the template
             ->context([
@@ -94,7 +89,6 @@ class RegistrationSubscriber implements EventSubscriberInterface
     {
         return [
             UserRegistrationEvent::USER_NEW_SIGNUP => 'onUserRegistration',
-            UserRegistrationEvent::CHANGE_PASSWORD => 'onUserChangePassword',
             UserRegistrationEvent::CONFIRMED_EMAIL => 'onUserConfirmedEmail',
             UserRegistrationEvent::RESET_PASS_MAIL => 'onUserResetPassword'
         ];

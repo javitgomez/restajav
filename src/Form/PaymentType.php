@@ -17,7 +17,7 @@ class PaymentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('paymentMethod',ChoiceType::class,[
+            ->add('paymentMethod', ChoiceType::class, [
                 'choices' => [
                     'Paypal' => 'paypal',
                     'Redsys' => 'redsys',

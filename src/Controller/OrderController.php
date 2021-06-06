@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Order;
 use App\Entity\OrderItem;
-use App\Events\OrderCreatedEvent;
 use App\Repository\CartDishRepository;
 use App\Repository\DishRepository;
 use App\Repository\OrderRepository;
