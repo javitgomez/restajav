@@ -74,13 +74,23 @@ class EventController extends AbstractController
     /**
      * @Route("/{id}/edit", name="admin_event_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Event $event): Response
+    public function edit(Request $request, Event $event, UploadService $uploadService): Response
     {
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            /** @var UploadedFile $photoFile */
+            $imageFile = $form->get('photo')->getData();
+
+            if ($imageFile instanceof UploadedFile) {
+                $newImageFile = $uploadService->uploadFile($imageFile, $this->getParameter('events_photo_directory'));
+                $event->setImage($newImageFile);
+            }
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($event);
+            $entityManager->flush();
 
             return $this->redirectToRoute('admin_event_index');
         }

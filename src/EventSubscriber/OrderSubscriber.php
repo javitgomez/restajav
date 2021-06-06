@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Message;
+use Symfony\Component\Mime\Address;
 
 class OrderSubscriber implements EventSubscriberInterface
 {
@@ -28,9 +29,9 @@ class OrderSubscriber implements EventSubscriberInterface
     {
         $this->logger->info('on Order created');
         $email = (new TemplatedEmail())
-            ->from('admin@restajav.com')
+            ->from(new Address('registro@horuslegalalliance.es', 'RestaJav'))
             ->to($event->getUser()->getEmail())
-            ->subject('Your Order has been realized')
+            ->subject('Su pedido ha sido realizado')
             ->htmlTemplate('emails/order/created.html.twig')
             // pass variables (name => value) to the template
             ->context([
@@ -47,7 +48,7 @@ class OrderSubscriber implements EventSubscriberInterface
 
     public function onOrderDelivered(OrderEvent $event)
     {
-        $this->logger->info('on Order created');
+        $this->logger->info('on Order delivered');
         $email = (new TemplatedEmail())
             ->from('admin@restajav.com')
             ->to($event->getUser()->getEmail())

@@ -308,8 +308,8 @@
 
     <div class="container" data-aos="fade-up">
       <div class="section-title">
-        <h2>Gallery</h2>
-        <p>Some photos from Our Restaurant</p>
+        <h2>Galería de fotos</h2>
+        <p>algunas fotos de nuestro restaurante</p>
       </div>
     </div>
 
@@ -335,7 +335,7 @@
 
       <div class="section-title">
         <h2>Chefs</h2>
-        <p>Nuestros mágnificos chefs</p>
+        <p>Nuestros magníficos chefs</p>
       </div>
 
       <div class="row">
@@ -430,6 +430,7 @@
     </div>
   </section><!-- End Contact Section -->
   <div id="modal" data-iziModal-group="alert"></div>
+  <div id="modal-response" data-iziModal-group="alert"></div>
 </main><!-- End #main -->
 {% endblock %}
 
@@ -446,7 +447,6 @@
 
      $('.menu-item button[type="submit"]').on('click', function(){
        let id = $(this).data('dish-id');
-
        $.post( Routing.generate('add_dish_to_cart', { id_dish: id } ) , function( response ) {
           console.log(response);
           if(response.code === 403) {
@@ -479,7 +479,7 @@
 {% for message in app.flashes('success_survey') %}
   <script>
     $(document).ready(function() {
-      let modal = $("#modal").iziModal({
+      let modal = $("#modal-response").iziModal({
         title: '<i class="bi bi-bookmark-check"></i> {{ message }}',
         subtitle: 'La revisaremos, y será publicada en la portada.',
         icon: 'icon-power_settings_new',
@@ -499,7 +499,7 @@
 {% for message in app.flashes('success_register') %}
   <script>
     $(document).ready(function() {
-      let modal = $("#modal").iziModal({
+      let modal = $("#modal-response").iziModal({
         title: '<i class="bi bi-bookmark-check"></i> {{ message }}',
         subtitle: 'Le llegará un enlace para poder activar su cuenta de usuario y utilizar nuestros servicios',
         icon: 'icon-power_settings_new',
@@ -519,7 +519,7 @@
 {% for message in app.flashes('success_reset') %}
   <script>
     $(document).ready(function() {
-      let modal = $("#modal").iziModal({
+      let modal = $("#modal-response").iziModal({
         title: '<i class="bi bi-bookmark-check"></i> {{ message }}',
         subtitle: 'Le llegará un enlace para poder actualizar su contraseña de acceso',
         icon: 'icon-power_settings_new',
@@ -539,7 +539,7 @@
 {% for message in app.flashes('success_change') %}
   <script>
     $(document).ready(function() {
-      let modal = $("#modal").iziModal({
+      let modal = $("#modal-response").iziModal({
         title: '<i class="bi bi-bookmark-check"></i> {{ message }}',
         subtitle: 'Puede identificarse de nuevo con la nueva clave',
         icon: 'icon-power_settings_new',
@@ -559,9 +559,49 @@
 {% for message in app.flashes('success_confirmed') %}
   <script>
     $(document).ready(function() {
-      let modal = $("#modal").iziModal({
+      let modal = $("#modal-response").iziModal({
         title: '<i class="bi bi-bookmark-check"></i> {{ message }}',
         subtitle: 'Estamos encantados de volver a verle.',
+        icon: 'icon-power_settings_new',
+        headerColor: '#008926',
+        background: '#008926',
+        width: 600,
+        timeout: 5000,
+        timeoutProgressbar: true,
+        transitionIn: 'fadeInDown',
+        transitionOut: 'fadeOutDown',
+        pauseOnHover: true
+      });
+      modal.iziModal('open');
+    });
+  </script>
+{% endfor %}
+{% for message in app.flashes('success_order') %}
+  <script>
+    $(document).ready(function() {
+      let modal = $("#modal-response").iziModal({
+        title: '<i class="bi bi-bookmark-check"></i> {{ message }}',
+        subtitle: 'Recibirá otro email cuando el repartidor salga del restaurante.',
+        icon: 'icon-power_settings_new',
+        headerColor: '#008926',
+        background: '#008926',
+        width: 600,
+        timeout: 5000,
+        timeoutProgressbar: true,
+        transitionIn: 'fadeInDown',
+        transitionOut: 'fadeOutDown',
+        pauseOnHover: true
+      });
+      modal.iziModal('open');
+    });
+  </script>
+{% endfor %}
+{% for message in app.flashes('fail_order') %}
+  <script>
+    $(document).ready(function() {
+      let modal = $("#modal-response").iziModal({
+        title: '<i class="bi bi-bookmark-check"></i> {{ message }}',
+        subtitle: 'Inténtelo más tarde, o consulte con el administrador.',
         icon: 'icon-power_settings_new',
         headerColor: '#008926',
         background: '#008926',

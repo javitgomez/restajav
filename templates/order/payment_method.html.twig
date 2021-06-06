@@ -1,28 +1,57 @@
 {% extends 'front/layout.html.twig' %}
 
-
 {% block top_bar %}
-    {{ parent() }}
+<!-- ======= Top Bar ======= -->
+<div id="topbar" class="d-flex align-items-center fixed-top">
+  <div class="container d-flex justify-content-center justify-content-md-between">
+
+    <div class="contact-info d-flex align-items-center">
+      {{ customManager.phone|raw }}
+      {{ customManager.calendar|raw }}
+    </div>
+
+  </div>
+</div>
 {% endblock %}
 
 {% block header %}
-    {{ parent() }}
+<!-- ======= Header ======= -->
+<header id="header" class="fixed-top d-flex align-items-cente">
+
+<div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between">
+
+  <h1 class="logo me-auto me-lg-0"><a href="{{path('user_index')}}">Restaurantly</a></h1>
+
+  <!-- Uncomment below if you prefer to use an image logo -->
+  <!-- <a href="index.html" class="logo me-auto me-lg-0"><img src="front/assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+  <nav id="navbar" class="navbar order-last order-lg-0">
+    <ul>
+        {% for link in links['header'] %}
+           <li><a class="nav-link scrollto {% if loop.index == 1%}active{%endif%}" href="{{ link.href }}">{{ link.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <i class="bi bi-list mobile-nav-toggle"></i>
+  </nav><!-- .navbar -->
+
+  {% if app.user is defined and app.user is not null %}
+    <span>Bienvenido <b>{{ app.user.username }}</b></span>
+  {% else %}
+  <a href="{{ path('app_login') }}" class="book-a-table-btn scrollto d-none d-lg-flex">Entrar</a>
+  {% endif %}
+
+</div>
+</header><!-- End Header -->
 {% endblock %}
-
-{% block hero %}
-
-{% endblock %}
-
 
 {% block main %}
     <main id="main">
         <section class="breadcrumbs">
             <div class="container">
-
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2>Selección del método de pago</h2>
+                    <h2><i class="bi bi-check-circle"></i> Paso 2 - Selección del método de pago</h2>
                     <ol>
-                        <li><a href="{{ path('user_index') }}">Ir a catálogo</a></li>
+                        <li><a href="{{ path('user_index') }}#menu">Ir a catálogo</a></li>
                     </ol>
                 </div>
 
@@ -33,7 +62,6 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
-                        <h1>Seleccionar método de pago</h1><br>
                         {{ form_start(form) }}
                         {{ form_end(form) }}
                     </div>

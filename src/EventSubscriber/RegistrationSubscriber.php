@@ -25,12 +25,6 @@ class RegistrationSubscriber implements EventSubscriberInterface
         $this->logger = $logger;
     }
 
-
-    public function onUserChangePassword(UserRegistrationEvent $event)
-    {
-        // TODO
-    }
-
     public function onUserRegistration(UserRegistrationEvent $event)
     {
         $this->logger->info('onUserRegistration entered');
@@ -95,7 +89,6 @@ class RegistrationSubscriber implements EventSubscriberInterface
     {
         return [
             UserRegistrationEvent::USER_NEW_SIGNUP => 'onUserRegistration',
-            UserRegistrationEvent::CHANGE_PASSWORD => 'onUserChangePassword',
             UserRegistrationEvent::CONFIRMED_EMAIL => 'onUserConfirmedEmail',
             UserRegistrationEvent::RESET_PASS_MAIL => 'onUserResetPassword'
         ];
