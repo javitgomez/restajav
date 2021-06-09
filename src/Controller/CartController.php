@@ -14,6 +14,7 @@ use App\Form\PaymentType;
 use App\Form\AddressType;
 use App\Repository\CartDishRepository;
 use App\Repository\DishRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -288,13 +289,13 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("/create/" , name="order_create")
+     * @Route("/create/" , name="order_create" , methods={"POST"} )
      * @throws \Exception
      */
-    public function createOrder(CartDishRepository $cartDishRepository, DishRepository $dishRepository, EventDispatcherInterface $dispatcher): RedirectResponse
+    public function createOrder(Request $request, CartDishRepository $cartDishRepository, DishRepository $dishRepository, EventDispatcherInterface $dispatcher): RedirectResponse
     {
         $tokenIdSession = $this->session->get('_cart');
-
+        $codePromotion = $request->request->get('code-promotion');
         $cart = $cartDishRepository
             ->findBy(['sessionId' => $tokenIdSession]);
         if (!$cart) {
@@ -310,6 +311,7 @@ class CartController extends AbstractController
 
         $order->setState(Order::RECEIVED);
         $sumTotalOrder = 0.0;
+        $sumTotaDto = 0.0;
 
         foreach ($cart as $item) {
             /** @var \App\Entity\CartDish $item */
@@ -321,8 +323,13 @@ class CartController extends AbstractController
                 throw new Exception('the dish has been deleted from server');
             }
 
-            $sumTotalOrder += $dish->getPrize();
-            // TODO set dto here
+            $prizeWithDtoApplied = $this->applyDto($dish, $codePromotion);
+            if (null !== $prizeWithDtoApplied) {
+                $sumTotaDto += $dish->getPrize() - $prizeWithDtoApplied;
+            }
+
+            $sumTotalOrder += $dish->getPrize() ;
+           
             $orderItem->setDish($dish);
             $this->em->remove($item);
             $order->addItem($orderItem);
@@ -330,16 +337,20 @@ class CartController extends AbstractController
 
         $order->setUser($user);
         $order->setTotal($sumTotalOrder);
-        $order->setTotalDto(0.00);
+        $order->setTotalDto($sumTotaDto);
 
-        try {
-            $this->em->persist($order);
-            $this->em->flush();
-        } catch (Exception $e) {
-            $this->addFlash('fail_order', $e->getMessage());
-            return $this->redirectToRoute('order_confirm_ko');
-        }
+        $this->em->persist($order);
+        $this->em->flush();
 
         return $this->redirectToRoute('payment_method', ['id' => $order->getId()]);
+    }
+
+    public function applyDto(Dish $dish, string $codePromotion)
+    {
+        $promotionsRepository = $this->em->getRepository(Promotion::class);
+
+        $dtoToApply = $promotionsRepository->findDtoToApply($dish, $codePromotion);
+
+        return (null !== $dtoToApply) ? $dish->getPrize() - ($dish->getPrize() * $dtoToApply / 100) : null;
     }
 }

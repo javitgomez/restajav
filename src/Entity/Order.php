@@ -35,7 +35,23 @@ class Order
     /**
      * @ORM\Column(type="float")
      */
-    private $total_dto;
+    private $totalDto;
+
+    /**
+     * @return mixed
+     */
+    public function getTotalDto()
+    {
+        return $this->totalDto;
+    }
+
+    /**
+     * @param mixed $totalDto
+     */
+    public function setTotalDto($totalDto): void
+    {
+        $this->totalDto = $totalDto;
+    }
 
     /**
      * @ORM\Column(type="string", length=10)
@@ -86,18 +102,6 @@ class Order
     public function setTotal(float $total): self
     {
         $this->total = $total;
-
-        return $this;
-    }
-
-    public function getTotalDto(): ?float
-    {
-        return $this->total_dto;
-    }
-
-    public function setTotalDto(float $total_dto): self
-    {
-        $this->total_dto = $total_dto;
 
         return $this;
     }
