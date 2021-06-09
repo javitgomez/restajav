@@ -69,6 +69,7 @@
     <section class="inner-page">
         <div class="container">
         {% if cart is defined and cart is not empty %}
+        <form action="{{ path('order_create') }}" method="POST">
         <table class="table table-light">
         <thead>
             <tr>
@@ -97,10 +98,10 @@
         {% endfor %}
         <tr><td colspan="4">Total pedido: <b>{{ total_order|round(2) }}</b> €</td></tr>
         <tr><td colspan="4">Aplicar código de descuento: <input type="text" name="code-promotion"></td></tr>
-        <tr><td colspan="4"><a href="{{ path('order_create') }}"><button class="btn btn-primary">Ir a Pagar</button></a></td></tr>
+        <tr><td colspan="4"><button class="btn btn-primary">Ir a Pagar</button></td></tr>
         </tbody>
         </table>
-
+        </form>
         {% else %}
             <span>Cesta vacía . Ir a <a href="{{ path('user_index') }}#menu">catálogo</a> para comprar</span>
         {% endif %}

@@ -42,4 +42,34 @@ class PromotionRepository extends ServiceEntityRepository
             ->getArrayResult()
         ;
     }
+
+    public function findDtoToApply(Dish $dish, string $code) : ?int
+    {
+        $result =  $this->createQueryBuilder('p')
+            ->select('p.dto')
+            ->where('p.status = :status')
+            ->andWhere('p.begin <= :date')
+            ->andWhere('p.ending >= :date')
+            ->andWhere('p.dish = :dish OR p.category = :category')
+            ->andWhere('p.code = :code')
+            ->setParameters(
+                [
+                    'status'=> 1,
+                    'date'=> new \DateTime('now') ,
+                    'dish'=> $dish,
+                    'category' => $dish->getCategory(),
+                    'code' => $code
+                ]
+            )
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+
+        if (!empty($result)) {
+            return array_pop($result)['dto'];
+        }
+
+        return null;
+    }
 }
