@@ -111,7 +111,6 @@ class WorkflowLoggerSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'workflow.message.leave'    => 'onMessageLeave',
             'workflow.order.completed'  => 'onOrderCompletedTransition',
         ];
     }
