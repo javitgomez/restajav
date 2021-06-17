@@ -112,13 +112,13 @@
 
                                     <div class="hide-for-mobile">
                                         <div class="text-nav" style="color:#ffffff; font-family:Arial, sans-serif; min-width:auto !important; font-size:12px; line-height:22px; text-align:center">
-                                            <a href="https://horuslegalalliance.es/" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">HOME</span></a>
+                                            <a href="{{customManager.domain}}" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">HOME</span></a>
                                             &nbsp;&nbsp;|&nbsp;&nbsp;
-                                            <a href="https://horuslegalalliance.es/#why-us" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">POR QUÉ NOSOTROS</span></a>
+                                            <a href="{{customManager.domain}}/#why-us" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">POR QUÉ NOSOTROS</span></a>
                                             &nbsp;&nbsp;|&nbsp;&nbsp;
-                                            <a href="https://horuslegalalliance.es/#menu" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">CATÁLOGO</span></a>
+                                            <a href="{{customManager.domain}}/#menu" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">CATÁLOGO</span></a>
                                             &nbsp;&nbsp;|&nbsp;&nbsp;
-                                            <a href="https://horuslegalalliance.es/#contact" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">CONTACTO</span></a>
+                                            <a href="{{customManager.domain}}/#contact" target="_blank" class="link-white" style="color:#ffffff; text-decoration:none"><span class="link-white" style="color:#ffffff; text-decoration:none">CONTACTO</span></a>
                                         </div>
                                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%"><tr><td height="20" class="spacer" style="font-size:0pt; line-height:0pt; text-align:center; width:100%; min-width:100%">&nbsp;</td></tr></table>
 
@@ -191,7 +191,7 @@
                                                         <table width="100%">
                                                         {% for item in order.getItems %}
                                                         <tr><td>
-                                                        <img style="width:124px;height:124px;border:1px solid gray" src="https://horuslegalalliance.es{{ asset('uploads/dish_photo/' ~ item.getDish.photo) }}" alt="{{ item.getDish.name }}" /> </td>
+                                                        <img style="width:124px;height:124px;border:1px solid gray" src="{{customManager.domain}}{{ asset('uploads/dish_photo/' ~ item.getDish.photo) }}" alt="{{ item.getDish.name }}" /> </td>
                                                         <td>{{ item.getDish.name }} - Cantidad: <b>{{ item.quanty }}</b> - <b>{{ item.getDish.prize }}</b> &euro;</td></tr>
                                                         {% endfor %}
                                                         </table>

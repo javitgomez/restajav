@@ -25,7 +25,9 @@
     #hero {
       width: 100%;
       height: 100vh;
+      {% if customManager.photoMain is defined %}
       background: url('{{asset('uploads/manager/' ~ customManager.photoMain )}}') top center ;
+      {% endif %}
       background-size: cover;
       position: relative;
       padding: 0;

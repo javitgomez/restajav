@@ -1,4 +1,12 @@
-# use this commands for create a virtual host for the project
+Opcion 1:
+# Acceder desde el Hosting 
+
+-  https://horuslegalalliance.es/
+	user Admin: admin@restajav.com
+	pass: 1234
+
+Opcion 2:
+# Acceder en Local, para ello usar estos comandos para crear el virtual host 
 
 - instalar php y extensiones básicas
 sudo apt install php php-mysql php-intl php-curl php-xml php-mbstring
@@ -39,11 +47,13 @@ sudo service apache2 reload
 - instalar Mysql
 sudo apt install mysql-server
 - configuración del usuario de base de datos
-..........instrucciones para añadir un usuario de forma segura en mysql ......
-- importar base de datos
+
+<--- Instrucciones para añadir un usuario de forma segura en mysql  ---->
+- importar base de datos desde el comando o hacerlo manualmente /SQL
 mysql -u usuario -p “proyecto” < dump.sql
 
-# use this when the projects starts
+
+# usar estos comandos cuando comencemos
 php bin/console doctrine:schema:update --force
 php bin/console assets:install public
 composer install

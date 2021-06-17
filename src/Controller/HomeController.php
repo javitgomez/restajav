@@ -99,7 +99,7 @@ class HomeController extends AbstractController
                 }
             }
         } else {
-            throw new Exception('this menu should be filled before');
+            throw new \Exception('this menu should be filled before');
         }
 
         return $menu;

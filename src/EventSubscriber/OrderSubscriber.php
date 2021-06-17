@@ -12,17 +12,21 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Mime\Address;
+use App\Repository\CustomManagerRepository;
 
 class OrderSubscriber implements EventSubscriberInterface
 {
     private $mailer;
     private $logger;
+    private $customManagerRepository;
 
 
-    public function __construct(MailerInterface $mailer, LoggerInterface $logger)
+    public function __construct(MailerInterface $mailer, LoggerInterface $logger, CustomManagerRepository $customManagerRepository)
     {
         $this->mailer = $mailer;
         $this->logger = $logger;
+        $this->customManagerRepository = $customManagerRepository;
+        
     }
 
     public function onOrderCreated(OrderEvent $event)
@@ -37,6 +41,7 @@ class OrderSubscriber implements EventSubscriberInterface
             ->context([
                 'user' => $event->getUser(),
                 'order' => $event->getOrder(),
+                'customManager' =>$this->customManagerRepository->find(1),
             ]);
 
         try {

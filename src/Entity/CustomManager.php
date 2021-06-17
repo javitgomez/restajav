@@ -63,9 +63,14 @@ class CustomManager
     private $googleMapsFrame;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $photoMain;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $domain;
 
     public function getId(): ?int
     {
@@ -188,6 +193,18 @@ class CustomManager
     public function setPhotoMain(string $photoMain): self
     {
         $this->photoMain = $photoMain;
+
+        return $this;
+    }
+
+    public function getDomain(): ?string
+    {
+        return $this->domain;
+    }
+
+    public function setDomain(string $domain): self
+    {
+        $this->domain = $domain;
 
         return $this;
     }

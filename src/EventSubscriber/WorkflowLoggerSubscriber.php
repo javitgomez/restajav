@@ -12,16 +12,19 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Workflow\Event\Event;
 use Symfony\Component\Mime\Address;
+use App\Repository\CustomManagerRepository;
 
 class WorkflowLoggerSubscriber implements EventSubscriberInterface
 {
     private $logger;
     private $mailer;
+    private $customManagerRepository;
 
-    public function __construct(LoggerInterface $logger, MailerInterface $mailer)
+    public function __construct(LoggerInterface $logger, MailerInterface $mailer, CustomManagerRepository $customManagerRepository)
     {
         $this->logger = $logger;
         $this->mailer = $mailer;
+        $this->customManagerRepository = $customManagerRepository;
     }
 
     public function onLeave(Event $event)
@@ -76,6 +79,7 @@ class WorkflowLoggerSubscriber implements EventSubscriberInterface
             // pass variables (name => value) to the template
             ->context([
                 'user' => $user,
+                'customManager' =>$this->customManagerRepository->find(1),
             ]);
 
         try {
@@ -99,6 +103,7 @@ class WorkflowLoggerSubscriber implements EventSubscriberInterface
             // pass variables (name => value) to the template
             ->context([
                 'user' => $user,
+                'customManager' =>$this->customManagerRepository->find(1),
             ]);
 
         try {

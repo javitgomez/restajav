@@ -10,19 +10,22 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use App\Repository\CustomManagerRepository;
 
 class RegistrationSubscriber implements EventSubscriberInterface
 {
     private $mailer;
     private $session;
     private $logger;
+    private $customManagerRepository;
 
 
-    public function __construct(MailerInterface $mailer, SessionInterface $session, LoggerInterface $logger)
+    public function __construct(MailerInterface $mailer, SessionInterface $session, LoggerInterface $logger, CustomManagerRepository $customManagerRepository)
     {
         $this->mailer = $mailer;
         $this->session = $session;
         $this->logger = $logger;
+        $this->customManagerRepository = $customManagerRepository;
     }
 
     public function onUserRegistration(UserRegistrationEvent $event)
@@ -36,6 +39,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
             // pass variables (name => value) to the template
             ->context([
                 'user' => $event->getUser(),
+                'customManager' =>$this->customManagerRepository->find(1),
             ]);
 
         try {
@@ -56,6 +60,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
             // pass variables (name => value) to the template
             ->context([
                 'user' => $event->getUser(),
+                'customManager' =>$this->customManagerRepository->find(1),
             ]);
 
         try {
@@ -76,6 +81,7 @@ class RegistrationSubscriber implements EventSubscriberInterface
             // pass variables (name => value) to the template
             ->context([
                 'user' => $event->getUser(),
+                'customManager' =>$this->customManagerRepository->find(1),
             ]);
 
         try {

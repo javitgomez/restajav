@@ -44,6 +44,10 @@ class CustomManagerType extends AbstractType
                 'label' => 'Teléfono restaurante',
                 'attr' => ['class' => 'form-control']
             ])
+            ->add('domain', TextType::class, [
+                'label' => 'Dominio restaurante',
+                'attr' => ['class' => 'form-control']
+            ])
             ->add('calendar', TextType::class, [
                 'label' => 'Horario restaurante',
                 'attr' => ['class' => 'form-control']

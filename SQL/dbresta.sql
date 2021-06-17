@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 06-06-2021 a las 22:21:07
+-- Tiempo de generación: 12-06-2021 a las 15:29:34
 -- Versión del servidor: 10.3.28-MariaDB-log
 -- Versión de PHP: 7.4.16
 
@@ -218,7 +218,9 @@ CREATE TABLE `contact_form` (
 --
 
 INSERT INTO `contact_form` (`id`, `name`, `email`, `subject`, `message`, `created_at`, `updated_at`, `state`) VALUES
-(1, 'Roberto', 'manchadoroberto@gmail.com', 'test', 'test', '2021-05-03 18:59:48', '2021-05-03 20:30:50', 'answered');
+(1, 'Roberto', 'manchadoroberto@gmail.com', 'test', 'test', '2021-05-03 18:59:48', '2021-05-03 20:30:50', 'answered'),
+(2, 'Javier Toribio', 'javitgomez@gmail.com', 'Teneis leche sin lactosa?', 'Teneis leche sin lactosa? gracias', '2021-06-10 21:43:56', '2021-06-10 21:43:56', 'received'),
+(3, 'Paco Martinez Soria', 'paco@gmail.com', 'Podria reservar un cumpleaños?', 'Podria reservar un cumpleaños? gracias', '2021-06-10 21:44:34', '2021-06-11 11:40:17', 'answered');
 
 -- --------------------------------------------------------
 
@@ -245,7 +247,7 @@ CREATE TABLE `custom_manager` (
 --
 
 INSERT INTO `custom_manager` (`id`, `phone`, `calendar`, `description`, `photo_description`, `location`, `open_hour`, `email`, `call_phone`, `google_maps_frame`, `photo_main`) VALUES
-(1, '<i class=\"bi bi-phone d-flex align-items-center\"><span>650929247</span></i>', '<i class=\"bi bi-clock d-flex align-items-center ms-4\"><span> Lun-Sáb: 11AM - 23PM</span></i>', '<h2>Voluptatem dignissimos provident quasi corporis voluptates sit assumenda.</h2>\r\n\r\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\r\n\r\n<ul>\r\n	<li>Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>\r\n	<li>Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>\r\n	<li>Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>\r\n</ul>\r\n\r\n<p>&nbsp;Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt i culpa qui officia deserunt mollit anim id est laborum.</p>', 'headway-F2KRf-QfCqw-unsplash-60ba7805bd64c.jpg', 'Calle Jose María Py, 19 03005 Alicante', 'Monday-Saturday: 11:00 AM - 2300 PM', 'info@horuslegalalliance.es', '650929247', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d930.268201709875!2d-0.4929645920489541!3d38.348130656526834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd623651f6a48cf1%3A0x401f9cf3219fe558!2sCalle%20Jose%20Maria%20Py%2C%2003005%20Alicante%20(Alacant)%2C%20Alicante!5e0!3m2!1ses!2ses!4v1622832996521!5m2!1ses!2ses\" width=\"100%\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\"></iframe>', 'comedor-03-restaurante-amaren-60bd250f0e999.jpg');
+(1, '<i class=\"bi bi-phone d-flex align-items-center\"><span>650929247</span></i>', '<i class=\"bi bi-clock d-flex align-items-center ms-4\"><span> Lun-Sáb: 11AM - 23PM</span></i>', '<h2><span style=\"font-size:16px\">En este dif&iacute;cil momento, la coordinaci&oacute;n sanitaria necesita el aporte de cada uno de nosotros. Mientras no se publiquen cambios en la normativa, creemos que debemos aplicar escrupulosamente las reglas generales de prevenci&oacute;n.<br />\r\n<br />\r\nPor doloroso que sea, les informamos que el Primer Piso&nbsp;permanecer&aacute; cerrado hasta que finalice la emergencia sanitaria.</span></h2>', 'headway-F2KRf-QfCqw-unsplash-60ba7805bd64c.jpg', 'Calle Jose María Py, 19 03005 Alicante', 'Monday-Saturday: 11:00 AM - 2300 PM', 'info@horuslegalalliance.es', '650929247', '<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d930.268201709875!2d-0.4929645920489541!3d38.348130656526834!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd623651f6a48cf1%3A0x401f9cf3219fe558!2sCalle%20Jose%20Maria%20Py%2C%2003005%20Alicante%20(Alacant)%2C%20Alicante!5e0!3m2!1ses!2ses!4v1622832996521!5m2!1ses!2ses\" width=\"100%\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\"></iframe>', 'comedor-03-restaurante-amaren-60bd250f0e999.jpg');
 
 -- --------------------------------------------------------
 
@@ -363,14 +365,14 @@ CREATE TABLE `image` (
 --
 
 INSERT INTO `image` (`id`, `name`, `url`, `visible`, `created_at`, `updated_at`) VALUES
-(1, '4ecf4ab175c4902f54fa9496f39ab532.jpg', '4ecf4ab175c4902f54fa9496f39ab532.jpg', 0, '2021-06-05 22:23:12', '2021-06-05 22:23:12'),
-(2, 'ecb75dabbded84cc76d7b3a77034c536.jpg', 'ecb75dabbded84cc76d7b3a77034c536.jpg', 0, '2021-06-05 22:23:12', '2021-06-05 22:23:12'),
-(3, 'ce25cd7a8e9730b6a7c94ce6ed05612b.jpg', 'ce25cd7a8e9730b6a7c94ce6ed05612b.jpg', 0, '2021-06-05 22:23:12', '2021-06-05 22:23:12'),
-(4, '4c72a97ebb855976cc1f58bc985a0b4f.jpg', '4c72a97ebb855976cc1f58bc985a0b4f.jpg', 0, '2021-06-05 22:23:12', '2021-06-05 22:23:12'),
-(5, 'd656b71af5cd990351c80aee534a92e7.jpg', 'd656b71af5cd990351c80aee534a92e7.jpg', 0, '2021-06-05 22:23:30', '2021-06-05 22:23:30'),
-(6, 'e0a5082cbe49b2454079c19b369113e4.jpg', 'e0a5082cbe49b2454079c19b369113e4.jpg', 0, '2021-06-05 22:23:41', '2021-06-05 22:23:41'),
-(7, '6b3de04c2e855010d1755db93ce2620f.jpg', '6b3de04c2e855010d1755db93ce2620f.jpg', 0, '2021-06-05 22:23:41', '2021-06-05 22:23:41'),
-(8, 'e2e4c29b1235504e1bc9ff0cb06e8ab0.jpg', 'e2e4c29b1235504e1bc9ff0cb06e8ab0.jpg', 0, '2021-06-05 22:23:41', '2021-06-05 22:23:41');
+(11, '52d641ac2d06fc9650802e72ed3c93ba.jpg', '52d641ac2d06fc9650802e72ed3c93ba.jpg', 0, '2021-06-12 07:37:19', '2021-06-12 07:37:19'),
+(12, 'c16ae02ce9c7c5be32b2bda6632d8998.jpg', 'c16ae02ce9c7c5be32b2bda6632d8998.jpg', 0, '2021-06-12 07:37:19', '2021-06-12 07:37:19'),
+(13, '2ae5976b49bd54cba22d1c93ac335b90.jpg', '2ae5976b49bd54cba22d1c93ac335b90.jpg', 0, '2021-06-12 07:37:19', '2021-06-12 07:37:19'),
+(14, '01625df1d1482e39a172261644d496db.jpg', '01625df1d1482e39a172261644d496db.jpg', 0, '2021-06-12 07:37:19', '2021-06-12 07:37:19'),
+(15, 'e68580d073e991927b078c20ae67dccd.jpg', 'e68580d073e991927b078c20ae67dccd.jpg', 0, '2021-06-12 07:37:19', '2021-06-12 07:37:19'),
+(16, 'fd417379c14146a85a65f2a1e384289f.jpg', 'fd417379c14146a85a65f2a1e384289f.jpg', 0, '2021-06-12 07:37:19', '2021-06-12 07:37:19'),
+(17, 'a864d22309fc17c6e1a8e99c9e17f318.jpg', 'a864d22309fc17c6e1a8e99c9e17f318.jpg', 0, '2021-06-12 07:37:19', '2021-06-12 07:37:19'),
+(18, 'c50b07cf119596d307486e54c5029790.jpg', 'c50b07cf119596d307486e54c5029790.jpg', 0, '2021-06-12 07:37:19', '2021-06-12 07:37:19');
 
 -- --------------------------------------------------------
 
@@ -424,7 +426,9 @@ CREATE TABLE `orderCustomer` (
 --
 
 INSERT INTO `orderCustomer` (`id`, `total`, `total_dto`, `state`, `created_at`, `updated_at`, `user_id`, `payment_method`) VALUES
-(49, 203.34, 0, 'delivered', '2021-06-06 21:58:54', '2021-06-06 22:03:50', 37, 'paypal');
+(49, 203.34, 0, 'delivered', '2021-06-06 21:58:54', '2021-06-06 22:03:50', 37, 'paypal'),
+(50, 125.39, 0, 'received', '2021-06-10 21:23:09', '2021-06-10 21:23:45', 37, 'redsys'),
+(51, 29.1, 0, 'received', '2021-06-11 17:10:27', '2021-06-11 17:10:30', 37, 'paypal');
 
 -- --------------------------------------------------------
 
@@ -447,7 +451,13 @@ INSERT INTO `orderItem` (`id`, `dish_id`, `order_customer_id`, `quanty`) VALUES
 (65, 15, 49, 1),
 (66, 22, 49, 1),
 (67, 39, 49, 1),
-(68, 16, 49, 1);
+(68, 16, 49, 1),
+(69, 3, 50, 1),
+(70, 20, 50, 1),
+(71, 36, 50, 1),
+(72, 41, 50, 1),
+(73, 4, 51, 1),
+(74, 8, 51, 1);
 
 -- --------------------------------------------------------
 
@@ -706,7 +716,7 @@ ALTER TABLE `book`
 -- AUTO_INCREMENT de la tabla `cart_dish`
 --
 ALTER TABLE `cart_dish`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT de la tabla `category`
@@ -730,7 +740,7 @@ ALTER TABLE `config`
 -- AUTO_INCREMENT de la tabla `contact_form`
 --
 ALTER TABLE `contact_form`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `custom_manager`
@@ -754,7 +764,7 @@ ALTER TABLE `event`
 -- AUTO_INCREMENT de la tabla `image`
 --
 ALTER TABLE `image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `link`
@@ -766,13 +776,13 @@ ALTER TABLE `link`
 -- AUTO_INCREMENT de la tabla `orderCustomer`
 --
 ALTER TABLE `orderCustomer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT de la tabla `orderItem`
 --
 ALTER TABLE `orderItem`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT de la tabla `promotions`
